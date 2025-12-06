@@ -1,0 +1,44 @@
+name: AIMS DQ Pipeline CI
+
+on:
+  push:
+    branches: [ "master", "main" ]
+    paths:
+      - 'AIMS_LOCAL/**'
+  pull_request:
+    branches: [ "master", "main" ]
+    paths:
+      - 'AIMS_LOCAL/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./AIMS_LOCAL
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Ensure testing libraries are installed even if commented out in requirements
+        pip install pytest pytest-cov
+
+    - name: Run Unit Tests
+      run: |
+        # Add current directory to PYTHONPATH so imports work correctly
+        export PYTHONPATH=$PYTHONPATH:.
+        pytest tests/ -v
+
+    - name: Verify Pipeline Script (Dry Run / Help)
+      run: |
+        # Verify the script is syntactically correct and runnable
+        python scripts/run_pipeline.py --help
