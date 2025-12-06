@@ -198,6 +198,7 @@ def process_single_file(file_path_str, config_dir_str):
                 "source_path": str(file_path),
                 "config_path": str(config_path),
                 "file_size_bytes": file_path.stat().st_size,
+                "modification_time": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat(),
                 "validation_timestamp": datetime.now().isoformat(),
                 "host": os.uname().nodename
             }
