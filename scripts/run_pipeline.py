@@ -17,6 +17,7 @@ Options:
 import os
 import sys
 import json
+import time
 import argparse
 import logging
 import requests
@@ -165,52 +166,65 @@ def process_single_file(file_path_str, config_dir_str):
     file_name = file_path.name
     config_dir = Path(config_dir_str)
     
-    try:
-        # 1. DQ Check
-        config_name = file_name.replace('.parquet', '_validation.yml')
-        config_path = config_dir / config_name
-        
-        if not config_path.exists():
+    MAX_RETRIES = 3
+    RETRY_DELAY = 5
+    
+    last_error = None
+    
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            # 1. DQ Check
+            config_name = file_name.replace('.parquet', '_validation.yml')
+            config_path = config_dir / config_name
+            
+            if not config_path.exists():
+                return {
+                    "file_name": file_name,
+                    "status": "SKIPPED_NO_CONFIG",
+                    "score": 0.0,
+                    "failures": [],
+                    "lineage": {}
+                }
+            
+            validator = DataQualityValidator(config_path=str(config_path))
+            df_batch = DataLoader.load_data(str(file_path), sample_size=100000)
+            result = validator.validate(df_batch)
+            
+            validation_passed = result['success']
+            score = result['success_rate']
+            failures = result.get('failed_expectations', [])
+            
+            lineage = {
+                "source_path": str(file_path),
+                "config_path": str(config_path),
+                "file_size_bytes": file_path.stat().st_size,
+                "validation_timestamp": datetime.now().isoformat(),
+                "host": os.uname().nodename
+            }
+            
             return {
                 "file_name": file_name,
-                "status": "SKIPPED_NO_CONFIG",
-                "score": 0.0,
-                "failures": [],
-                "lineage": {}
+                "status": "PASSED" if validation_passed else "FAILED",
+                "score": score,
+                "failures": failures,
+                "lineage": lineage
             }
-        
-        validator = DataQualityValidator(config_path=str(config_path))
-        df_batch = DataLoader.load_data(str(file_path), sample_size=100000)
-        result = validator.validate(df_batch)
-        
-        validation_passed = result['success']
-        score = result['success_rate']
-        failures = result.get('failed_expectations', [])
-        
-        lineage = {
-            "source_path": str(file_path),
-            "config_path": str(config_path),
-            "file_size_bytes": file_path.stat().st_size,
-            "validation_timestamp": datetime.now().isoformat(),
-            "host": os.uname().nodename
-        }
-        
-        return {
-            "file_name": file_name,
-            "status": "PASSED" if validation_passed else "FAILED",
-            "score": score,
-            "failures": failures,
-            "lineage": lineage
-        }
 
-    except Exception as e:
-        return {
-            "file_name": file_name,
-            "status": "ERROR",
-            "score": 0.0,
-            "error": str(e),
-            "lineage": {}
-        }
+        except Exception as e:
+            last_error = e
+            if attempt < MAX_RETRIES:
+                logger.warning(f"⚠️ Attempt {attempt}/{MAX_RETRIES} failed for {file_name}: {e}. Retrying in {RETRY_DELAY}s...")
+                time.sleep(RETRY_DELAY)
+            else:
+                logger.error(f"❌ All {MAX_RETRIES} attempts failed for {file_name}.")
+
+    return {
+        "file_name": file_name,
+        "status": "ERROR",
+        "score": 0.0,
+        "error": str(last_error),
+        "lineage": {}
+    }
 
 # --- Main Pipeline ---
 
