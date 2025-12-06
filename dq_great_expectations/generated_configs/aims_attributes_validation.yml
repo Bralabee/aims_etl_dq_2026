@@ -1,0 +1,676 @@
+validation_name: validation_aims_attributes
+description: Auto-generated validation for validation_aims_attributes
+generated_at: '2025-12-06T11:17:42.218862'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 6533
+  profiled_columns: 33
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 33
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CODE
+  meta:
+    severity: critical
+    description: Column CODE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CODE
+  meta:
+    severity: medium
+    description: Column CODE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CODE
+    min_value: 2
+    max_value: 30
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NAME
+  meta:
+    severity: critical
+    description: Column NAME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NAME
+  meta:
+    severity: medium
+    description: Column NAME should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NAME
+    min_value: 1
+    max_value: 129
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: TYPE
+  meta:
+    severity: critical
+    description: Column TYPE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: TYPE
+  meta:
+    severity: medium
+    description: Column TYPE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CLASS
+  meta:
+    severity: critical
+    description: Column CLASS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CLASS
+  meta:
+    severity: medium
+    description: Column CLASS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CLASS
+    value_set:
+    - Core
+    - Attribute
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UNITOFMEASURE
+  meta:
+    severity: critical
+    description: Column UNITOFMEASURE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UNITOFMEASURE
+  meta:
+    severity: medium
+    description: Column UNITOFMEASURE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DEFINITION
+  meta:
+    severity: critical
+    description: Column DEFINITION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DEFINITION
+  meta:
+    severity: medium
+    description: Column DEFINITION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: DEFINITION
+    min_value: 3
+    max_value: 364
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: VALIDFROM
+  meta:
+    severity: critical
+    description: Column VALIDFROM must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: VALIDFROM
+  meta:
+    severity: medium
+    description: Column VALIDFROM should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: VALIDTO
+  meta:
+    severity: critical
+    description: Column VALIDTO must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: VALIDTO
+  meta:
+    severity: medium
+    description: Column VALIDTO should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: VALIDTO
+    min_value: 3
+    max_value: 19
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTEGROUPID
+  meta:
+    severity: critical
+    description: Column ATTRIBUTEGROUPID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ATTRIBUTEGROUPID
+  meta:
+    severity: medium
+    description: Column ATTRIBUTEGROUPID should have minimal nulls (currently 3.6%)
+    observed_null_percent: 3.643043012398592
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTEGROUP
+  meta:
+    severity: critical
+    description: Column ATTRIBUTEGROUP must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ATTRIBUTEGROUP
+  meta:
+    severity: medium
+    description: Column ATTRIBUTEGROUP should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DISPLAYCODE
+  meta:
+    severity: critical
+    description: Column DISPLAYCODE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DISPLAYCODE
+  meta:
+    severity: medium
+    description: Column DISPLAYCODE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: DISPLAYCODE
+    min_value: 2
+    max_value: 34
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SOURCE
+  meta:
+    severity: critical
+    description: Column SOURCE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SOURCE
+  meta:
+    severity: medium
+    description: Column SOURCE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SOURCE
+    value_set:
+    - None
+    - Entered
+    - Derived
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SOURCEATTRIBUTEID
+  meta:
+    severity: critical
+    description: Column SOURCEATTRIBUTEID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: SOURCEATTRIBUTEID
+    min_value: 10
+    max_value: 10
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SOURCEATTRIBUTE
+  meta:
+    severity: critical
+    description: Column SOURCEATTRIBUTE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SOURCEATTRIBUTE
+  meta:
+    severity: medium
+    description: Column SOURCEATTRIBUTE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SOURCEATTRIBUTE
+    value_set:
+    - None
+    - Cutting Category Type
+    - Environmental Score
+    - Height (max) (m)
+    - Length (m)
+    - Civils Work Score
+    - Utilities Risk Score
+    - Miscellaneous Score
+    - Total Score
+    - Angle of Skew (degrees)
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DERIVATIONTYPE
+  meta:
+    severity: critical
+    description: Column DERIVATIONTYPE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DERIVATIONTYPE
+  meta:
+    severity: medium
+    description: Column DERIVATIONTYPE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DERIVATIONTYPE
+    value_set:
+    - None
+    - Sum
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: STATICVALUE
+  meta:
+    severity: critical
+    description: Column STATICVALUE must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: STATICVALUE
+    value_set:
+    - '0.0'
+    - '-7.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CONTRACTORTOCOMPLETE
+  meta:
+    severity: critical
+    description: Column CONTRACTORTOCOMPLETE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CONTRACTORTOCOMPLETE
+  meta:
+    severity: medium
+    description: Column CONTRACTORTOCOMPLETE should have minimal nulls (currently
+      0.1%)
+    observed_null_percent: 0.0765345170671973
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CONTRACTORTOCOMPLETE
+    value_set:
+    - '0.0'
+    - '-1.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OWNERID
+  meta:
+    severity: critical
+    description: Column OWNERID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OWNERID
+  meta:
+    severity: medium
+    description: Column OWNERID should have minimal nulls (currently 0.1%)
+    observed_null_percent: 0.06122761365375785
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: OWNERID
+    value_set:
+    - '13000000.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OWNER
+  meta:
+    severity: critical
+    description: Column OWNER must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OWNER
+  meta:
+    severity: medium
+    description: Column OWNER should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: OWNER
+    value_set:
+    - HS2
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: AGGREGATABLE
+  meta:
+    severity: critical
+    description: Column AGGREGATABLE must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: AGGREGATABLE
+    value_set:
+    - '0.0'
+    - '-1.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: RELATIONSHIPTYPEID
+  meta:
+    severity: critical
+    description: Column RELATIONSHIPTYPEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: RELATIONSHIPTYPEID
+  meta:
+    severity: medium
+    description: Column RELATIONSHIPTYPEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: RELATIONSHIPTYPEID
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: RELATIONSHIPTYPE
+  meta:
+    severity: critical
+    description: Column RELATIONSHIPTYPE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: RELATIONSHIPTYPE
+  meta:
+    severity: medium
+    description: Column RELATIONSHIPTYPE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: RELATIONSHIPTYPE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: AGGREGATEATTRIBUTEID
+  meta:
+    severity: critical
+    description: Column AGGREGATEATTRIBUTEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: AGGREGATEATTRIBUTEID
+  meta:
+    severity: medium
+    description: Column AGGREGATEATTRIBUTEID should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: AGGREGATEATTRIBUTEID
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: AGGREGATEATTRIBUTE
+  meta:
+    severity: critical
+    description: Column AGGREGATEATTRIBUTE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: AGGREGATEATTRIBUTE
+  meta:
+    severity: medium
+    description: Column AGGREGATEATTRIBUTE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: AGGREGATEATTRIBUTE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: AGGREGATEFUNCTION
+  meta:
+    severity: critical
+    description: Column AGGREGATEFUNCTION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: AGGREGATEFUNCTION
+  meta:
+    severity: medium
+    description: Column AGGREGATEFUNCTION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: AGGREGATEFUNCTION
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CREATEDBY
+    value_set:
+    - None
+    - Ken.Lee@hs2.org.uk
+    - Alex.Bradley@hs2.org.uk
+    - alex.bradley@ABCon.tech
+    - Juliet.Miah@hs2.org.uk
+    - neil.hinson@dito
+    - Muneebah.Quyyam@hs2.org.uk
+    - Jordan.Harvey@hs2.org.uk
+    - Davies.Mukonoweshuro@hs2.org.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: UPDATEDBY
+    value_set:
+    - None
+    - Neil.Blackett@hs2.org.uk
+    - Alex.Bradley@hs2.org.uk
+    - Juliet.Miah@hs2.org.uk
+    - Ken.Lee@hs2.org.uk
+    - alex.bradley@ABCon.tech
+    - Muneebah.Quyyam@hs2.org.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: LASTUPDATED
+    min_value: 3
+    max_value: 19
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REMOVALREASON
+  meta:
+    severity: critical
+    description: Column REMOVALREASON must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REMOVALREASON
+  meta:
+    severity: medium
+    description: Column REMOVALREASON should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: REMOVALREASON
+    value_set:
+    - None
+    - Determined as not needed by MEP domain,  uncollectable
+    - Added in Error
+    - Added in error
+    - Determines as operational and not end state.
+    - Tunnel section is handled by association to spatial element
+    - Duplicate attribute of existing Installation Date attribute
+    - Not needed after review
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTEDOMAINID
+  meta:
+    severity: critical
+    description: Column ATTRIBUTEDOMAINID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ATTRIBUTEDOMAINID
+    min_value: 10
+    max_value: 10
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTEDOMAIN
+  meta:
+    severity: critical
+    description: Column ATTRIBUTEDOMAIN must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ATTRIBUTEDOMAIN
+  meta:
+    severity: medium
+    description: Column ATTRIBUTEDOMAIN should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ATTRIBUTEDOMAIN
+    min_value: 3
+    max_value: 90
+  meta:
+    severity: low
+    description: String length should be within observed range

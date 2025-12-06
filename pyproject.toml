@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aims-data-platform"
+version = "1.0.0"
+description = "AIMS data ingestion platform for MS Fabric"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Proprietary"}
+authors = [
+    {name = "HS2 Data Team", email = "data-team@hs2.org.uk"}
+]
+keywords = ["data", "etl", "fabric", "aims", "data-quality"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+dependencies = [
+    "pandas>=2.0.0",
+    "pyarrow>=14.0.0",
+    "numpy>=1.24.0",
+    "great-expectations>=0.18.0",
+    "sqlalchemy>=2.0.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+azure = [
+    "azure-identity>=1.15.0",
+    "azure-storage-blob>=12.19.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+aims-data = "aims_data_platform.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["aims_data_platform*"]
+exclude = ["tests*"]
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "W", "I", "N"]

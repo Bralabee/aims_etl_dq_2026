@@ -1,0 +1,484 @@
+validation_name: validation_aims_assetclassattributes
+description: Auto-generated validation for validation_aims_assetclassattributes
+generated_at: '2025-12-06T11:17:44.647617'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 100000
+  profiled_columns: 25
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 25
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ASSETCLASSID
+  meta:
+    severity: critical
+    description: Column ASSETCLASSID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ASSETCLASSID
+  meta:
+    severity: medium
+    description: Column ASSETCLASSID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ASSETCLASS
+  meta:
+    severity: critical
+    description: Column ASSETCLASS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ASSETCLASS
+  meta:
+    severity: medium
+    description: Column ASSETCLASS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTEID
+  meta:
+    severity: critical
+    description: Column ATTRIBUTEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ATTRIBUTEID
+  meta:
+    severity: medium
+    description: Column ATTRIBUTEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ATTRIBUTEID
+    min_value: 8
+    max_value: 8
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTE
+  meta:
+    severity: critical
+    description: Column ATTRIBUTE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ATTRIBUTE
+  meta:
+    severity: medium
+    description: Column ATTRIBUTE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: VALIDFROM
+  meta:
+    severity: critical
+    description: Column VALIDFROM must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: VALIDFROM
+  meta:
+    severity: medium
+    description: Column VALIDFROM should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: VALIDTO
+  meta:
+    severity: critical
+    description: Column VALIDTO must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: VALIDTO
+  meta:
+    severity: medium
+    description: Column VALIDTO should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: EXPECTED
+  meta:
+    severity: critical
+    description: Column EXPECTED must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: EXPECTED
+    value_set:
+    - '0.0'
+    - '-1.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DESCRIPTION
+  meta:
+    severity: critical
+    description: Column DESCRIPTION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DESCRIPTION
+  meta:
+    severity: medium
+    description: Column DESCRIPTION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CREATEDBY
+    value_set:
+    - None
+    - joshua.gripton@hs2.org.uk
+    - neil.hinson@dito
+    - Douglas.Young@hs2.org.uk
+    - Katarina.Hrinikova@hs2.org.uk
+    - Juliet.Miah@hs2.org.uk
+    - Nazerah.Choudhury@hs2.org.uk
+    - Venkat.Vennam@hs2.org.uk
+    - Ken.Lee@hs2.org.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: AVAILABLEFROMSTAGEID
+  meta:
+    severity: critical
+    description: Column AVAILABLEFROMSTAGEID must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: AVAILABLEFROMSTAGEID
+    value_set:
+    - '1.0'
+    - '2.0'
+    - '4.0'
+    - '5.0'
+    - '3.0'
+    - '6.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: AVAILABLEFROMSTAGE
+  meta:
+    severity: critical
+    description: Column AVAILABLEFROMSTAGE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: AVAILABLEFROMSTAGE
+  meta:
+    severity: medium
+    description: Column AVAILABLEFROMSTAGE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: AVAILABLEFROMSTAGE
+    value_set:
+    - 1 - Brief
+    - 2 - Concept Design
+    - 4 - Detailed Design
+    - 5 - Construction & Manufacture
+    - 3 - Scheme Design
+    - ' - '
+    - 6 - Handback (Handback = Testing, Commissioning, Operation and maintenance)
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REQUIREDATSTAGEID
+  meta:
+    severity: critical
+    description: Column REQUIREDATSTAGEID must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: REQUIREDATSTAGEID
+    value_set:
+    - '3.0'
+    - '2.0'
+    - '1.0'
+    - '4.0'
+    - '6.0'
+    - '5.0'
+    - '251.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REQUIREDATSTAGE
+  meta:
+    severity: critical
+    description: Column REQUIREDATSTAGE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REQUIREDATSTAGE
+  meta:
+    severity: medium
+    description: Column REQUIREDATSTAGE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: REQUIREDATSTAGE
+    value_set:
+    - 3 - Scheme Design
+    - 2 - Concept Design
+    - 1 - Brief
+    - 4 - Detailed Design
+    - 6 - Handback (Handback = Testing, Commissioning, Operation and maintenance)
+    - 5 - Construction & Manufacture
+    - ' - '
+    - 7 - Demolition
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OWNERID
+  meta:
+    severity: critical
+    description: Column OWNERID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OWNERID
+  meta:
+    severity: medium
+    description: Column OWNERID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: OWNERID
+    value_set:
+    - '13000000'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OWNER
+  meta:
+    severity: critical
+    description: Column OWNER must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OWNER
+  meta:
+    severity: medium
+    description: Column OWNER should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: OWNER
+    value_set:
+    - HS2
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: STATUS
+  meta:
+    severity: critical
+    description: Column STATUS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: STATUS
+  meta:
+    severity: medium
+    description: Column STATUS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: STATUS
+    value_set:
+    - Live
+    - Draft
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: MOVEDTOLIVEBY
+  meta:
+    severity: critical
+    description: Column MOVEDTOLIVEBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: MOVEDTOLIVEBY
+  meta:
+    severity: medium
+    description: Column MOVEDTOLIVEBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: MOVEDTOLIVEBY
+    value_set:
+    - None
+    - Juliet.Miah@hs2.org.uk
+    - Nazerah.Choudhury@hs2.org.uk
+    - Neil.Blackett@hs2.org.uk
+    - Ken.Lee@hs2.org.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: MOVEDTOLIVEDATE
+  meta:
+    severity: critical
+    description: Column MOVEDTOLIVEDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: MOVEDTOLIVEDATE
+  meta:
+    severity: medium
+    description: Column MOVEDTOLIVEDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTEDOMAINID
+  meta:
+    severity: critical
+    description: Column ATTRIBUTEDOMAINID must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ATTRIBUTEDOMAINID
+    value_set:
+    - '13028827.0'
+    - '13027811.0'
+    - '13029429.0'
+    - '13029377.0'
+    - '13028532.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTEDOMAIN
+  meta:
+    severity: critical
+    description: Column ATTRIBUTEDOMAIN must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ATTRIBUTEDOMAIN
+  meta:
+    severity: medium
+    description: Column ATTRIBUTEDOMAIN should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ATTRIBUTEDOMAIN
+    value_set:
+    - None
+    - TBC
+    - Future owner
+    - Canteen/Messroom Equipment
+    - Asset Status
+    - HERProtection Stage
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PHASEAPPLICABILITY
+  meta:
+    severity: critical
+    description: Column PHASEAPPLICABILITY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PHASEAPPLICABILITY
+  meta:
+    severity: medium
+    description: Column PHASEAPPLICABILITY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: PHASEAPPLICABILITY
+    value_set:
+    - All phases
+    - Selected phases
+  meta:
+    severity: medium
+    description: Values should be one of the known categories

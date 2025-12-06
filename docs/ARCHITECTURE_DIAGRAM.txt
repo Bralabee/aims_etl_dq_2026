@@ -1,0 +1,201 @@
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                    AIMS Data Profiling Architecture                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  1. FRAMEWORK (Reusable across all HS2 projects)                           ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    /fabric_data_quality/
+    │
+    ├── dq_framework/                  ← Core Python Package
+    │   ├── __init__.py               (DataProfiler, ConfigLoader, etc.)
+    │   ├── validator.py              (Validation engine)
+    │   ├── fabric_connector.py       (MS Fabric integration)
+    │   └── config_loader.py          (YAML config parser)
+    │
+    ├── setup.py                       ← Makes it installable
+    ├── pyproject.toml                ← Package metadata
+    └── profile_data.py               ← Generic profiler CLI
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  2. AIMS_LOCAL PROJECT (Uses the framework)                                ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    /AIMS_LOCAL/
+    │
+    ├── profile_aims_parquet.py       ← AIMS-specific profiler
+    │   │                                (imports: from dq_framework import ...)
+    │   └── Profiles files in: data/Samples_LH_Bronze_Aims_26_parquet/
+    │
+    ├── setup_aims_profiling.sh       ← One-time setup script
+    │   └── Runs: cd ../fabric_data_quality && pip install -e .
+    │
+    ├── notebooks/
+    │   └── 03_Profile_AIMS_Data.ipynb  ← Interactive profiling
+    │
+    └── config/data_quality/          ← Generated validation configs
+        ├── aims_activitydates_validation.yml
+        ├── aims_assetattributes_validation.yml
+        └── ...
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  3. DATA FLOW                                                              ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    ┌─────────────────┐
+    │  Parquet Files  │
+    │  in data/       │
+    └────────┬────────┘
+             │
+             ├─ Command Line ────────────┐
+             │   python profile_aims_parquet.py
+             │                            │
+             └─ Jupyter Notebook ────────┤
+                 03_Profile_AIMS_Data.ipynb
+                                          │
+                            ┌─────────────▼──────────────┐
+                            │  dq_framework.DataProfiler │
+                            │  (from fabric_data_quality) │
+                            └─────────────┬──────────────┘
+                                          │
+                              ┌───────────▼───────────┐
+                              │  Analyze Data:        │
+                              │  - Structure          │
+                              │  - Data types         │
+                              │  - Missing values     │
+                              │  - Statistics         │
+                              │  - Cardinality        │
+                              └───────────┬───────────┘
+                                          │
+                              ┌───────────▼───────────┐
+                              │  Generate YAML Config │
+                              └───────────┬───────────┘
+                                          │
+                            ┌─────────────▼──────────────┐
+                            │  config/data_quality/       │
+                            │  *.yml validation configs   │
+                            └─────────────┬──────────────┘
+                                          │
+                              ┌───────────▼───────────┐
+                              │  Use in Data Pipeline │
+                              │  for Validation       │
+                              └───────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  4. INSTALLATION METHOD (Editable Package)                                 ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    Step 1: Run setup script
+    ┌──────────────────────────────────────────────┐
+    │  bash setup_aims_profiling.sh                │
+    └─────────────────┬────────────────────────────┘
+                      │
+                      ├── cd ../fabric_data_quality
+                      │
+                      ├── pip install -e .
+                      │   (Editable mode: changes to source are live)
+                      │
+                      └── Creates directories:
+                          - config/data_quality/
+                          - logs/
+                          - reports/
+
+    Step 2: Use in code
+    ┌──────────────────────────────────────────────┐
+    │  # In any AIMS_LOCAL Python file:            │
+    │  from dq_framework import DataProfiler       │
+    │                                              │
+    │  # Works because fabric_data_quality is      │
+    │  # installed as a package                    │
+    └──────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  5. KEY ADVANTAGES                                                         ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    ✅ NO CODE DUPLICATION
+       ┌─────────────────────────┐      ┌──────────────────┐
+       │  fabric_data_quality    │ ←────│  AIMS_LOCAL      │ (imports)
+       │  (single source)        │      └──────────────────┘
+       └─────────────────────────┘
+                 ↑                        ┌──────────────────┐
+                 └────────────────────────│  full_stack_hss  │ (imports)
+                                          └──────────────────┘
+                                          ┌──────────────────┐
+                                          │  Other projects  │ (imports)
+                                          └──────────────────┘
+
+    ✅ EASY UPDATES
+       Update once in fabric_data_quality
+       → All projects get the update immediately
+
+    ✅ CLEAN SEPARATION
+       - Framework: ../fabric_data_quality
+       - Project code: AIMS_LOCAL/profile_aims_parquet.py
+       - Generated configs: AIMS_LOCAL/config/data_quality/
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  6. USAGE EXAMPLES                                                         ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    Command Line:
+    ┌──────────────────────────────────────────────────────────────┐
+    │  # Profile all files                                         │
+    │  python profile_aims_parquet.py                              │
+    │                                                              │
+    │  # Profile specific file                                     │
+    │  python profile_aims_parquet.py --file aims_activitydates.parquet
+    │                                                              │
+    │  # Just view (no config generation)                          │
+    │  python profile_aims_parquet.py --profile-only               │
+    └──────────────────────────────────────────────────────────────┘
+
+    In Python Code:
+    ┌──────────────────────────────────────────────────────────────┐
+    │  from dq_framework import DataProfiler                       │
+    │  import pandas as pd                                         │
+    │                                                              │
+    │  df = pd.read_parquet('data/aims_activitydates.parquet')    │
+    │  profiler = DataProfiler(name="aims_activities")            │
+    │  profile = profiler.profile_dataframe(df)                   │
+    │  config = profiler.generate_config(profile)                 │
+    │  profiler.save_config(config, 'config/validation.yml')      │
+    └──────────────────────────────────────────────────────────────┘
+
+    In Notebook:
+    ┌──────────────────────────────────────────────────────────────┐
+    │  # Open the interactive notebook                             │
+    │  jupyter notebook notebooks/03_Profile_AIMS_Data.ipynb       │
+    │                                                              │
+    │  # Run cells step-by-step to profile data interactively      │
+    └──────────────────────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  7. FILE LOCATIONS                                                         ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    Created in AIMS_LOCAL:
+    ├── profile_aims_parquet.py                  (CLI profiler)
+    ├── setup_aims_profiling.sh                  (Setup script)
+    ├── README_PROFILING.md                      (Full documentation)
+    ├── PROFILING_QUICK_START.md                 (Quick reference)
+    ├── SETUP_SUMMARY.md                         (This summary)
+    ├── notebooks/03_Profile_AIMS_Data.ipynb     (Interactive notebook)
+    └── config/data_quality/                     (Generated configs)
+
+    Uses from fabric_data_quality:
+    └── dq_framework/                            (Imported package)
+        ├── DataProfiler                         (Main profiling class)
+        ├── ConfigLoader                         (Config parser)
+        └── DataValidator                        (Validation engine)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Ready to use! Start with:
+  cd /home/sanmi/Documents/HS2/HS2_PROJECTS_2025/AIMS_LOCAL
+  bash setup_aims_profiling.sh
+
+═══════════════════════════════════════════════════════════════════════════════
+```

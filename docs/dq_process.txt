@@ -1,0 +1,38 @@
+---
+config:
+  layout: elk
+---
+flowchart LR
+ subgraph PROFILE["① Profile Data (One Time)"]
+        P1(("1. Start Profile"))
+        P2["2. Load Data"]
+        P3["3. Analyze Data Structure"]
+        P4["4. Auto-Generate Expectations"]
+        P5(("5. Save YAML Config"))
+  end
+ subgraph CUSTOM["② Customize Validation (One Time)"]
+        C1(("6. Start Customize"))
+        C2["7. Review Generated YAML"]
+        C3["8. Add Business Rules"]
+        C4["9. Save to Project Config"]
+        C5(("10. Done – Use Forever"))
+  end
+ subgraph VALIDATE["③ Validate Data (Repeated)"]
+        V1(("11. Start Validation"))
+        V2["12. Load New Data Batch"]
+        V3["13. Load YAML Config"]
+        V4["14. Run Validation"]
+        V5(("15. Get Pass / Fail Results"))
+  end
+    P1 -- before → 2 --> P2
+    P2 -- before → 3 --> P3
+    P3 -- before → 4 --> P4
+    P4 -- before → 5 --> P5
+    C1 -- before → 7 --> C2
+    C2 -- before → 8 --> C3
+    C3 -- before → 9 --> C4
+    C4 -- before → 10 --> C5
+    V1 -- before → 12 --> V2
+    V2 -- before → 13 --> V3
+    V3 -- before → 14 --> V4
+    V4 -- before → 15 --> V5

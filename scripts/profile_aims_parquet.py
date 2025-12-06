@@ -1,0 +1,303 @@
+#!/usr/bin/env python3
+"""
+AIMS Parquet Data Profiler
+===========================
+
+Profile all parquet files in the AIMS data directory using the
+fabric_data_quality framework.
+
+This script:
+1. Discovers all .parquet files in the specified directory
+2. Profiles each file using the DataProfiler
+3. Generates data quality configuration files
+4. Creates validation reports
+
+Usage:
+    # Profile all files in the default directory
+    python profile_aims_parquet.py
+    
+    # Profile specific directory
+    python profile_aims_parquet.py --data-dir data/Samples_LH_Bronze_Aims_26_parquet
+    
+    # Profile with custom output directory
+    python profile_aims_parquet.py --output-dir config/aims_validations
+    
+    # Profile only (no config generation)
+    python profile_aims_parquet.py --profile-only
+"""
+
+import argparse
+import sys
+from pathlib import Path
+from typing import List, Dict
+import pandas as pd
+from datetime import datetime
+
+try:
+    # Import from the installed fabric_data_quality package
+    from dq_framework import DataProfiler
+except ImportError:
+    print("❌ Error: fabric_data_quality package not found!")
+    print("\nPlease install it first:")
+    print("  cd ../fabric_data_quality")
+    print("  pip install -e .")
+    print("\nOr run: bash setup_aims_profiling.sh")
+    sys.exit(1)
+
+
+def discover_parquet_files(data_dir: Path) -> List[Path]:
+    """Discover all parquet files in the data directory."""
+    parquet_files = list(data_dir.glob("*.parquet"))
+    
+    if not parquet_files:
+        print(f"⚠️  No parquet files found in {data_dir}")
+        return []
+    
+    print(f"📁 Found {len(parquet_files)} parquet file(s):")
+    for file in sorted(parquet_files):
+        size_mb = file.stat().st_size / (1024 * 1024)
+        print(f"   - {file.name} ({size_mb:.2f} MB)")
+    
+    return parquet_files
+
+
+def profile_parquet_file(
+    file_path: Path,
+    output_dir: Path,
+    profile_only: bool = False,
+    null_tolerance: float = 10.0,
+    severity: str = "medium"
+) -> Dict:
+    """
+    Profile a single parquet file.
+    
+    Args:
+        file_path: Path to the parquet file
+        output_dir: Directory to save the config file
+        profile_only: If True, only show profile without generating config
+        null_tolerance: Percentage of nulls allowed
+        severity: Expectation severity level
+    
+    Returns:
+        Dictionary with profiling results
+    """
+    print(f"\n{'='*60}")
+    print(f"Profiling: {file_path.name}")
+    print(f"{'='*60}")
+    
+    try:
+        # Load the data
+        df = pd.read_parquet(file_path)
+        print(f"✅ Loaded {len(df):,} rows, {len(df.columns)} columns")
+        
+        # Initialize profiler
+        profiler = DataProfiler(
+            name=f"aims_{file_path.stem}",
+            description=f"Data quality validation for {file_path.name}",
+            null_tolerance_pct=null_tolerance,
+            expectation_severity=severity
+        )
+        
+        # Profile the data
+        print("\n🔍 Analyzing data structure and content...")
+        profile = profiler.profile_dataframe(df)
+        
+        # Display profile
+        print_profile_summary(profile, df)
+        
+        # Generate config if not profile-only mode
+        if not profile_only:
+            output_dir.mkdir(parents=True, exist_ok=True)
+            config_path = output_dir / f"{file_path.stem}_validation.yml"
+            
+            config = profiler.generate_config(profile)
+            profiler.save_config(config, config_path)
+            
+            print(f"\n✅ Configuration saved to: {config_path}")
+            print("\n📝 Next steps:")
+            print("   1. Review and customize the generated config")
+            print("   2. Add business-specific validation rules")
+            print("   3. Use it with the AIMS data platform for validation")
+        
+        return {
+            "file": file_path.name,
+            "status": "success",
+            "rows": len(df),
+            "columns": len(df.columns),
+            "profile": profile
+        }
+        
+    except Exception as e:
+        print(f"❌ Error profiling {file_path.name}: {str(e)}")
+        return {
+            "file": file_path.name,
+            "status": "error",
+            "error": str(e)
+        }
+
+
+def print_profile_summary(profile: Dict, df: pd.DataFrame):
+    """Print a formatted summary of the data profile."""
+    print("\n" + "="*60)
+    print("DATA PROFILE SUMMARY")
+    print("="*60)
+    
+    print(f"\n📊 Dataset Overview:")
+    print(f"   Rows: {len(df):,}")
+    print(f"   Columns: {len(df.columns)}")
+    print(f"   Memory: {df.memory_usage(deep=True).sum() / (1024**2):.2f} MB")
+    
+    # Column types
+    print(f"\n📋 Column Types:")
+    type_counts = df.dtypes.value_counts()
+    for dtype, count in type_counts.items():
+        print(f"   {dtype}: {count} columns")
+    
+    # Columns with nulls
+    null_cols = df.isnull().sum()
+    null_cols = null_cols[null_cols > 0]
+    if len(null_cols) > 0:
+        print(f"\n⚠️  Columns with Missing Values:")
+        for col, null_count in null_cols.items():
+            pct = (null_count / len(df)) * 100
+            print(f"   {col}: {null_count:,} ({pct:.1f}%)")
+    else:
+        print(f"\n✅ No missing values detected")
+    
+    # Sample columns
+    print(f"\n📝 Sample Columns ({min(5, len(df.columns))} of {len(df.columns)}):")
+    for col in df.columns[:5]:
+        dtype = df[col].dtype
+        unique = df[col].nunique()
+        print(f"   {col} [{dtype}] - {unique:,} unique values")
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Profile AIMS parquet files using fabric_data_quality framework",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Profile all files with defaults
+  python profile_aims_parquet.py
+  
+  # Profile specific directory
+  python profile_aims_parquet.py --data-dir data/Bronze_Layer
+  
+  # Just view profile without generating config
+  python profile_aims_parquet.py --profile-only
+  
+  # Custom null tolerance
+  python profile_aims_parquet.py --null-tolerance 5.0 --severity high
+        """
+    )
+    
+    parser.add_argument(
+        "--data-dir",
+        type=Path,
+        default=Path("data/Samples_LH_Bronze_Aims_26_parquet"),
+        help="Directory containing parquet files (default: data/Samples_LH_Bronze_Aims_26_parquet)"
+    )
+    
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("config/data_quality"),
+        help="Output directory for validation configs (default: config/data_quality)"
+    )
+    
+    parser.add_argument(
+        "--profile-only",
+        action="store_true",
+        help="Only show data profile, don't generate config files"
+    )
+    
+    parser.add_argument(
+        "--null-tolerance",
+        type=float,
+        default=10.0,
+        help="Percentage of null values allowed (default: 10.0)"
+    )
+    
+    parser.add_argument(
+        "--severity",
+        choices=["low", "medium", "high"],
+        default="medium",
+        help="Severity level for expectations (default: medium)"
+    )
+    
+    parser.add_argument(
+        "--file",
+        type=str,
+        help="Profile only a specific file (by name)"
+    )
+    
+    args = parser.parse_args()
+    
+    # Banner
+    print("="*60)
+    print("AIMS Parquet Data Profiler")
+    print("Using fabric_data_quality framework")
+    print("="*60)
+    print(f"\n⏰ Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    
+    # Validate data directory
+    if not args.data_dir.exists():
+        print(f"\n❌ Error: Data directory not found: {args.data_dir}")
+        print("\nPlease check the path and try again.")
+        sys.exit(1)
+    
+    # Discover files
+    parquet_files = discover_parquet_files(args.data_dir)
+    if not parquet_files:
+        sys.exit(1)
+    
+    # Filter to specific file if requested
+    if args.file:
+        parquet_files = [f for f in parquet_files if f.name == args.file]
+        if not parquet_files:
+            print(f"\n❌ Error: File not found: {args.file}")
+            sys.exit(1)
+    
+    # Profile each file
+    results = []
+    for file_path in parquet_files:
+        result = profile_parquet_file(
+            file_path,
+            args.output_dir,
+            args.profile_only,
+            args.null_tolerance,
+            args.severity
+        )
+        results.append(result)
+    
+    # Summary
+    print("\n" + "="*60)
+    print("PROFILING SUMMARY")
+    print("="*60)
+    
+    success_count = sum(1 for r in results if r["status"] == "success")
+    error_count = len(results) - success_count
+    
+    print(f"\n✅ Successfully profiled: {success_count}/{len(results)} files")
+    if error_count > 0:
+        print(f"❌ Errors: {error_count}")
+        print("\nFailed files:")
+        for r in results:
+            if r["status"] == "error":
+                print(f"   - {r['file']}: {r['error']}")
+    
+    if not args.profile_only and success_count > 0:
+        print(f"\n📁 Configuration files saved to: {args.output_dir}")
+        print("\n📚 Next steps:")
+        print("   1. Review the generated YAML configurations")
+        print("   2. Customize validation rules for your business logic")
+        print("   3. Integrate with your AIMS data pipeline")
+        print("   4. Run validations during data ingestion")
+    
+    print(f"\n⏰ Completed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("="*60)
+
+
+if __name__ == "__main__":
+    main()

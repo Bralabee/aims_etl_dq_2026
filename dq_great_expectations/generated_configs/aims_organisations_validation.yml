@@ -1,0 +1,195 @@
+validation_name: validation_aims_organisations
+description: Auto-generated validation for validation_aims_organisations
+generated_at: '2025-12-06T11:17:39.484099'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 28
+  profiled_columns: 9
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 9
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NAME
+  meta:
+    severity: critical
+    description: Column NAME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NAME
+  meta:
+    severity: medium
+    description: Column NAME should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NAME
+    min_value: 3
+    max_value: 40
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PARENTID
+  meta:
+    severity: critical
+    description: Column PARENTID must exist in the data
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PARENT
+  meta:
+    severity: critical
+    description: Column PARENT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PARENT
+  meta:
+    severity: medium
+    description: Column PARENT should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PARENT
+    min_value: 4
+    max_value: 8
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OWNERID
+  meta:
+    severity: critical
+    description: Column OWNERID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OWNERID
+  meta:
+    severity: medium
+    description: Column OWNERID should have minimal nulls (currently 3.6%)
+    observed_null_percent: 3.571428571428571
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: OWNERID
+    min_value: 10
+    max_value: 10
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OWNER
+  meta:
+    severity: critical
+    description: Column OWNER must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OWNER
+  meta:
+    severity: medium
+    description: Column OWNER should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: OWNER
+    min_value: 3
+    max_value: 50
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ALLOWINFODELIVERYPACKAGING
+  meta:
+    severity: critical
+    description: Column ALLOWINFODELIVERYPACKAGING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ALLOWINFODELIVERYPACKAGING
+  meta:
+    severity: medium
+    description: Column ALLOWINFODELIVERYPACKAGING should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ALLOWINFODELIVERYPACKAGING
+    value_set:
+    - '0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DEFAULTASSETSTATUS
+  meta:
+    severity: critical
+    description: Column DEFAULTASSETSTATUS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DEFAULTASSETSTATUS
+  meta:
+    severity: medium
+    description: Column DEFAULTASSETSTATUS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: DEFAULTASSETSTATUS
+    min_value: 4
+    max_value: 13
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTESTOUPDATEINDATALOADS
+  meta:
+    severity: critical
+    description: Column ATTRIBUTESTOUPDATEINDATALOADS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ATTRIBUTESTOUPDATEINDATALOADS
+  meta:
+    severity: medium
+    description: Column ATTRIBUTESTOUPDATEINDATALOADS should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ATTRIBUTESTOUPDATEINDATALOADS
+    value_set:
+    - All
+  meta:
+    severity: medium
+    description: Values should be one of the known categories

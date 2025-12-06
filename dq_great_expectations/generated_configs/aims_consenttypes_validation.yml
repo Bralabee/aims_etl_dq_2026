@@ -1,0 +1,144 @@
+validation_name: validation_aims_consenttypes
+description: Auto-generated validation for validation_aims_consenttypes
+generated_at: '2025-12-06T11:17:42.466972'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 125
+  profiled_columns: 7
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 7
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CODE
+  meta:
+    severity: critical
+    description: Column CODE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CODE
+  meta:
+    severity: medium
+    description: Column CODE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CODE
+    min_value: 4
+    max_value: 6
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DESCRIPTION
+  meta:
+    severity: critical
+    description: Column DESCRIPTION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DESCRIPTION
+  meta:
+    severity: medium
+    description: Column DESCRIPTION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: DESCRIPTION
+    min_value: 3
+    max_value: 118
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PARENTID
+  meta:
+    severity: critical
+    description: Column PARENTID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PARENTID
+    min_value: 3
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PARENT
+  meta:
+    severity: critical
+    description: Column PARENT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PARENT
+  meta:
+    severity: medium
+    description: Column PARENT should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PARENT
+    min_value: 3
+    max_value: 30
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: EXPLANATION
+  meta:
+    severity: critical
+    description: Column EXPLANATION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: EXPLANATION
+  meta:
+    severity: medium
+    description: Column EXPLANATION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: VERSION
+  meta:
+    severity: critical
+    description: Column VERSION must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: VERSION
+    value_set:
+    - '1.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories

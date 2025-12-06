@@ -1,0 +1,244 @@
+validation_name: validation_aims_workbanks
+description: Auto-generated validation for validation_aims_workbanks
+generated_at: '2025-12-06T11:17:40.300546'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 0
+  profiled_columns: 17
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 17
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: medium
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ORGANISATIONID
+  meta:
+    severity: critical
+    description: Column ORGANISATIONID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ORGANISATIONID
+  meta:
+    severity: medium
+    description: Column ORGANISATIONID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ORGANISATION
+  meta:
+    severity: critical
+    description: Column ORGANISATION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ORGANISATION
+  meta:
+    severity: medium
+    description: Column ORGANISATION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ASSIGNEEID
+  meta:
+    severity: critical
+    description: Column ASSIGNEEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ASSIGNEEID
+  meta:
+    severity: medium
+    description: Column ASSIGNEEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ASSIGNEE
+  meta:
+    severity: critical
+    description: Column ASSIGNEE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ASSIGNEE
+  meta:
+    severity: medium
+    description: Column ASSIGNEE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REFERENCE
+  meta:
+    severity: critical
+    description: Column REFERENCE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REFERENCE
+  meta:
+    severity: medium
+    description: Column REFERENCE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NAME
+  meta:
+    severity: critical
+    description: Column NAME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NAME
+  meta:
+    severity: medium
+    description: Column NAME should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: VERSION
+  meta:
+    severity: critical
+    description: Column VERSION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: VERSION
+  meta:
+    severity: medium
+    description: Column VERSION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: STATUS
+  meta:
+    severity: critical
+    description: Column STATUS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: STATUS
+  meta:
+    severity: medium
+    description: Column STATUS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DELIVERYORGANISATIONID
+  meta:
+    severity: critical
+    description: Column DELIVERYORGANISATIONID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DELIVERYORGANISATIONID
+  meta:
+    severity: medium
+    description: Column DELIVERYORGANISATIONID should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DELIVERYORGANISATION
+  meta:
+    severity: critical
+    description: Column DELIVERYORGANISATION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DELIVERYORGANISATION
+  meta:
+    severity: medium
+    description: Column DELIVERYORGANISATION should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DELIVERYASSIGNEEID
+  meta:
+    severity: critical
+    description: Column DELIVERYASSIGNEEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DELIVERYASSIGNEEID
+  meta:
+    severity: medium
+    description: Column DELIVERYASSIGNEEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DELIVERYASSIGNEE
+  meta:
+    severity: critical
+    description: Column DELIVERYASSIGNEE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DELIVERYASSIGNEE
+  meta:
+    severity: medium
+    description: Column DELIVERYASSIGNEE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0

@@ -1,0 +1,223 @@
+validation_name: validation_aims_informationneedassetclass
+description: Auto-generated validation for validation_aims_informationneedassetclass
+generated_at: '2025-12-06T11:17:42.401445'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 45
+  profiled_columns: 11
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 11
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CREATEDBY
+    value_set:
+    - Ian.Rush@hs2.org.uk
+    - Ken.Lee@hs2.org.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: UPDATEDBY
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: LASTUPDATED
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INFORMATIONNEEDPROPOSEDCHANGID
+  meta:
+    severity: critical
+    description: Column INFORMATIONNEEDPROPOSEDCHANGID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: INFORMATIONNEEDPROPOSEDCHANGID
+    min_value: 6
+    max_value: 6
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INFORMATIONNEEDPROPOSEDCHANGE
+  meta:
+    severity: critical
+    description: Column INFORMATIONNEEDPROPOSEDCHANGE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INFORMATIONNEEDPROPOSEDCHANGE
+  meta:
+    severity: medium
+    description: Column INFORMATIONNEEDPROPOSEDCHANGE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: INFORMATIONNEEDPROPOSEDCHANGE
+    min_value: 4
+    max_value: 36
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ASSETCLASSID
+  meta:
+    severity: critical
+    description: Column ASSETCLASSID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ASSETCLASSID
+  meta:
+    severity: medium
+    description: Column ASSETCLASSID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ASSETCLASSID
+    min_value: 8
+    max_value: 8
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ASSETCLASS
+  meta:
+    severity: critical
+    description: Column ASSETCLASS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ASSETCLASS
+  meta:
+    severity: medium
+    description: Column ASSETCLASS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ASSETCLASS
+    min_value: 7
+    max_value: 36
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INFORMATIONNEEDATTRIBUTEID
+  meta:
+    severity: critical
+    description: Column INFORMATIONNEEDATTRIBUTEID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: INFORMATIONNEEDATTRIBUTEID
+    min_value: 6
+    max_value: 6
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INFORMATIONNEEDATTRIBUTE
+  meta:
+    severity: critical
+    description: Column INFORMATIONNEEDATTRIBUTE must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: INFORMATIONNEEDATTRIBUTE
+    min_value: 6
+    max_value: 6
+  meta:
+    severity: low
+    description: String length should be within observed range

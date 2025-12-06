@@ -1,0 +1,36 @@
+# Core Data Processing
+pandas>=2.0.0
+pyarrow>=14.0.0
+fastparquet>=2023.10.0
+numpy>=1.24.0
+
+# Data Quality & Validation
+great-expectations>=0.18.0
+
+# Database
+sqlalchemy>=2.0.0
+
+# Azure/Microsoft Fabric (Optional - for cloud integration)
+azure-identity>=1.15.0
+azure-storage-blob>=12.19.0
+azure-storage-file-datalake>=12.14.0
+
+# Configuration & Utilities
+python-dotenv>=1.0.0
+pyyaml>=6.0
+tqdm>=4.66.0
+requests>=2.31.0
+typer>=0.9.0
+rich>=13.0.0
+click>=8.1.0
+
+# Logging
+structlog>=24.0.0
+
+# Testing (Optional)
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Code Quality (Optional)
+black>=23.0.0
+ruff>=0.1.0

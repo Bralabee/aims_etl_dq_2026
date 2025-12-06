@@ -1,0 +1,245 @@
+validation_name: validation_aims_workorderstatustransition
+description: Auto-generated validation for validation_aims_workorderstatustransition
+generated_at: '2025-12-06T11:17:40.346874'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 0
+  profiled_columns: 17
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 17
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: medium
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WORKORDERID
+  meta:
+    severity: critical
+    description: Column WORKORDERID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WORKORDERID
+  meta:
+    severity: medium
+    description: Column WORKORDERID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WORKORDER
+  meta:
+    severity: critical
+    description: Column WORKORDER must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WORKORDER
+  meta:
+    severity: medium
+    description: Column WORKORDER should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PERFORMEDBYID
+  meta:
+    severity: critical
+    description: Column PERFORMEDBYID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PERFORMEDBYID
+  meta:
+    severity: medium
+    description: Column PERFORMEDBYID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PERFORMEDBY
+  meta:
+    severity: critical
+    description: Column PERFORMEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PERFORMEDBY
+  meta:
+    severity: medium
+    description: Column PERFORMEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: TRANSITIONPERFORMED
+  meta:
+    severity: critical
+    description: Column TRANSITIONPERFORMED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: TRANSITIONPERFORMED
+  meta:
+    severity: medium
+    description: Column TRANSITIONPERFORMED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: JUSTIFICATION
+  meta:
+    severity: critical
+    description: Column JUSTIFICATION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: JUSTIFICATION
+  meta:
+    severity: medium
+    description: Column JUSTIFICATION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PLANNEDCOMPLETIONDATE
+  meta:
+    severity: critical
+    description: Column PLANNEDCOMPLETIONDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PLANNEDCOMPLETIONDATE
+  meta:
+    severity: medium
+    description: Column PLANNEDCOMPLETIONDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REQUIREDBYDATE
+  meta:
+    severity: critical
+    description: Column REQUIREDBYDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REQUIREDBYDATE
+  meta:
+    severity: medium
+    description: Column REQUIREDBYDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ACTUALSTARTDATE
+  meta:
+    severity: critical
+    description: Column ACTUALSTARTDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ACTUALSTARTDATE
+  meta:
+    severity: medium
+    description: Column ACTUALSTARTDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ACTUALCOMPLETIONDATE
+  meta:
+    severity: critical
+    description: Column ACTUALCOMPLETIONDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ACTUALCOMPLETIONDATE
+  meta:
+    severity: medium
+    description: Column ACTUALCOMPLETIONDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SIGNEDOFFDATE
+  meta:
+    severity: critical
+    description: Column SIGNEDOFFDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SIGNEDOFFDATE
+  meta:
+    severity: medium
+    description: Column SIGNEDOFFDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ORGANISATIONID
+  meta:
+    severity: critical
+    description: Column ORGANISATIONID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ORGANISATIONID
+  meta:
+    severity: medium
+    description: Column ORGANISATIONID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ORGANISATION
+  meta:
+    severity: critical
+    description: Column ORGANISATION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ORGANISATION
+  meta:
+    severity: medium
+    description: Column ORGANISATION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: TARGETCOMPLETIONDATE
+  meta:
+    severity: critical
+    description: Column TARGETCOMPLETIONDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: TARGETCOMPLETIONDATE
+  meta:
+    severity: medium
+    description: Column TARGETCOMPLETIONDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0

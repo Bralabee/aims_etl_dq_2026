@@ -1,0 +1,300 @@
+validation_name: validation_aims_people
+description: Auto-generated validation for validation_aims_people
+generated_at: '2025-12-06T11:17:39.725262'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 1898
+  profiled_columns: 14
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 14
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FIRSTNAME
+  meta:
+    severity: critical
+    description: Column FIRSTNAME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: FIRSTNAME
+  meta:
+    severity: medium
+    description: Column FIRSTNAME should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: FIRSTNAME
+    min_value: 1
+    max_value: 30
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTNAME
+  meta:
+    severity: critical
+    description: Column LASTNAME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTNAME
+  meta:
+    severity: medium
+    description: Column LASTNAME should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: LASTNAME
+    min_value: 2
+    max_value: 30
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: USERID
+  meta:
+    severity: critical
+    description: Column USERID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: USERID
+  meta:
+    severity: high
+    description: Column USERID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: USERID
+  meta:
+    severity: critical
+    description: ID column USERID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ORGANISATIONID
+  meta:
+    severity: critical
+    description: Column ORGANISATIONID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ORGANISATIONID
+  meta:
+    severity: medium
+    description: Column ORGANISATIONID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ORGANISATION
+  meta:
+    severity: critical
+    description: Column ORGANISATION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ORGANISATION
+  meta:
+    severity: medium
+    description: Column ORGANISATION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: EMAILADDRESS
+  meta:
+    severity: critical
+    description: Column EMAILADDRESS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: EMAILADDRESS
+  meta:
+    severity: medium
+    description: Column EMAILADDRESS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: EMAILADDRESS
+    min_value: 4
+    max_value: 48
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HOLDDATALOADS
+  meta:
+    severity: critical
+    description: Column HOLDDATALOADS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HOLDDATALOADS
+  meta:
+    severity: medium
+    description: Column HOLDDATALOADS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HOLDDATALOADS
+    value_set:
+    - '-1'
+    - '0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ALLOWCSVDATALOADS
+  meta:
+    severity: critical
+    description: Column ALLOWCSVDATALOADS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ALLOWCSVDATALOADS
+  meta:
+    severity: medium
+    description: Column ALLOWCSVDATALOADS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ALLOWCSVDATALOADS
+    value_set:
+    - '0'
+    - '-1'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: TELEPHONENUMBER
+  meta:
+    severity: critical
+    description: Column TELEPHONENUMBER must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: TELEPHONENUMBER
+  meta:
+    severity: medium
+    description: Column TELEPHONENUMBER should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: TELEPHONENUMBER
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ALLOWUSERTORENEWTHEIRTOKENS
+  meta:
+    severity: critical
+    description: Column ALLOWUSERTORENEWTHEIRTOKENS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ALLOWUSERTORENEWTHEIRTOKENS
+  meta:
+    severity: medium
+    description: Column ALLOWUSERTORENEWTHEIRTOKENS should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ALLOWUSERTORENEWTHEIRTOKENS
+    value_set:
+    - '-1'
+    - '0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DISCIPLINE
+  meta:
+    severity: critical
+    description: Column DISCIPLINE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DISCIPLINE
+  meta:
+    severity: medium
+    description: Column DISCIPLINE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DISCIPLINE
+    value_set:
+    - ' - '
+    - IM - INFORMATION MANAGEMENT
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CREATEDBY
+    min_value: 4
+    max_value: 37
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENPERSONCREATED
+  meta:
+    severity: critical
+    description: Column WHENPERSONCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENPERSONCREATED
+  meta:
+    severity: medium
+    description: Column WHENPERSONCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: WHENPERSONCREATED
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
