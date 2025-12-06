@@ -20,7 +20,7 @@ A complete, production-ready data quality pipeline for AIMS parquet files featur
 
 ### Libraries
 - **dq_framework** - Custom DQ library built on Great Expectations
-- Pre-built wheel: `dq_great_expectations/dq_package_dist/fabric_data_quality-1.0.0-py3-none-any.whl`
+- Pre-built wheel: `dq_great_expectations/dq_package_dist/fabric_data_quality-1.1.3-py3-none-any.whl`
 
 ### State Management
 - `data/state/watermarks.json` - Tracks processed files (idempotency)
