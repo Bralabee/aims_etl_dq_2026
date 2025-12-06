@@ -137,3 +137,28 @@ To ensure the pipeline only runs when **new data exists**, use a **Fabric Pipeli
 If you prefer a schedule (e.g., every hour) but want to avoid empty runs:
 1.  The notebooks already contain logic to skip processed files.
 2.  If no new files are found, the notebook finishes quickly (seconds), costing very little.
+
+---
+
+## Step 6: Notifications (Teams Alert)
+
+To receive a notification when the pipeline completes successfully:
+
+### 6.1 Add Teams Activity
+1.  Open your Pipeline editor.
+2.  In the **Activities** pane, search for **Teams**.
+3.  Drag the **Teams** activity onto the canvas.
+4.  Connect the **Success** output (green arrow) of `Notebook 03` to this Teams activity.
+
+### 6.2 Configure the Message
+1.  Select the Teams activity and go to the **Settings** tab.
+2.  **Login**: You may need to sign in to authorize the connection.
+3.  **Post in**: Select **Channel** or **Group Chat**.
+4.  **Team/Channel**: Select the specific Team and Channel (e.g., "Data Engineering" > "Alerts").
+5.  **Message**: Enter a message like:
+    > ✅ **AIMS Pipeline Success**
+    >
+    > The Data Quality and Ingestion pipeline has completed successfully.
+    > Check the [Monitoring Dashboard] for details.
+    
+    *Tip: You can use dynamic content to include the Run ID or time.*
