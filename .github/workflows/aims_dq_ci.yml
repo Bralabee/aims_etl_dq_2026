@@ -3,19 +3,15 @@ name: AIMS DQ Pipeline CI
 on:
   push:
     branches: [ "master", "main" ]
-    paths:
-      - 'AIMS_LOCAL/**'
   pull_request:
     branches: [ "master", "main" ]
-    paths:
-      - 'AIMS_LOCAL/**'
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./AIMS_LOCAL
+        working-directory: .
 
     steps:
     - uses: actions/checkout@v3
