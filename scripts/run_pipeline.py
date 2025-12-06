@@ -195,6 +195,7 @@ def process_single_file(file_path_str, config_dir_str):
             validation_passed = result['success']
             score = result['success_rate']
             failures = result.get('failed_expectations', [])
+            threshold_failures = result.get('threshold_failures', [])
             
             lineage = {
                 "source_path": str(file_path),
@@ -210,6 +211,7 @@ def process_single_file(file_path_str, config_dir_str):
                 "status": "PASSED" if validation_passed else "FAILED",
                 "score": score,
                 "failures": failures,
+                "threshold_failures": threshold_failures,
                 "lineage": lineage
             }
 
@@ -307,16 +309,30 @@ def run_pipeline(force=False, dry_run=False, max_workers=4):
                     
                 elif status == "FAILED":
                     failures = result.get("failures", [])
-                    logger.warning(f"❌ DQ Failed: {file_name} (Score: {score:.1f}%) - {len(failures)} failures")
+                    threshold_failures = result.get("threshold_failures", [])
+                    
+                    failure_msg = f"❌ DQ Failed: {file_name} (Score: {score:.1f}%) - {len(failures)} failures"
+                    if threshold_failures:
+                        failure_msg += f". Thresholds missed: {', '.join(threshold_failures)}"
+                    
+                    logger.warning(failure_msg)
+                    
                     if not dry_run:
                         log_dq_result(
                             file_name, 
                             "FAILED", 
                             score, 
-                            {"failed_count": len(failures), "failures": failures[:5]},
+                            {
+                                "failed_count": len(failures), 
+                                "failures": failures[:5],
+                                "threshold_failures": threshold_failures
+                            },
                             lineage
                         )
                         alert_msg = f"❌ DQ Failed: *{file_name}*\nScore: {score:.1f}%\nFailures: {len(failures)}"
+                        if threshold_failures:
+                            alert_msg += f"\nThresholds: {', '.join(threshold_failures)}"
+                            
                         send_teams_alert(alert_msg, severity="warning")
                         send_slack_alert(alert_msg, severity="warning")
                     else:
