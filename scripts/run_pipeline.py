@@ -315,7 +315,8 @@ def run_pipeline(force=False, dry_run=False, max_workers=4):
                             lineage
                         )
                         alert_msg = f"❌ DQ Failed: *{file_name}*\nScore: {score:.1f}%\nFailures: {len(failures)}"
-                        # send_teams_alert(alert_msg) # Optional
+                        send_teams_alert(alert_msg, severity="warning")
+                        send_slack_alert(alert_msg, severity="warning")
                     else:
                         logger.info(f"[DRY RUN] Lineage for {file_name}: {lineage}")
                     stats["failed"] += 1
