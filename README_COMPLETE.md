@@ -63,6 +63,20 @@ jupyter notebook notebooks/
 - ✅ 68 files validated  
 - ✅ 5 interactive dashboards displayed
 
+### Step 3: CLI Execution (Alternative)
+
+You can also run the pipeline from the command line:
+
+```bash
+# Run full pipeline
+python scripts/run_pipeline.py run-all
+
+# Run with custom options
+python scripts/run_pipeline.py ingest --force --workers 8
+```
+
+See `ORCHESTRATION_GUIDE.md` for full CLI documentation.
+
 ---
 
 ## 📊 Pipeline Architecture

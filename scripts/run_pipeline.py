@@ -7,11 +7,13 @@ Executes the data ingestion process with Data Quality checks.
 This script is designed to be run via cron or CI/CD pipelines.
 
 Usage:
-    python run_pipeline.py [--force] [--dry-run]
+    python run_pipeline.py [--force] [--dry-run] [--workers N] [--threshold N.N]
 
 Options:
-    --force     Ignore watermarks and re-process all files
-    --dry-run   Run validation but do not update state or move files
+    --force         Ignore watermarks and re-process all files
+    --dry-run       Run validation but do not update state or move files
+    --workers N     Number of parallel workers (default: 4)
+    --threshold N.N Global quality threshold 0-100 (overrides defaults)
 """
 
 import os
