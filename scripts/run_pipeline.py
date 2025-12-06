@@ -52,7 +52,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Paths
-BASE_DIR = Path(os.getenv("BASE_DIR", "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/AIMS_LOCAL"))
+# Default to the project root (two levels up from scripts/run_pipeline.py)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(os.getenv("BASE_DIR", str(PROJECT_ROOT)))
 DATA_PATH = BASE_DIR / os.getenv("DATA_PATH", "data/Samples_LH_Bronze_Aims_26_parquet")
 CONFIG_DIR = BASE_DIR / os.getenv("CONFIG_DIR", "dq_great_expectations/generated_configs")
 STATE_DIR = BASE_DIR / os.getenv("STATE_DIR", "data/state")
