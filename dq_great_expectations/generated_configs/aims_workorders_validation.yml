@@ -1,6 +1,11 @@
 validation_name: validation_aims_workorders
 description: Auto-generated validation for validation_aims_workorders
 generated_at: '2025-12-06T11:17:39.774610'
+quality_thresholds:
+  critical: 90.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
 data_source:
   type: runtime_dataframe
   profiled_rows: 0

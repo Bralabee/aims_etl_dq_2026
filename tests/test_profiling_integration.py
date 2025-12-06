@@ -57,6 +57,8 @@ def test_profiler():
     # Check config structure
     assert 'expectations' in config, "Config missing 'expectations' key"
     assert len(config['expectations']) > 0, "Config has no expectations"
+    assert 'quality_thresholds' in config, "Config missing 'quality_thresholds' key"
+    assert 'critical' in config['quality_thresholds'], "Config missing 'critical' threshold"
 
 def test_data_directory():
     """Test that the AIMS data directory exists and contains parquet files."""

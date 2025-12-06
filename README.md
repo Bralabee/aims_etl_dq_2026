@@ -31,6 +31,23 @@ jupyter notebook notebooks/03_Profile_AIMS_Data.ipynb
 
 **📖 See [README_PROFILING.md](README_PROFILING.md) for complete documentation.**
 
+## 🚀 Pipeline Runner (NEW!)
+
+Run the end-to-end data quality pipeline with configurable thresholds:
+
+```bash
+# Run pipeline with default settings (dry-run)
+python scripts/run_pipeline.py --dry-run
+
+# Run with a global 90% success threshold
+python scripts/run_pipeline.py --dry-run --threshold 90.0
+
+# Force re-processing of all files
+python scripts/run_pipeline.py --force --threshold 95.0
+```
+
+The `--threshold` flag sets a global baseline. Files with specific configurations (in `dq_great_expectations/generated_configs/`) will use their specific thresholds if defined, otherwise they default to this global value.
+
 ## Quick Start
 
 ### 1. Setup Environment

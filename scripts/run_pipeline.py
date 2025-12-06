@@ -159,7 +159,7 @@ def log_dq_result(file_name, status, score, details=None, lineage=None):
     with open(DQ_LOG_FILE, "a") as f:
         f.write(json.dumps(entry) + "\n")
 
-def process_single_file(file_path_str, config_dir_str):
+def process_single_file(file_path_str, config_dir_str, threshold=None):
     """
     Process a single file.
     Returns a dict with results.
@@ -190,7 +190,7 @@ def process_single_file(file_path_str, config_dir_str):
             
             validator = DataQualityValidator(config_path=str(config_path))
             df_batch = DataLoader.load_data(str(file_path), sample_size=100000)
-            result = validator.validate(df_batch)
+            result = validator.validate(df_batch, threshold=threshold)
             
             validation_passed = result['success']
             score = result['success_rate']
@@ -233,7 +233,7 @@ def process_single_file(file_path_str, config_dir_str):
 
 # --- Main Pipeline ---
 
-def run_pipeline(force=False, dry_run=False, max_workers=4):
+def run_pipeline(force=False, dry_run=False, max_workers=4, threshold=None):
     logger.info(f"🚀 Starting AIMS Data Quality Pipeline (Workers: {max_workers})")
     
     if not DATA_PATH.exists():
@@ -269,7 +269,7 @@ def run_pipeline(force=False, dry_run=False, max_workers=4):
     with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
         # Submit all tasks
         future_to_file = {
-            executor.submit(process_single_file, str(fp), str(CONFIG_DIR)): fp 
+            executor.submit(process_single_file, str(fp), str(CONFIG_DIR), threshold): fp 
             for fp in files_to_process
         }
         
@@ -378,7 +378,8 @@ if __name__ == "__main__":
     parser.add_argument("--force", action="store_true", help="Ignore watermarks")
     parser.add_argument("--dry-run", action="store_true", help="Simulate run")
     parser.add_argument("--workers", type=int, default=4, help="Number of parallel workers")
+    parser.add_argument("--threshold", type=float, default=None, help="Global quality threshold (0-100)")
     
     args = parser.parse_args()
     
-    run_pipeline(force=args.force, dry_run=args.dry_run, max_workers=args.workers)
+    run_pipeline(force=args.force, dry_run=args.dry_run, max_workers=args.workers, threshold=args.threshold)
