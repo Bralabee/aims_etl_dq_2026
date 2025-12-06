@@ -87,3 +87,53 @@ If you prefer to keep it simple and consistent with local development:
 
 *   **Module Not Found**: If `import fabric_data_quality` fails, ensure you **Published** the Environment and **Attached** it to the notebook.
 *   **Directories**: The notebooks will automatically create `Silver`, `Gold`, etc.
+
+---
+
+## Step 5: Orchestration (Triggers)
+
+To ensure the pipeline only runs when **new data exists**, use a **Fabric Pipeline with a Storage Event Trigger**.
+
+### 5.1 Create the Pipeline
+1.  In your Fabric Workspace, create a new **Data Pipeline**.
+2.  Add a **Notebook Activity** for each notebook (01, 02, 03) and chain them together:
+    *    -> On Success ->  -> On Success -> 
+
+### 5.2 Add the Event Trigger
+1.  In the Pipeline editor, click the **Trigger** button (top menu) -> **OneLake events**.
+2.  **Scope**: Select your Workspace and Lakehouse.
+3.  **Event**: Select **File Created**.
+4.  **Blob path begins with**: Enter the folder path where data lands (e.g., `Files/13-11-2025/` or just `Files/`).
+    *   *Tip: Be specific to avoid triggering on temp files.*
+5.  **Concurrency**: Set **Concurrency Control** to `1` in the Pipeline settings.
+    *   *Why?* If 50 files arrive at once, you don't want 50 pipelines running. You want one pipeline to pick up all available files.
+
+### 5.3 Alternative: Scheduled "Short-Circuit"
+If you prefer a schedule (e.g., every hour) but want to avoid empty runs:
+1.  The notebooks already contain logic to skip processed files.
+2.  If no new files are found, the notebook finishes quickly (seconds), costing very little.
+
+---
+
+## Step 5: Orchestration (Triggers)
+
+To ensure the pipeline only runs when **new data exists**, use a **Fabric Pipeline with a Storage Event Trigger**.
+
+### 5.1 Create the Pipeline
+1.  In your Fabric Workspace, create a new **Data Pipeline**.
+2.  Add a **Notebook Activity** for each notebook (01, 02, 03) and chain them together:
+    *   `Notebook 01` -> On Success -> `Notebook 02` -> On Success -> `Notebook 03`
+
+### 5.2 Add the Event Trigger
+1.  In the Pipeline editor, click the **Trigger** button (top menu) -> **OneLake events**.
+2.  **Scope**: Select your Workspace and Lakehouse.
+3.  **Event**: Select **File Created**.
+4.  **Blob path begins with**: Enter the folder path where data lands (e.g., `Files/13-11-2025/` or just `Files/`).
+    *   *Tip: Be specific to avoid triggering on temp files.*
+5.  **Concurrency**: Set **Concurrency Control** to `1` in the Pipeline settings.
+    *   *Why?* If 50 files arrive at once, you don't want 50 pipelines running. You want one pipeline to pick up all available files.
+
+### 5.3 Alternative: Scheduled "Short-Circuit"
+If you prefer a schedule (e.g., every hour) but want to avoid empty runs:
+1.  The notebooks already contain logic to skip processed files.
+2.  If no new files are found, the notebook finishes quickly (seconds), costing very little.
