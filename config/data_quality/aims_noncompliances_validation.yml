@@ -1,0 +1,2367 @@
+validation_name: aims_aims_noncompliances
+description: Data quality validation for aims_noncompliances.parquet
+generated_at: '2025-12-06T15:04:59.871062'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 310
+  profiled_columns: 110
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 110
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CREATEDBY
+    value_set:
+    - matt.bagnall@dito
+    - Angela.King@hs2.org.uk
+    - Mark.Jones5@hs2.org.uk
+    - Ayesha.Chowdhury@hs2.org.uk
+    - Ashish.Khera@hs2.org.uk
+    - Evelyn.Silva@hs2.org.uk
+    - Sandra.Coombs@hs2.org.uk
+    - Olabowale.Ogunsanya@hs2.org.uk
+    - Shoheda.Rob@hs2.org.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: UPDATEDBY
+    value_set:
+    - matt.bagnall@dito
+    - Shoheda.Rob@hs2.org.uk
+    - Ayesha.Chowdhury@hs2.org.uk
+    - Angela.King@hs2.org.uk
+    - Sandra.Coombs@hs2.org.uk
+    - Mark.Jones5@hs2.org.uk
+    - Ken.Lee@hs2.org.uk
+    - Charandeep.Dhanjal@hs2.org.uk
+    - Ashish.Khera@hs2.org.uk
+    - Olabowale.Ogunsanya@hs2.org.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REFERENCEID
+  meta:
+    severity: critical
+    description: Column REFERENCEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REFERENCEID
+  meta:
+    severity: medium
+    description: Column REFERENCEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: REFERENCEID
+    min_value: 4
+    max_value: 7
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UNDERTAKINGASSURANCEID
+  meta:
+    severity: critical
+    description: Column UNDERTAKINGASSURANCEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UNDERTAKINGASSURANCEID
+  meta:
+    severity: medium
+    description: Column UNDERTAKINGASSURANCEID should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: UNDERTAKINGASSURANCEID
+    min_value: 2
+    max_value: 5
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UNDERTAKINGASSURANCE
+  meta:
+    severity: critical
+    description: Column UNDERTAKINGASSURANCE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UNDERTAKINGASSURANCE
+  meta:
+    severity: medium
+    description: Column UNDERTAKINGASSURANCE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: UNDERTAKINGASSURANCE
+    min_value: 21
+    max_value: 48
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DESCRIPTIONOFTHEINCIDENT
+  meta:
+    severity: critical
+    description: Column DESCRIPTIONOFTHEINCIDENT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DESCRIPTIONOFTHEINCIDENT
+  meta:
+    severity: medium
+    description: Column DESCRIPTIONOFTHEINCIDENT should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CORRECTIVEACTION
+  meta:
+    severity: critical
+    description: Column CORRECTIVEACTION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CORRECTIVEACTION
+  meta:
+    severity: medium
+    description: Column CORRECTIVEACTION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CATEGORYTYPEID
+  meta:
+    severity: critical
+    description: Column CATEGORYTYPEID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CATEGORYTYPEID
+    min_value: 5
+    max_value: 5
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CATEGORYTYPE
+  meta:
+    severity: critical
+    description: Column CATEGORYTYPE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CATEGORYTYPE
+  meta:
+    severity: medium
+    description: Column CATEGORYTYPE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CATEGORYTYPE
+    value_set:
+    - None
+    - Date or Deadline Failure
+    - Environmental
+    - Traffic Management
+    - Engagement and Communication
+    - Land & Property Management
+    - Design
+    - Compensation and Damage
+    - Legal
+    - Funding and Payments
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HS2NOTIFICATIONDATE
+  meta:
+    severity: critical
+    description: Column HS2NOTIFICATIONDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HS2NOTIFICATIONDATE
+  meta:
+    severity: medium
+    description: Column HS2NOTIFICATIONDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DATECOMPLIANCETEAMINFORMED
+  meta:
+    severity: critical
+    description: Column DATECOMPLIANCETEAMINFORMED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DATECOMPLIANCETEAMINFORMED
+  meta:
+    severity: medium
+    description: Column DATECOMPLIANCETEAMINFORMED should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ASSESSMENTCOMMENTS
+  meta:
+    severity: critical
+    description: Column ASSESSMENTCOMMENTS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ASSESSMENTCOMMENTS
+  meta:
+    severity: medium
+    description: Column ASSESSMENTCOMMENTS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ASSESSMENTCOMMENTS
+    min_value: 4
+    max_value: 1406
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DATECLOSED
+  meta:
+    severity: critical
+    description: Column DATECLOSED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DATECLOSED
+  meta:
+    severity: medium
+    description: Column DATECLOSED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: DATECLOSED
+    min_value: 3
+    max_value: 10
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: STATUS
+  meta:
+    severity: critical
+    description: Column STATUS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: STATUS
+  meta:
+    severity: medium
+    description: Column STATUS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: STATUS
+    value_set:
+    - Investigation close out
+    - Lessons learnt
+    - Full investigation
+    - Outcome reporting
+    - Initial investigation
+    - Soft- deleted
+    - Pre investigation assessment
+    - Compliance committee
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CMACKNOWLEDGEDDATE
+  meta:
+    severity: critical
+    description: Column CMACKNOWLEDGEDDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CMACKNOWLEDGEDDATE
+  meta:
+    severity: medium
+    description: Column CMACKNOWLEDGEDDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FINALINVESTIGATIONDATE
+  meta:
+    severity: critical
+    description: Column FINALINVESTIGATIONDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: FINALINVESTIGATIONDATE
+  meta:
+    severity: medium
+    description: Column FINALINVESTIGATIONDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CCHEARINGDATE
+  meta:
+    severity: critical
+    description: Column CCHEARINGDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CCHEARINGDATE
+  meta:
+    severity: medium
+    description: Column CCHEARINGDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CCHEARINGDATE
+    value_set:
+    - NaT
+    - '2024-11-26'
+    - '2024-12-19'
+    - '2024-07-18'
+    - '2025-02-26'
+    - '2025-05-19'
+    - '2025-06-25'
+    - '2025-03-20'
+    - '2025-09-24'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ACKNOWLEDGEDTOBENEFICIARY
+  meta:
+    severity: critical
+    description: Column ACKNOWLEDGEDTOBENEFICIARY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ACKNOWLEDGEDTOBENEFICIARY
+  meta:
+    severity: medium
+    description: Column ACKNOWLEDGEDTOBENEFICIARY should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ACKNOWLEDGEDTOBENEFICIARY
+    value_set:
+    - '0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DATECFOINFORMED
+  meta:
+    severity: critical
+    description: Column DATECFOINFORMED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DATECFOINFORMED
+  meta:
+    severity: medium
+    description: Column DATECFOINFORMED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DATECFOINFORMED
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: POSSIBLENONCOMPLIANTPARTY
+  meta:
+    severity: critical
+    description: Column POSSIBLENONCOMPLIANTPARTY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: POSSIBLENONCOMPLIANTPARTY
+  meta:
+    severity: medium
+    description: Column POSSIBLENONCOMPLIANTPARTY should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SOURCEID
+  meta:
+    severity: critical
+    description: Column SOURCEID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: SOURCEID
+    min_value: 5
+    max_value: 5
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SOURCE
+  meta:
+    severity: critical
+    description: Column SOURCE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SOURCE
+  meta:
+    severity: medium
+    description: Column SOURCE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SOURCE
+    value_set:
+    - None
+    - HS2 Internal Employee
+    - Horace incident
+    - Email correspondence
+    - Helpdesk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PRELIMINARYFINDINGID
+  meta:
+    severity: critical
+    description: Column PRELIMINARYFINDINGID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PRELIMINARYFINDINGID
+    min_value: 5
+    max_value: 5
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PRELIMINARYFINDING
+  meta:
+    severity: critical
+    description: Column PRELIMINARYFINDING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PRELIMINARYFINDING
+  meta:
+    severity: medium
+    description: Column PRELIMINARYFINDING should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: PRELIMINARYFINDING
+    value_set:
+    - None
+    - Possible Non Compliance
+    - No Decision
+    - No Non Compliance
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HS2COMPLIANCEDECISIONID
+  meta:
+    severity: critical
+    description: Column HS2COMPLIANCEDECISIONID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HS2COMPLIANCEDECISIONID
+  meta:
+    severity: medium
+    description: Column HS2COMPLIANCEDECISIONID should have minimal nulls (currently
+      1.6%)
+    observed_null_percent: 1.6129032258064515
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HS2COMPLIANCEDECISIONID
+    value_set:
+    - '298.0'
+    - '299.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HS2COMPLIANCEDECISION
+  meta:
+    severity: critical
+    description: Column HS2COMPLIANCEDECISION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HS2COMPLIANCEDECISION
+  meta:
+    severity: medium
+    description: Column HS2COMPLIANCEDECISION should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HS2COMPLIANCEDECISION
+    value_set:
+    - No Non Compliance
+    - Actual Non Compliance
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DECISIONENDORSEDBYCOMPLIANCEID
+  meta:
+    severity: critical
+    description: Column DECISIONENDORSEDBYCOMPLIANCEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DECISIONENDORSEDBYCOMPLIANCEID
+  meta:
+    severity: medium
+    description: Column DECISIONENDORSEDBYCOMPLIANCEID should have minimal nulls (currently
+      8.1%)
+    observed_null_percent: 8.064516129032258
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DECISIONENDORSEDBYCOMPLIANCEID
+    value_set:
+    - '290.0'
+    - '289.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DECISIONENDORSEDBYCOMPLIANCECO
+  meta:
+    severity: critical
+    description: Column DECISIONENDORSEDBYCOMPLIANCECO must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DECISIONENDORSEDBYCOMPLIANCECO
+  meta:
+    severity: medium
+    description: Column DECISIONENDORSEDBYCOMPLIANCECO should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DECISIONENDORSEDBYCOMPLIANCECO
+    value_set:
+    - No Non Compliance
+    - Non Compliance
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PRELIMINARYIMPACTRATINGID
+  meta:
+    severity: critical
+    description: Column PRELIMINARYIMPACTRATINGID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PRELIMINARYIMPACTRATINGID
+    min_value: 5
+    max_value: 5
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PRELIMINARYIMPACTRATING
+  meta:
+    severity: critical
+    description: Column PRELIMINARYIMPACTRATING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PRELIMINARYIMPACTRATING
+  meta:
+    severity: medium
+    description: Column PRELIMINARYIMPACTRATING should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: PRELIMINARYIMPACTRATING
+    value_set:
+    - None
+    - High
+    - Low
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SOURCEREFERENCE
+  meta:
+    severity: critical
+    description: Column SOURCEREFERENCE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SOURCEREFERENCE
+  meta:
+    severity: medium
+    description: Column SOURCEREFERENCE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: SOURCEREFERENCE
+    min_value: 3
+    max_value: 72
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INCIDENTDATE
+  meta:
+    severity: critical
+    description: Column INCIDENTDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INCIDENTDATE
+  meta:
+    severity: medium
+    description: Column INCIDENTDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HELPDESKREFERENCE
+  meta:
+    severity: critical
+    description: Column HELPDESKREFERENCE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HELPDESKREFERENCE
+  meta:
+    severity: medium
+    description: Column HELPDESKREFERENCE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HELPDESKREFERENCE
+    value_set:
+    - None
+    - N/A
+    - MC-00024459 or CRM:0565407 in UA Compliance Inbox dated 16/10/2024 09:09
+    - HS2-25-119894-E
+    - HS2-25-46153-C
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SCMDFTNOTIFICATIONDATE
+  meta:
+    severity: critical
+    description: Column SCMDFTNOTIFICATIONDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SCMDFTNOTIFICATIONDATE
+  meta:
+    severity: medium
+    description: Column SCMDFTNOTIFICATIONDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SCMDFTNOTIFICATIONDATE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SERVICEAREAID
+  meta:
+    severity: critical
+    description: Column SERVICEAREAID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SERVICEAREAID
+  meta:
+    severity: medium
+    description: Column SERVICEAREAID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SERVICEAREAID
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SERVICEAREA
+  meta:
+    severity: critical
+    description: Column SERVICEAREA must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SERVICEAREA
+  meta:
+    severity: medium
+    description: Column SERVICEAREA should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SERVICEAREA
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DATEOFSIGNPOST
+  meta:
+    severity: critical
+    description: Column DATEOFSIGNPOST must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DATEOFSIGNPOST
+  meta:
+    severity: medium
+    description: Column DATEOFSIGNPOST should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DATEOFSIGNPOST
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HOCENDORSEDID
+  meta:
+    severity: critical
+    description: Column HOCENDORSEDID must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HOCENDORSEDID
+    value_set:
+    - '297.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HOCENDORSED
+  meta:
+    severity: critical
+    description: Column HOCENDORSED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HOCENDORSED
+  meta:
+    severity: medium
+    description: Column HOCENDORSED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HOCENDORSED
+    value_set:
+    - None
+    - Endorsed
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PREASSESSMENTOUTCOMEID
+  meta:
+    severity: critical
+    description: Column PREASSESSMENTOUTCOMEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PREASSESSMENTOUTCOMEID
+  meta:
+    severity: medium
+    description: Column PREASSESSMENTOUTCOMEID should have minimal nulls (currently
+      1.6%)
+    observed_null_percent: 1.6129032258064515
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: PREASSESSMENTOUTCOMEID
+    value_set:
+    - '319.0'
+    - '320.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PREASSESSMENTOUTCOME
+  meta:
+    severity: critical
+    description: Column PREASSESSMENTOUTCOME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PREASSESSMENTOUTCOME
+  meta:
+    severity: medium
+    description: Column PREASSESSMENTOUTCOME should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: PREASSESSMENTOUTCOME
+    value_set:
+    - Initial Investigation Meeting Required
+    - None
+    - Investigation Meeting Not required
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INITIALINVESTIGATIONMEETINGDAT
+  meta:
+    severity: critical
+    description: Column INITIALINVESTIGATIONMEETINGDAT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INITIALINVESTIGATIONMEETINGDAT
+  meta:
+    severity: medium
+    description: Column INITIALINVESTIGATIONMEETINGDAT should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: INITIALINVESTIGATIONMEETINGDAT
+    min_value: 3
+    max_value: 10
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REISSUEDNOTIFICATIONINITIALINV
+  meta:
+    severity: critical
+    description: Column REISSUEDNOTIFICATIONINITIALINV must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REISSUEDNOTIFICATIONINITIALINV
+  meta:
+    severity: medium
+    description: Column REISSUEDNOTIFICATIONINITIALINV should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: REISSUEDNOTIFICATIONINITIALINV
+    value_set:
+    - NaT
+    - '2025-03-25'
+    - '2025-04-02'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FULLINVESTIGATIONREQUIREDID
+  meta:
+    severity: critical
+    description: Column FULLINVESTIGATIONREQUIREDID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: FULLINVESTIGATIONREQUIREDID
+  meta:
+    severity: medium
+    description: Column FULLINVESTIGATIONREQUIREDID should have minimal nulls (currently
+      2.9%)
+    observed_null_percent: 2.903225806451613
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: FULLINVESTIGATIONREQUIREDID
+    min_value: 5
+    max_value: 5
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FULLINVESTIGATIONREQUIRED
+  meta:
+    severity: critical
+    description: Column FULLINVESTIGATIONREQUIRED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: FULLINVESTIGATIONREQUIRED
+  meta:
+    severity: medium
+    description: Column FULLINVESTIGATIONREQUIRED should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: FULLINVESTIGATIONREQUIRED
+    min_value: 2
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INVESTIGATIONREPORTUPLOADED
+  meta:
+    severity: critical
+    description: Column INVESTIGATIONREPORTUPLOADED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INVESTIGATIONREPORTUPLOADED
+  meta:
+    severity: medium
+    description: Column INVESTIGATIONREPORTUPLOADED should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: INVESTIGATIONREPORTUPLOADED
+    min_value: 1
+    max_value: 2
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INTERNALMEETINGWITHLEGAL
+  meta:
+    severity: critical
+    description: Column INTERNALMEETINGWITHLEGAL must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INTERNALMEETINGWITHLEGAL
+  meta:
+    severity: medium
+    description: Column INTERNALMEETINGWITHLEGAL should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: INTERNALMEETINGWITHLEGAL
+    value_set:
+    - NaT
+    - '2024-07-19'
+    - '2024-11-05'
+    - '2024-11-12'
+    - '2024-10-08'
+    - '2025-04-29'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INTERNALMEETINGNOTFICATIONISSU
+  meta:
+    severity: critical
+    description: Column INTERNALMEETINGNOTFICATIONISSU must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INTERNALMEETINGNOTFICATIONISSU
+  meta:
+    severity: medium
+    description: Column INTERNALMEETINGNOTFICATIONISSU should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: INTERNALMEETINGNOTFICATIONISSU
+    min_value: 3
+    max_value: 10
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FINALINVESTIGATIONCOMPLETED
+  meta:
+    severity: critical
+    description: Column FINALINVESTIGATIONCOMPLETED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: FINALINVESTIGATIONCOMPLETED
+  meta:
+    severity: medium
+    description: Column FINALINVESTIGATIONCOMPLETED should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: FINALINVESTIGATIONCOMPLETED
+    value_set:
+    - NaT
+    - '2024-10-08 17:37:00'
+    - '2024-11-28 00:00:00'
+    - '2024-11-12 10:54:00'
+    - '2025-03-05 00:00:00'
+    - '2025-03-20 17:48:00'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FINALINVESTIGATIONNOTIFICATION
+  meta:
+    severity: critical
+    description: Column FINALINVESTIGATIONNOTIFICATION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: FINALINVESTIGATIONNOTIFICATION
+  meta:
+    severity: medium
+    description: Column FINALINVESTIGATIONNOTIFICATION should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: FINALINVESTIGATIONNOTIFICATION
+    value_set:
+    - NaT
+    - '2024-11-28 00:00:00'
+    - '2025-03-20 17:48:00'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ALLIMPACTEDUASRECORDED
+  meta:
+    severity: critical
+    description: Column ALLIMPACTEDUASRECORDED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ALLIMPACTEDUASRECORDED
+  meta:
+    severity: medium
+    description: Column ALLIMPACTEDUASRECORDED should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ALLIMPACTEDUASRECORDED
+    value_set:
+    - '0'
+    - '-1'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ACKNOWLEDGEDTOBENEFICIARYDATE
+  meta:
+    severity: critical
+    description: Column ACKNOWLEDGEDTOBENEFICIARYDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ACKNOWLEDGEDTOBENEFICIARYDATE
+  meta:
+    severity: medium
+    description: Column ACKNOWLEDGEDTOBENEFICIARYDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ACKNOWLEDGEDTOBENEFICIARYDATE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FINALIMPACTRATINGID
+  meta:
+    severity: critical
+    description: Column FINALIMPACTRATINGID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: FINALIMPACTRATINGID
+    min_value: 5
+    max_value: 5
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FINALIMPACTRATING
+  meta:
+    severity: critical
+    description: Column FINALIMPACTRATING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: FINALIMPACTRATING
+  meta:
+    severity: medium
+    description: Column FINALIMPACTRATING should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: FINALIMPACTRATING
+    value_set:
+    - None
+    - Low
+    - High
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PROGRAMMEREVIEWBOARDREPORTDATE
+  meta:
+    severity: critical
+    description: Column PROGRAMMEREVIEWBOARDREPORTDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PROGRAMMEREVIEWBOARDREPORTDATE
+  meta:
+    severity: medium
+    description: Column PROGRAMMEREVIEWBOARDREPORTDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: PROGRAMMEREVIEWBOARDREPORTDATE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INTERNALDECISIONNOTIFICATIONDT
+  meta:
+    severity: critical
+    description: Column INTERNALDECISIONNOTIFICATIONDT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INTERNALDECISIONNOTIFICATIONDT
+  meta:
+    severity: medium
+    description: Column INTERNALDECISIONNOTIFICATIONDT should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: INTERNALDECISIONNOTIFICATIONDT
+    value_set:
+    - NaT
+    - '2025-02-26'
+    - '2025-05-19'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CFOLETTERDRAFTEDATE
+  meta:
+    severity: critical
+    description: Column CFOLETTERDRAFTEDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CFOLETTERDRAFTEDATE
+  meta:
+    severity: medium
+    description: Column CFOLETTERDRAFTEDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CFOLETTERDRAFTEDATE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CFOLETTERSIGNEDOFFDATE
+  meta:
+    severity: critical
+    description: Column CFOLETTERSIGNEDOFFDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CFOLETTERSIGNEDOFFDATE
+  meta:
+    severity: medium
+    description: Column CFOLETTERSIGNEDOFFDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CFOLETTERSIGNEDOFFDATE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SCMINFORMEDDATE
+  meta:
+    severity: critical
+    description: Column SCMINFORMEDDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SCMINFORMEDDATE
+  meta:
+    severity: medium
+    description: Column SCMINFORMEDDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: SCMINFORMEDDATE
+    min_value: 3
+    max_value: 10
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UACGLESSONSLEARNTDATE
+  meta:
+    severity: critical
+    description: Column UACGLESSONSLEARNTDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UACGLESSONSLEARNTDATE
+  meta:
+    severity: medium
+    description: Column UACGLESSONSLEARNTDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: UACGLESSONSLEARNTDATE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: RECOMENDATIONSRECEIVEDFROMDFTL
+  meta:
+    severity: critical
+    description: Column RECOMENDATIONSRECEIVEDFROMDFTL must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: RECOMENDATIONSRECEIVEDFROMDFTL
+  meta:
+    severity: medium
+    description: Column RECOMENDATIONSRECEIVEDFROMDFTL should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: RECOMENDATIONSRECEIVEDFROMDFTL
+    value_set:
+    - '0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: BASELINEREVIEWDATE
+  meta:
+    severity: critical
+    description: Column BASELINEREVIEWDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: BASELINEREVIEWDATE
+  meta:
+    severity: medium
+    description: Column BASELINEREVIEWDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: BASELINEREVIEWDATE
+    value_set:
+    - NaT
+    - '2025-04-30'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HORACEASSURANCEREQUESTDATE
+  meta:
+    severity: critical
+    description: Column HORACEASSURANCEREQUESTDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HORACEASSURANCEREQUESTDATE
+  meta:
+    severity: medium
+    description: Column HORACEASSURANCEREQUESTDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HORACEASSURANCEREQUESTDATE
+    value_set:
+    - NaT
+    - '2025-04-30'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OTHERAUDIENCEFORLESSONSLEARNT
+  meta:
+    severity: critical
+    description: Column OTHERAUDIENCEFORLESSONSLEARNT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OTHERAUDIENCEFORLESSONSLEARNT
+  meta:
+    severity: medium
+    description: Column OTHERAUDIENCEFORLESSONSLEARNT should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: OTHERAUDIENCEFORLESSONSLEARNT
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SUMMARYOFLESSSONSLEARNT
+  meta:
+    severity: critical
+    description: Column SUMMARYOFLESSSONSLEARNT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SUMMARYOFLESSSONSLEARNT
+  meta:
+    severity: medium
+    description: Column SUMMARYOFLESSSONSLEARNT should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SUMMARYOFLESSSONSLEARNT
+    value_set:
+    - None
+    - <p>Will be completed once the above actions are completed</p>
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NOTIFICATIONOFCASECLOSURETOALL
+  meta:
+    severity: critical
+    description: Column NOTIFICATIONOFCASECLOSURETOALL must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NOTIFICATIONOFCASECLOSURETOALL
+  meta:
+    severity: medium
+    description: Column NOTIFICATIONOFCASECLOSURETOALL should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: NOTIFICATIONOFCASECLOSURETOALL
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CLOSURENOTIFIEDTOBENEFICIARYP
+  meta:
+    severity: critical
+    description: Column CLOSURENOTIFIEDTOBENEFICIARYP must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CLOSURENOTIFIEDTOBENEFICIARYP
+  meta:
+    severity: medium
+    description: Column CLOSURENOTIFIEDTOBENEFICIARYP should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CLOSURENOTIFIEDTOBENEFICIARYP
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DISPUTERAISEDID
+  meta:
+    severity: critical
+    description: Column DISPUTERAISEDID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DISPUTERAISEDID
+  meta:
+    severity: medium
+    description: Column DISPUTERAISEDID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DISPUTERAISEDID
+    value_set:
+    - '286'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DISPUTERAISED
+  meta:
+    severity: critical
+    description: Column DISPUTERAISED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DISPUTERAISED
+  meta:
+    severity: medium
+    description: Column DISPUTERAISED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DISPUTERAISED
+    value_set:
+    - 'No'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CONSIDERATIONDATE
+  meta:
+    severity: critical
+    description: Column CONSIDERATIONDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CONSIDERATIONDATE
+  meta:
+    severity: medium
+    description: Column CONSIDERATIONDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CONSIDERATIONDATE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DISPUTEOUTCOMEID
+  meta:
+    severity: critical
+    description: Column DISPUTEOUTCOMEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DISPUTEOUTCOMEID
+  meta:
+    severity: medium
+    description: Column DISPUTEOUTCOMEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DISPUTEOUTCOMEID
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DISPUTEOUTCOME
+  meta:
+    severity: critical
+    description: Column DISPUTEOUTCOME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DISPUTEOUTCOME
+  meta:
+    severity: medium
+    description: Column DISPUTEOUTCOME should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DISPUTEOUTCOME
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ESCALATINGPARTYDFTID
+  meta:
+    severity: critical
+    description: Column ESCALATINGPARTYDFTID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ESCALATINGPARTYDFTID
+  meta:
+    severity: medium
+    description: Column ESCALATINGPARTYDFTID should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ESCALATINGPARTYDFTID
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ESCALATINGPARTYDFT
+  meta:
+    severity: critical
+    description: Column ESCALATINGPARTYDFT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ESCALATINGPARTYDFT
+  meta:
+    severity: medium
+    description: Column ESCALATINGPARTYDFT should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ESCALATINGPARTYDFT
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DATEOFESCALATIONTODFT
+  meta:
+    severity: critical
+    description: Column DATEOFESCALATIONTODFT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DATEOFESCALATIONTODFT
+  meta:
+    severity: medium
+    description: Column DATEOFESCALATIONTODFT should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DATEOFESCALATIONTODFT
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DATEDFTNOTIFIEDHS2
+  meta:
+    severity: critical
+    description: Column DATEDFTNOTIFIEDHS2 must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DATEDFTNOTIFIEDHS2
+  meta:
+    severity: medium
+    description: Column DATEDFTNOTIFIEDHS2 should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DATEDFTNOTIFIEDHS2
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DFTDECISIONID
+  meta:
+    severity: critical
+    description: Column DFTDECISIONID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DFTDECISIONID
+  meta:
+    severity: medium
+    description: Column DFTDECISIONID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DFTDECISIONID
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DFTDECISION
+  meta:
+    severity: critical
+    description: Column DFTDECISION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DFTDECISION
+  meta:
+    severity: medium
+    description: Column DFTDECISION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DFTDECISION
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DFTRECOMMENDATIONDUEDATE
+  meta:
+    severity: critical
+    description: Column DFTRECOMMENDATIONDUEDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DFTRECOMMENDATIONDUEDATE
+  meta:
+    severity: medium
+    description: Column DFTRECOMMENDATIONDUEDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DFTRECOMMENDATIONDUEDATE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INCIDENTDATEKNOWN
+  meta:
+    severity: critical
+    description: Column INCIDENTDATEKNOWN must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INCIDENTDATEKNOWN
+  meta:
+    severity: medium
+    description: Column INCIDENTDATEKNOWN should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: INCIDENTDATEKNOWN
+    value_set:
+    - '0'
+    - '-1'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OUTCOMENOTIFICATIONDATE
+  meta:
+    severity: critical
+    description: Column OUTCOMENOTIFICATIONDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OUTCOMENOTIFICATIONDATE
+  meta:
+    severity: medium
+    description: Column OUTCOMENOTIFICATIONDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: OUTCOMENOTIFICATIONDATE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ADDITIONALNOTIFICATIONREQUIRED
+  meta:
+    severity: critical
+    description: Column ADDITIONALNOTIFICATIONREQUIRED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ADDITIONALNOTIFICATIONREQUIRED
+  meta:
+    severity: medium
+    description: Column ADDITIONALNOTIFICATIONREQUIRED should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ADDITIONALNOTIFICATIONREQUIRED
+    min_value: 1
+    max_value: 1
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: RECOMMENDATIONSBYDFTDE
+  meta:
+    severity: critical
+    description: Column RECOMMENDATIONSBYDFTDE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: RECOMMENDATIONSBYDFTDE
+  meta:
+    severity: medium
+    description: Column RECOMMENDATIONSBYDFTDE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: RECOMMENDATIONSBYDFTDE
+    value_set:
+    - '0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HORACERAISEDDATE
+  meta:
+    severity: critical
+    description: Column HORACERAISEDDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HORACERAISEDDATE
+  meta:
+    severity: medium
+    description: Column HORACERAISEDDATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HORACERAISEDDATE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ESCALATINGPARTYHOCID
+  meta:
+    severity: critical
+    description: Column ESCALATINGPARTYHOCID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ESCALATINGPARTYHOCID
+  meta:
+    severity: medium
+    description: Column ESCALATINGPARTYHOCID should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ESCALATINGPARTYHOCID
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ESCALATINGPARTYHOC
+  meta:
+    severity: critical
+    description: Column ESCALATINGPARTYHOC must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ESCALATINGPARTYHOC
+  meta:
+    severity: medium
+    description: Column ESCALATINGPARTYHOC should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ESCALATINGPARTYHOC
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DATEOFESCALATIONTOHOC
+  meta:
+    severity: critical
+    description: Column DATEOFESCALATIONTOHOC must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DATEOFESCALATIONTOHOC
+  meta:
+    severity: medium
+    description: Column DATEOFESCALATIONTOHOC should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DATEOFESCALATIONTOHOC
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DATEHOCNOTIFIEDHS2
+  meta:
+    severity: critical
+    description: Column DATEHOCNOTIFIEDHS2 must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DATEHOCNOTIFIEDHS2
+  meta:
+    severity: medium
+    description: Column DATEHOCNOTIFIEDHS2 should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DATEHOCNOTIFIEDHS2
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HOCDECISIONID
+  meta:
+    severity: critical
+    description: Column HOCDECISIONID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HOCDECISIONID
+  meta:
+    severity: medium
+    description: Column HOCDECISIONID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HOCDECISIONID
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HOCDECISION
+  meta:
+    severity: critical
+    description: Column HOCDECISION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HOCDECISION
+  meta:
+    severity: medium
+    description: Column HOCDECISION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HOCDECISION
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: RECOMMENDATIONSBYHOC
+  meta:
+    severity: critical
+    description: Column RECOMMENDATIONSBYHOC must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: RECOMMENDATIONSBYHOC
+  meta:
+    severity: medium
+    description: Column RECOMMENDATIONSBYHOC should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: RECOMMENDATIONSBYHOC
+    value_set:
+    - '0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HOCRECOMMENDATIONDUEDATE
+  meta:
+    severity: critical
+    description: Column HOCRECOMMENDATIONDUEDATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HOCRECOMMENDATIONDUEDATE
+  meta:
+    severity: medium
+    description: Column HOCRECOMMENDATIONDUEDATE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HOCRECOMMENDATIONDUEDATE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ROLEOFNONCOMPLIANTPARTYID
+  meta:
+    severity: critical
+    description: Column ROLEOFNONCOMPLIANTPARTYID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ROLEOFNONCOMPLIANTPARTYID
+    min_value: 5
+    max_value: 5
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ROLEOFNONCOMPLIANTPARTY
+  meta:
+    severity: critical
+    description: Column ROLEOFNONCOMPLIANTPARTY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ROLEOFNONCOMPLIANTPARTY
+  meta:
+    severity: medium
+    description: Column ROLEOFNONCOMPLIANTPARTY should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ROLEOFNONCOMPLIANTPARTY
+    value_set:
+    - None
+    - RDP (Responsible Delivery Partner)
+    - Commitment Owner
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NONCOMPLIANTPARTYFULLINV
+  meta:
+    severity: critical
+    description: Column NONCOMPLIANTPARTYFULLINV must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NONCOMPLIANTPARTYFULLINV
+  meta:
+    severity: medium
+    description: Column NONCOMPLIANTPARTYFULLINV should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REPORTEDBYID
+  meta:
+    severity: critical
+    description: Column REPORTEDBYID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REPORTEDBYID
+  meta:
+    severity: medium
+    description: Column REPORTEDBYID should have minimal nulls (currently 1.0%)
+    observed_null_percent: 0.967741935483871
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: REPORTEDBYID
+    value_set:
+    - '316.0'
+    - '318.0'
+    - '313.0'
+    - '314.0'
+    - '315.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REPORTEDBY
+  meta:
+    severity: critical
+    description: Column REPORTEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REPORTEDBY
+  meta:
+    severity: medium
+    description: Column REPORTEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: REPORTEDBY
+    value_set:
+    - Beneficiary
+    - HS2 Internal Employee
+    - Contractor
+    - Member of the Public
+    - None
+    - MP/Local Authority
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HS2COMPLIANCEDECISIONRATIONALE
+  meta:
+    severity: critical
+    description: Column HS2COMPLIANCEDECISIONRATIONALE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HS2COMPLIANCEDECISIONRATIONALE
+  meta:
+    severity: medium
+    description: Column HS2COMPLIANCEDECISIONRATIONALE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: HS2COMPLIANCEDECISIONRATIONALE
+    min_value: 4
+    max_value: 2000
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FULLINVESTIGATIONDECISIONMAKER
+  meta:
+    severity: critical
+    description: Column FULLINVESTIGATIONDECISIONMAKER must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: FULLINVESTIGATIONDECISIONMAKER
+  meta:
+    severity: medium
+    description: Column FULLINVESTIGATIONDECISIONMAKER should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: FULLINVESTIGATIONDECISIONMAKER
+    value_set:
+    - None
+    - Sandra Coombs and Lucy Gilbert
+    - Sandra Coombs, Stephen Smith, Isabelle Savage
+    - Legal  HoPR SCM
+    - sandra Coombs
+    - Sandra Coombs
+    - Senior Compliance Manager/Stakeholder, Skills and Inclusion Director
+    - Sandra Coombs SCM
+    - Sarah Goodburn
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INITIALINVESTIGATIONDECISIONMA
+  meta:
+    severity: critical
+    description: Column INITIALINVESTIGATIONDECISIONMA must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INITIALINVESTIGATIONDECISIONMA
+  meta:
+    severity: medium
+    description: Column INITIALINVESTIGATIONDECISIONMA should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: INITIALINVESTIGATIONDECISIONMA
+    min_value: 2
+    max_value: 191
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INTERNALMEETINGISSUEDTO
+  meta:
+    severity: critical
+    description: Column INTERNALMEETINGISSUEDTO must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INTERNALMEETINGISSUEDTO
+  meta:
+    severity: medium
+    description: Column INTERNALMEETINGISSUEDTO should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: INTERNALMEETINGISSUEDTO
+    value_set:
+    - Data Not Available
+    - Blank
+    - SC, DT, Isabelle Savage - determination meeting scheduled for 12.03.2024
+    - SC
+    - PC
+    - None
+    - SC (SCM), DT (HoC), Isabelle Savage (Legal) - determination meeting scheduled
+      for 12.03.2024Follow up call held with SME/CO Simon Casey (who fed in views
+      from him and Neil Wait) on 14.03.2024
+    - Isabelle Savage, Sandra Coombs, James Mumby, Saeeda Ajaib
+    - By correspondence
+    - We consulted with legal on the definition/applicability of U&A 2791. Email saved
+      in comments/attachments section below.
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHORAISEDTHEDISPUTEID
+  meta:
+    severity: critical
+    description: Column WHORAISEDTHEDISPUTEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHORAISEDTHEDISPUTEID
+  meta:
+    severity: medium
+    description: Column WHORAISEDTHEDISPUTEID should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: WHORAISEDTHEDISPUTEID
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHORAISEDTHEDISPUTE
+  meta:
+    severity: critical
+    description: Column WHORAISEDTHEDISPUTE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHORAISEDTHEDISPUTE
+  meta:
+    severity: medium
+    description: Column WHORAISEDTHEDISPUTE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: WHORAISEDTHEDISPUTE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DISPUTERATIONALE
+  meta:
+    severity: critical
+    description: Column DISPUTERATIONALE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DISPUTERATIONALE
+  meta:
+    severity: medium
+    description: Column DISPUTERATIONALE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DISPUTERATIONALE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: IMPACTEDPARTY
+  meta:
+    severity: critical
+    description: Column IMPACTEDPARTY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: IMPACTEDPARTY
+  meta:
+    severity: medium
+    description: Column IMPACTEDPARTY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: IMPACTEDPARTY
+    min_value: 3
+    max_value: 284
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NONCOMPLIANCEMANAGERID
+  meta:
+    severity: critical
+    description: Column NONCOMPLIANCEMANAGERID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NONCOMPLIANCEMANAGERID
+    min_value: 5
+    max_value: 5
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NONCOMPLIANCEMANAGER
+  meta:
+    severity: critical
+    description: Column NONCOMPLIANCEMANAGER must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NONCOMPLIANCEMANAGER
+  meta:
+    severity: medium
+    description: Column NONCOMPLIANCEMANAGER should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: NONCOMPLIANCEMANAGER
+    value_set:
+    - None
+    - Angela King
+    - Mark Jones
+    - Evelyn Silva
+    - Olabowale Ogunsanya
+    - Shoheda Rob
+  meta:
+    severity: medium
+    description: Values should be one of the known categories

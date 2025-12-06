@@ -1,0 +1,514 @@
+validation_name: aims_aims_projectitemactions
+description: Data quality validation for aims_projectitemactions.parquet
+generated_at: '2025-12-06T15:07:06.884374'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 5
+  profiled_columns: 24
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 24
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PROJECTITEMID
+  meta:
+    severity: critical
+    description: Column PROJECTITEMID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PROJECTITEMID
+  meta:
+    severity: medium
+    description: Column PROJECTITEMID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PROJECTITEMID
+    min_value: 1
+    max_value: 1
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PROJECTITEM
+  meta:
+    severity: critical
+    description: Column PROJECTITEM must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PROJECTITEM
+  meta:
+    severity: medium
+    description: Column PROJECTITEM should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PROJECTITEM
+    min_value: 3
+    max_value: 3
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PROJECTITEMACTIONTYPE
+  meta:
+    severity: critical
+    description: Column PROJECTITEMACTIONTYPE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PROJECTITEMACTIONTYPE
+  meta:
+    severity: medium
+    description: Column PROJECTITEMACTIONTYPE should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PROJECTITEMACTIONTYPE
+    min_value: 6
+    max_value: 27
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NEWSTATE
+  meta:
+    severity: critical
+    description: Column NEWSTATE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NEWSTATE
+  meta:
+    severity: medium
+    description: Column NEWSTATE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NEWSTATE
+    min_value: 12
+    max_value: 17
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: COMMENTSFIELD
+  meta:
+    severity: critical
+    description: Column COMMENTSFIELD must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: COMMENTSFIELD
+  meta:
+    severity: medium
+    description: Column COMMENTSFIELD should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: COMMENTSFIELD
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FILEUPLOADFILENAME
+  meta:
+    severity: critical
+    description: Column FILEUPLOADFILENAME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: FILEUPLOADFILENAME
+  meta:
+    severity: medium
+    description: Column FILEUPLOADFILENAME should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: FILEUPLOADFILENAME
+    min_value: 4
+    max_value: 54
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REASSIGNTOID
+  meta:
+    severity: critical
+    description: Column REASSIGNTOID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REASSIGNTOID
+  meta:
+    severity: medium
+    description: Column REASSIGNTOID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: REASSIGNTOID
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REASSIGNTO
+  meta:
+    severity: critical
+    description: Column REASSIGNTO must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REASSIGNTO
+  meta:
+    severity: medium
+    description: Column REASSIGNTO should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: REASSIGNTO
+    min_value: 1
+    max_value: 1
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PERSONID
+  meta:
+    severity: critical
+    description: Column PERSONID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PERSONID
+  meta:
+    severity: medium
+    description: Column PERSONID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PERSONID
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PERSON
+  meta:
+    severity: critical
+    description: Column PERSON must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PERSON
+  meta:
+    severity: medium
+    description: Column PERSON should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PERSON
+    min_value: 17
+    max_value: 17
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NEWPROJECTITEMID
+  meta:
+    severity: critical
+    description: Column NEWPROJECTITEMID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NEWPROJECTITEMID
+  meta:
+    severity: medium
+    description: Column NEWPROJECTITEMID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NEWPROJECTITEMID
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NEWPROJECTITEM
+  meta:
+    severity: critical
+    description: Column NEWPROJECTITEM must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NEWPROJECTITEM
+  meta:
+    severity: medium
+    description: Column NEWPROJECTITEM should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NEWPROJECTITEM
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DELEGATETOID
+  meta:
+    severity: critical
+    description: Column DELEGATETOID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DELEGATETOID
+  meta:
+    severity: medium
+    description: Column DELEGATETOID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: DELEGATETOID
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DELEGATETO
+  meta:
+    severity: critical
+    description: Column DELEGATETO must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DELEGATETO
+  meta:
+    severity: medium
+    description: Column DELEGATETO should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: DELEGATETO
+    min_value: 1
+    max_value: 1
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LINKTOFILE
+  meta:
+    severity: critical
+    description: Column LINKTOFILE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LINKTOFILE
+  meta:
+    severity: medium
+    description: Column LINKTOFILE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: LINKTOFILE
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTESSET
+  meta:
+    severity: critical
+    description: Column ATTRIBUTESSET must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ATTRIBUTESSET
+  meta:
+    severity: medium
+    description: Column ATTRIBUTESSET should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ROLESSET
+  meta:
+    severity: critical
+    description: Column ROLESSET must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ROLESSET
+  meta:
+    severity: medium
+    description: Column ROLESSET should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ROLESSET
+    min_value: 4
+    max_value: 36
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WORKORDERID
+  meta:
+    severity: critical
+    description: Column WORKORDERID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WORKORDERID
+  meta:
+    severity: medium
+    description: Column WORKORDERID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: WORKORDERID
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WORKORDER
+  meta:
+    severity: critical
+    description: Column WORKORDER must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WORKORDER
+  meta:
+    severity: medium
+    description: Column WORKORDER should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: WORKORDER
+    min_value: 12
+    max_value: 12
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NOTESINSTRUCTIONS
+  meta:
+    severity: critical
+    description: Column NOTESINSTRUCTIONS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NOTESINSTRUCTIONS
+  meta:
+    severity: medium
+    description: Column NOTESINSTRUCTIONS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NOTESINSTRUCTIONS
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: EXISTINGPROJECTITEMID
+  meta:
+    severity: critical
+    description: Column EXISTINGPROJECTITEMID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: EXISTINGPROJECTITEMID
+  meta:
+    severity: medium
+    description: Column EXISTINGPROJECTITEMID should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: EXISTINGPROJECTITEMID
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: EXISTINGPROJECTITEM
+  meta:
+    severity: critical
+    description: Column EXISTINGPROJECTITEM must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: EXISTINGPROJECTITEM
+  meta:
+    severity: medium
+    description: Column EXISTINGPROJECTITEM should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: EXISTINGPROJECTITEM
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range

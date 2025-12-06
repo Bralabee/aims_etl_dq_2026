@@ -31,7 +31,7 @@ echo ""
 
 # Profile aims_activitydates.parquet
 echo "1️⃣  Profiling aims_activitydates.parquet..."
-python profile_data.py \
+python scripts/profile_data.py \
     "$AIMS_DATA_DIR/aims_activitydates.parquet" \
     --output "$OUTPUT_DIR/aims_activitydates_validation.yml" \
     --name "aims_activitydates_validation" \
@@ -45,7 +45,7 @@ echo ""
 
 # Profile aims_assetattributes.parquet
 echo "2️⃣  Profiling aims_assetattributes.parquet..."
-python profile_data.py \
+python scripts/profile_data.py \
     "$AIMS_DATA_DIR/aims_assetattributes.parquet" \
     --output "$OUTPUT_DIR/aims_assetattributes_validation.yml" \
     --name "aims_assetattributes_validation" \
@@ -59,7 +59,7 @@ echo ""
 
 # Profile aims_assetclassattributes.parquet
 echo "3️⃣  Profiling aims_assetclassattributes.parquet..."
-python profile_data.py \
+python scripts/profile_data.py \
     "$AIMS_DATA_DIR/aims_assetclassattributes.parquet" \
     --output "$OUTPUT_DIR/aims_assetclassattributes_validation.yml" \
     --name "aims_assetclassattributes_validation" \
@@ -73,7 +73,7 @@ echo ""
 
 # Profile aims_assetclasschangelogs.parquet
 echo "4️⃣  Profiling aims_assetclasschangelogs.parquet..."
-python profile_data.py \
+python scripts/profile_data.py \
     "$AIMS_DATA_DIR/aims_assetclasschangelogs.parquet" \
     --output "$OUTPUT_DIR/aims_assetclasschangelogs_validation.yml" \
     --name "aims_assetclasschangelogs_validation" \

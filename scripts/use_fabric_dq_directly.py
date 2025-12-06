@@ -19,6 +19,7 @@ sys.path.insert(0, str(FABRIC_DQ_PATH))
 
 # Now import from dq_framework
 from dq_framework import DataProfiler, DataQualityValidator, ConfigLoader
+from dq_framework.loader import DataLoader
 
 # Paths
 AIMS_DATA_DIR = Path("/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/AIMS_LOCAL/data/Samples_LH_Bronze_Aims_26_parquet")
@@ -42,7 +43,8 @@ def profile_parquet_file(file_path: Path, output_dir: Path):
     
     # Load data
     print("📥 Loading data...")
-    df = pd.read_parquet(file_path)
+    # Use DataLoader for memory optimization and large file handling
+    df = DataLoader.load_data(file_path)
     print(f"   ✓ Loaded {len(df):,} rows, {len(df.columns)} columns")
     
     # Profile data
@@ -96,7 +98,8 @@ def validate_with_config(file_path: Path, config_path: Path):
     print(f"{'='*70}")
     
     # Load data
-    df = pd.read_parquet(file_path)
+    # Use DataLoader for memory optimization
+    df = DataLoader.load_data(file_path)
     print(f"📥 Loaded {len(df):,} rows")
     
     # Load config

@@ -1,0 +1,156 @@
+validation_name: aims_aims_informationpackages
+description: Data quality validation for aims_informationpackages.parquet
+generated_at: '2025-12-06T15:07:06.498552'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 0
+  profiled_columns: 10
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 10
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SUITABILITYSTATUS
+  meta:
+    severity: critical
+    description: Column SUITABILITYSTATUS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SUITABILITYSTATUS
+  meta:
+    severity: medium
+    description: Column SUITABILITYSTATUS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: medium
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REVISION
+  meta:
+    severity: critical
+    description: Column REVISION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REVISION
+  meta:
+    severity: medium
+    description: Column REVISION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PACKAGE
+  meta:
+    severity: critical
+    description: Column PACKAGE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PACKAGE
+  meta:
+    severity: medium
+    description: Column PACKAGE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DISCIPLINE
+  meta:
+    severity: critical
+    description: Column DISCIPLINE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DISCIPLINE
+  meta:
+    severity: medium
+    description: Column DISCIPLINE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REVIEWSTATUS
+  meta:
+    severity: critical
+    description: Column REVIEWSTATUS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REVIEWSTATUS
+  meta:
+    severity: medium
+    description: Column REVIEWSTATUS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0

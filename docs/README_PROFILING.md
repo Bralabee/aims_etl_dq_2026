@@ -23,10 +23,11 @@ HS2_PROJECTS_2025/
 │   └── ...
 │
 └── AIMS_LOCAL/                   # ← Your project
-    ├── profile_aims_parquet.py   # AIMS-specific profiler
-    ├── setup_aims_profiling.sh   # Setup script
+    ├── scripts/
+    │   ├── profile_aims_parquet.py   # AIMS-specific profiler
+    │   └── setup_aims_profiling.sh   # Setup script
     ├── notebooks/
-    │   └── 03_Profile_AIMS_Data.ipynb  # Interactive profiling
+    │   └── 01_AIMS_Data_Profiling.ipynb  # Interactive profiling
     ├── config/
     │   └── data_quality/         # Generated validation configs
     └── data/
@@ -41,7 +42,7 @@ This installs `fabric_data_quality` in editable mode:
 
 ```bash
 cd /home/sanmi/Documents/HS2/HS2_PROJECTS_2025/AIMS_LOCAL
-bash setup_aims_profiling.sh
+bash scripts/setup_aims_profiling.sh
 ```
 
 **What it does:**

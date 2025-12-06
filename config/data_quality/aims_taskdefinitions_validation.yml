@@ -1,0 +1,369 @@
+validation_name: aims_aims_taskdefinitions
+description: Data quality validation for aims_taskdefinitions.parquet
+generated_at: '2025-12-06T15:07:09.397156'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 5
+  profiled_columns: 17
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 17
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CREATEDBY
+    min_value: 16
+    max_value: 16
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: UPDATEDBY
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: LASTUPDATED
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: STATUS
+  meta:
+    severity: critical
+    description: Column STATUS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: STATUS
+  meta:
+    severity: medium
+    description: Column STATUS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: STATUS
+    min_value: 11
+    max_value: 11
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: TASKDEFINITIONCLASS
+  meta:
+    severity: critical
+    description: Column TASKDEFINITIONCLASS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: TASKDEFINITIONCLASS
+  meta:
+    severity: medium
+    description: Column TASKDEFINITIONCLASS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: TASKDEFINITIONCLASS
+    min_value: 6
+    max_value: 6
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DESCRIPTION
+  meta:
+    severity: critical
+    description: Column DESCRIPTION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DESCRIPTION
+  meta:
+    severity: medium
+    description: Column DESCRIPTION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OBJECTIVE
+  meta:
+    severity: critical
+    description: Column OBJECTIVE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OBJECTIVE
+  meta:
+    severity: medium
+    description: Column OBJECTIVE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: OBJECTIVE
+    min_value: 4
+    max_value: 32
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: TITLE
+  meta:
+    severity: critical
+    description: Column TITLE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: TITLE
+  meta:
+    severity: medium
+    description: Column TITLE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: TITLE
+    min_value: 20
+    max_value: 29
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REQUIRESTEXTUALCOMMENTARY
+  meta:
+    severity: critical
+    description: Column REQUIRESTEXTUALCOMMENTARY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REQUIRESTEXTUALCOMMENTARY
+  meta:
+    severity: medium
+    description: Column REQUIRESTEXTUALCOMMENTARY should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: REQUIRESTEXTUALCOMMENTARY
+    min_value: 2
+    max_value: 3
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REQUIRESATTACHMENTS
+  meta:
+    severity: critical
+    description: Column REQUIRESATTACHMENTS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REQUIRESATTACHMENTS
+  meta:
+    severity: medium
+    description: Column REQUIRESATTACHMENTS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: REQUIRESATTACHMENTS
+    min_value: 15
+    max_value: 15
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ALLOWSCAPTUREOFATTRIBUTES
+  meta:
+    severity: critical
+    description: Column ALLOWSCAPTUREOFATTRIBUTES must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ALLOWSCAPTUREOFATTRIBUTES
+  meta:
+    severity: medium
+    description: Column ALLOWSCAPTUREOFATTRIBUTES should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ALLOWSCAPTUREOFATTRIBUTES
+    min_value: 2
+    max_value: 2
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REFERENCE
+  meta:
+    severity: critical
+    description: Column REFERENCE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REFERENCE
+  meta:
+    severity: medium
+    description: Column REFERENCE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: REFERENCE
+    min_value: 11
+    max_value: 16
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REQUIRESLOCATIONGATHERING
+  meta:
+    severity: critical
+    description: Column REQUIRESLOCATIONGATHERING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REQUIRESLOCATIONGATHERING
+  meta:
+    severity: medium
+    description: Column REQUIRESLOCATIONGATHERING should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: REQUIRESLOCATIONGATHERING
+    min_value: 2
+    max_value: 2
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NOTES
+  meta:
+    severity: critical
+    description: Column NOTES must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NOTES
+  meta:
+    severity: medium
+    description: Column NOTES should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NOTES
+    min_value: 4
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: APPLICABLETOALLCLASSES
+  meta:
+    severity: critical
+    description: Column APPLICABLETOALLCLASSES must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: APPLICABLETOALLCLASSES
+  meta:
+    severity: medium
+    description: Column APPLICABLETOALLCLASSES should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: APPLICABLETOALLCLASSES
+    min_value: 2
+    max_value: 2
+  meta:
+    severity: low
+    description: String length should be within observed range

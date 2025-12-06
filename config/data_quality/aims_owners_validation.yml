@@ -1,0 +1,213 @@
+validation_name: aims_aims_owners
+description: Data quality validation for aims_owners.parquet
+generated_at: '2025-12-06T15:04:21.013486'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 28
+  profiled_columns: 9
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 9
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NAME
+  meta:
+    severity: critical
+    description: Column NAME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NAME
+  meta:
+    severity: medium
+    description: Column NAME should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NAME
+    min_value: 3
+    max_value: 50
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CODE
+  meta:
+    severity: critical
+    description: Column CODE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CODE
+  meta:
+    severity: medium
+    description: Column CODE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CODE
+    min_value: 2
+    max_value: 12
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CREATEDBY
+    min_value: 4
+    max_value: 24
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: WHENCREATED
+    min_value: 3
+    max_value: 19
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: UPDATEDBY
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: LASTUPDATED
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UAIDPREFIXOVERRIDE
+  meta:
+    severity: critical
+    description: Column UAIDPREFIXOVERRIDE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UAIDPREFIXOVERRIDE
+  meta:
+    severity: medium
+    description: Column UAIDPREFIXOVERRIDE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: UAIDPREFIXOVERRIDE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ALLOWATTRIBUTES
+  meta:
+    severity: critical
+    description: Column ALLOWATTRIBUTES must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ALLOWATTRIBUTES
+  meta:
+    severity: medium
+    description: Column ALLOWATTRIBUTES should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ALLOWATTRIBUTES
+    value_set:
+    - 'Yes'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories

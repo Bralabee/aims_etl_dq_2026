@@ -26,10 +26,10 @@ bash setup.sh
 python scripts/profile_aims_parquet.py
 
 # Or use Jupyter notebook for interactive profiling
-jupyter notebook notebooks/03_Profile_AIMS_Data.ipynb
+jupyter notebook notebooks/01_AIMS_Data_Profiling.ipynb
 ```
 
-**📖 See [README_PROFILING.md](README_PROFILING.md) for complete documentation.**
+**📖 See [docs/README_PROFILING.md](docs/README_PROFILING.md) for complete documentation.**
 
 ## 🚀 Pipeline Runner (NEW!)
 

@@ -1,0 +1,238 @@
+validation_name: aims_aims_informationneedsourcedocs
+description: Data quality validation for aims_informationneedsourcedocs.parquet
+generated_at: '2025-12-06T15:04:19.913345'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 220
+  profiled_columns: 10
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 10
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NAME
+  meta:
+    severity: critical
+    description: Column NAME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NAME
+  meta:
+    severity: medium
+    description: Column NAME should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NAME
+    min_value: 8
+    max_value: 40
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CREATEDBY
+    min_value: 18
+    max_value: 34
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: UPDATEDBY
+    value_set:
+    - None
+    - Muneebah.Quyyam@hs2.org.uk
+    - Juliet.Miah@hs2.org.uk
+    - Nazerah.Choudhury@hs2.org.uk
+    - Ken.Lee@hs2.org.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: LASTUPDATED
+    min_value: 3
+    max_value: 19
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: URL
+  meta:
+    severity: critical
+    description: Column URL must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: URL
+  meta:
+    severity: medium
+    description: Column URL should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INFORMATIONNEEDID
+  meta:
+    severity: critical
+    description: Column INFORMATIONNEEDID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INFORMATIONNEEDID
+  meta:
+    severity: medium
+    description: Column INFORMATIONNEEDID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: INFORMATIONNEEDID
+    min_value: 3
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: INFORMATIONNEED
+  meta:
+    severity: critical
+    description: Column INFORMATIONNEED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: INFORMATIONNEED
+  meta:
+    severity: medium
+    description: Column INFORMATIONNEED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: INFORMATIONNEED
+    min_value: 16
+    max_value: 19
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NOTES
+  meta:
+    severity: critical
+    description: Column NOTES must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NOTES
+  meta:
+    severity: medium
+    description: Column NOTES should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: NOTES
+    value_set:
+    - None
+    - Data (and schema) approved by Mark Bailey 16/11/2022
+    - Table 4
+    - 'Obscure measurements on Civil assets, classes of activities and not assets.
+      Attributes that the end state organisation will populate and not the supply
+      chain. The supply chain have issued EWN''s, RFI''s and general queries related
+      to these ambiguous information requirements. This proposal is to remove a large
+      number of those information requirements from the AIMS ADD. '
+    - Supporting Document
+    - 'Bridge, Viaduct and other Overline Structure E&B Schedule Template
+
+      '
+    - HS2-HS2-IM-REP-000-000072 Utilities DST new asset class Telecoms Network UT-NW-TC
+    - HS2-HS2-IM-REP-000-000072 Utilities DST new asset class Electricity Network
+      UT-NW-EN
+    - HS2-HS2-IM-REP-000-000072 Utilities DST new asset class Gas Network UT-NW-GN
+    - 'Document no: HS2-HS2-IM-REP-000-000072 P01'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories

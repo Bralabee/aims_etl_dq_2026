@@ -1,0 +1,115 @@
+validation_name: aims_aims_ua_optionvalues
+description: Data quality validation for aims_ua_optionvalues.parquet
+generated_at: '2025-12-06T15:07:29.280810'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 110
+  profiled_columns: 5
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 5
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NAME
+  meta:
+    severity: critical
+    description: Column NAME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NAME
+  meta:
+    severity: medium
+    description: Column NAME should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NAME
+    min_value: 2
+    max_value: 76
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OPTIONSET
+  meta:
+    severity: critical
+    description: Column OPTIONSET must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OPTIONSET
+  meta:
+    severity: medium
+    description: Column OPTIONSET should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: OPTIONSET
+    min_value: 6
+    max_value: 41
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PARENTCATEGORYID
+  meta:
+    severity: critical
+    description: Column PARENTCATEGORYID must exist in the data
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PARENTCATEGORY
+  meta:
+    severity: critical
+    description: Column PARENTCATEGORY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PARENTCATEGORY
+  meta:
+    severity: medium
+    description: Column PARENTCATEGORY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: PARENTCATEGORY
+    value_set:
+    - None
+    - Traffic Management
+  meta:
+    severity: medium
+    description: Values should be one of the known categories

@@ -1,0 +1,286 @@
+validation_name: aims_aims_productcharacteristics
+description: Data quality validation for aims_productcharacteristics.parquet
+generated_at: '2025-12-06T15:04:59.635787'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 0
+  profiled_columns: 20
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 20
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: medium
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PRODUCTID
+  meta:
+    severity: critical
+    description: Column PRODUCTID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PRODUCTID
+  meta:
+    severity: medium
+    description: Column PRODUCTID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PRODUCT
+  meta:
+    severity: critical
+    description: Column PRODUCT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PRODUCT
+  meta:
+    severity: medium
+    description: Column PRODUCT should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTEID
+  meta:
+    severity: critical
+    description: Column ATTRIBUTEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ATTRIBUTEID
+  meta:
+    severity: medium
+    description: Column ATTRIBUTEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ATTRIBUTE
+  meta:
+    severity: critical
+    description: Column ATTRIBUTE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ATTRIBUTE
+  meta:
+    severity: medium
+    description: Column ATTRIBUTE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NUMERICVALUE
+  meta:
+    severity: critical
+    description: Column NUMERICVALUE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NUMERICVALUE
+  meta:
+    severity: medium
+    description: Column NUMERICVALUE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: TEXTVALUE
+  meta:
+    severity: critical
+    description: Column TEXTVALUE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: TEXTVALUE
+  meta:
+    severity: medium
+    description: Column TEXTVALUE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: MEMOVALUE
+  meta:
+    severity: critical
+    description: Column MEMOVALUE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: MEMOVALUE
+  meta:
+    severity: medium
+    description: Column MEMOVALUE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: BOOLEANVALUE
+  meta:
+    severity: critical
+    description: Column BOOLEANVALUE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: BOOLEANVALUE
+  meta:
+    severity: medium
+    description: Column BOOLEANVALUE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DATEVALUE
+  meta:
+    severity: critical
+    description: Column DATEVALUE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DATEVALUE
+  meta:
+    severity: medium
+    description: Column DATEVALUE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DATETIMEVALUE
+  meta:
+    severity: critical
+    description: Column DATETIMEVALUE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DATETIMEVALUE
+  meta:
+    severity: medium
+    description: Column DATETIMEVALUE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DECIMALVALUE2DP
+  meta:
+    severity: critical
+    description: Column DECIMALVALUE2DP must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DECIMALVALUE2DP
+  meta:
+    severity: medium
+    description: Column DECIMALVALUE2DP should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DECIMALVALUE3DP
+  meta:
+    severity: critical
+    description: Column DECIMALVALUE3DP must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DECIMALVALUE3DP
+  meta:
+    severity: medium
+    description: Column DECIMALVALUE3DP should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SELECTIONVALUEID
+  meta:
+    severity: critical
+    description: Column SELECTIONVALUEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SELECTIONVALUEID
+  meta:
+    severity: medium
+    description: Column SELECTIONVALUEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SELECTIONVALUE
+  meta:
+    severity: critical
+    description: Column SELECTIONVALUE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SELECTIONVALUE
+  meta:
+    severity: medium
+    description: Column SELECTIONVALUE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: TIMEVALUE
+  meta:
+    severity: critical
+    description: Column TIMEVALUE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: TIMEVALUE
+  meta:
+    severity: medium
+    description: Column TIMEVALUE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0

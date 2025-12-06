@@ -36,6 +36,7 @@ from datetime import datetime
 try:
     # Import from the installed fabric_data_quality package
     from dq_framework import DataProfiler
+    from dq_framework.loader import DataLoader
 except ImportError:
     print("❌ Error: fabric_data_quality package not found!")
     print("\nPlease install it first:")
@@ -87,31 +88,31 @@ def profile_parquet_file(
     
     try:
         # Load the data
-        df = pd.read_parquet(file_path)
+        df = DataLoader.load_data(file_path)
         print(f"✅ Loaded {len(df):,} rows, {len(df.columns)} columns")
         
         # Initialize profiler
-        profiler = DataProfiler(
-            name=f"aims_{file_path.stem}",
-            description=f"Data quality validation for {file_path.name}",
-            null_tolerance_pct=null_tolerance,
-            expectation_severity=severity
-        )
+        profiler = DataProfiler(df)
         
         # Profile the data
         print("\n🔍 Analyzing data structure and content...")
-        profile = profiler.profile_dataframe(df)
+        profile = profiler.profile()
         
         # Display profile
-        print_profile_summary(profile, df)
+        profiler.print_summary()
         
         # Generate config if not profile-only mode
         if not profile_only:
             output_dir.mkdir(parents=True, exist_ok=True)
             config_path = output_dir / f"{file_path.stem}_validation.yml"
             
-            config = profiler.generate_config(profile)
-            profiler.save_config(config, config_path)
+            config = profiler.generate_expectations(
+                validation_name=f"aims_{file_path.stem}",
+                description=f"Data quality validation for {file_path.name}",
+                null_tolerance=null_tolerance,
+                severity_threshold=severity
+            )
+            profiler.save_config(config, str(config_path))
             
             print(f"\n✅ Configuration saved to: {config_path}")
             print("\n📝 Next steps:")
@@ -136,40 +137,7 @@ def profile_parquet_file(
         }
 
 
-def print_profile_summary(profile: Dict, df: pd.DataFrame):
-    """Print a formatted summary of the data profile."""
-    print("\n" + "="*60)
-    print("DATA PROFILE SUMMARY")
-    print("="*60)
-    
-    print(f"\n📊 Dataset Overview:")
-    print(f"   Rows: {len(df):,}")
-    print(f"   Columns: {len(df.columns)}")
-    print(f"   Memory: {df.memory_usage(deep=True).sum() / (1024**2):.2f} MB")
-    
-    # Column types
-    print(f"\n📋 Column Types:")
-    type_counts = df.dtypes.value_counts()
-    for dtype, count in type_counts.items():
-        print(f"   {dtype}: {count} columns")
-    
-    # Columns with nulls
-    null_cols = df.isnull().sum()
-    null_cols = null_cols[null_cols > 0]
-    if len(null_cols) > 0:
-        print(f"\n⚠️  Columns with Missing Values:")
-        for col, null_count in null_cols.items():
-            pct = (null_count / len(df)) * 100
-            print(f"   {col}: {null_count:,} ({pct:.1f}%)")
-    else:
-        print(f"\n✅ No missing values detected")
-    
-    # Sample columns
-    print(f"\n📝 Sample Columns ({min(5, len(df.columns))} of {len(df.columns)}):")
-    for col in df.columns[:5]:
-        dtype = df[col].dtype
-        unique = df[col].nunique()
-        print(f"   {col} [{dtype}] - {unique:,} unique values")
+
 
 
 def main():

@@ -1,0 +1,180 @@
+validation_name: aims_aims_projectitemassignedroles
+description: Data quality validation for aims_projectitemassignedroles.parquet
+generated_at: '2025-12-06T15:07:29.224087'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 1
+  profiled_columns: 8
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 8
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PROJECTITEMID
+  meta:
+    severity: critical
+    description: Column PROJECTITEMID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PROJECTITEMID
+  meta:
+    severity: high
+    description: Column PROJECTITEMID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: PROJECTITEMID
+  meta:
+    severity: critical
+    description: ID column PROJECTITEMID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PROJECTITEM
+  meta:
+    severity: critical
+    description: Column PROJECTITEM must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PROJECTITEM
+  meta:
+    severity: medium
+    description: Column PROJECTITEM should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PROJECTITEM
+    min_value: 3
+    max_value: 3
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PROJECTITEMROLE
+  meta:
+    severity: critical
+    description: Column PROJECTITEMROLE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PROJECTITEMROLE
+  meta:
+    severity: medium
+    description: Column PROJECTITEMROLE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PROJECTITEMROLE
+    min_value: 15
+    max_value: 15
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PERSONID
+  meta:
+    severity: critical
+    description: Column PERSONID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PERSONID
+  meta:
+    severity: high
+    description: Column PERSONID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: PERSONID
+  meta:
+    severity: critical
+    description: ID column PERSONID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PERSON
+  meta:
+    severity: critical
+    description: Column PERSON must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PERSON
+  meta:
+    severity: medium
+    description: Column PERSON should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PERSON
+    min_value: 17
+    max_value: 17
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CREATEDBY
+    min_value: 28
+    max_value: 28
+  meta:
+    severity: low
+    description: String length should be within observed range

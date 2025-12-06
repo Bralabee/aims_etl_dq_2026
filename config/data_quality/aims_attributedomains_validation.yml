@@ -1,0 +1,293 @@
+validation_name: aims_aims_attributedomains
+description: Data quality validation for aims_attributedomains.parquet
+generated_at: '2025-12-06T15:07:06.967997'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 783
+  profiled_columns: 15
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 15
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CREATEDBY
+    value_set:
+    - neil.hinson@dito
+    - Ken.Lee@hs2.org.uk
+    - Muneebah.Quyyam@hs2.org.uk
+    - Juliet.Miah@hs2.org.uk
+    - Jordan.Harvey@hs2.org.uk
+    - alex.bradley@ABCon.tech
+    - Neil.Blackett@hs2.org.uk
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: UPDATEDBY
+    value_set:
+    - None
+    - alex.bradley@ABCon.tech
+    - Ken.Lee@hs2.org.uk
+    - Juliet.Miah@hs2.org.uk
+    - Alex.Bradley@hs2.org.uk
+    - Jordan.Harvey@hs2.org.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: LASTUPDATED
+    min_value: 3
+    max_value: 19
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LOWESTEXPECTED
+  meta:
+    severity: critical
+    description: Column LOWESTEXPECTED must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: LOWESTEXPECTED
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HIGHESTEXPECTED
+  meta:
+    severity: critical
+    description: Column HIGHESTEXPECTED must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: HIGHESTEXPECTED
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NAME
+  meta:
+    severity: critical
+    description: Column NAME must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NAME
+  meta:
+    severity: medium
+    description: Column NAME should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NAME
+    min_value: 3
+    max_value: 90
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DOMAINTYPE
+  meta:
+    severity: critical
+    description: Column DOMAINTYPE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DOMAINTYPE
+  meta:
+    severity: medium
+    description: Column DOMAINTYPE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DOMAINTYPE
+    value_set:
+    - Values
+    - Text
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LOWERLIMIT
+  meta:
+    severity: critical
+    description: Column LOWERLIMIT must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: LOWERLIMIT
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPPERLIMIT
+  meta:
+    severity: critical
+    description: Column UPPERLIMIT must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: UPPERLIMIT
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CODE
+  meta:
+    severity: critical
+    description: Column CODE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CODE
+  meta:
+    severity: medium
+    description: Column CODE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CODE
+    min_value: 2
+    max_value: 30
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: VALIDFROM
+  meta:
+    severity: critical
+    description: Column VALIDFROM must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: VALIDFROM
+  meta:
+    severity: medium
+    description: Column VALIDFROM should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: VALIDTO
+  meta:
+    severity: critical
+    description: Column VALIDTO must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: VALIDTO
+  meta:
+    severity: medium
+    description: Column VALIDTO should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: MAXIMUMCHARACTERS
+  meta:
+    severity: critical
+    description: Column MAXIMUMCHARACTERS must exist in the data
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: MAXIMUMCHARACTERS
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories

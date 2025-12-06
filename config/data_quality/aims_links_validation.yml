@@ -1,0 +1,299 @@
+validation_name: aims_aims_links
+description: Data quality validation for aims_links.parquet
+generated_at: '2025-12-06T15:04:20.672338'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 28631
+  profiled_columns: 17
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 17
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ASSETID
+  meta:
+    severity: critical
+    description: Column ASSETID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ASSETID
+  meta:
+    severity: medium
+    description: Column ASSETID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ASSETID
+    min_value: 8
+    max_value: 8
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ASSET
+  meta:
+    severity: critical
+    description: Column ASSET must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ASSET
+  meta:
+    severity: medium
+    description: Column ASSET should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LINKTYPEID
+  meta:
+    severity: critical
+    description: Column LINKTYPEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LINKTYPEID
+  meta:
+    severity: medium
+    description: Column LINKTYPEID should have minimal nulls (currently 1.5%)
+    observed_null_percent: 1.4704341448080753
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LINKTYPE
+  meta:
+    severity: critical
+    description: Column LINKTYPE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LINKTYPE
+  meta:
+    severity: medium
+    description: Column LINKTYPE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ADDRESS
+  meta:
+    severity: critical
+    description: Column ADDRESS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ADDRESS
+  meta:
+    severity: medium
+    description: Column ADDRESS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ADDRESS
+    min_value: 3
+    max_value: 190
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: HS2_CREATEDBY
+  meta:
+    severity: critical
+    description: Column HS2_CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: HS2_CREATEDBY
+  meta:
+    severity: medium
+    description: Column HS2_CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: URL
+  meta:
+    severity: critical
+    description: Column URL must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: URL
+  meta:
+    severity: medium
+    description: Column URL should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DESCRIPTION
+  meta:
+    severity: critical
+    description: Column DESCRIPTION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DESCRIPTION
+  meta:
+    severity: medium
+    description: Column DESCRIPTION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: DESCRIPTION
+    min_value: 1
+    max_value: 100
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FILETYPE
+  meta:
+    severity: critical
+    description: Column FILETYPE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: FILETYPE
+  meta:
+    severity: medium
+    description: Column FILETYPE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: FILETYPE
+    value_set:
+    - None
+    - image/png
+    - image/jpeg
+    - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    - application/pdf
+    - application/zip
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FILENAMEFIELD
+  meta:
+    severity: critical
+    description: Column FILENAMEFIELD must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: FILENAMEFIELD
+  meta:
+    severity: medium
+    description: Column FILENAMEFIELD should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: FILENAMEFIELD
+    min_value: 4
+    max_value: 139
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: FILESIZE
+  meta:
+    severity: critical
+    description: Column FILESIZE must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: FILESIZE
+    min_value: 3
+    max_value: 11
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: VALIDFROM
+  meta:
+    severity: critical
+    description: Column VALIDFROM must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: VALIDFROM
+  meta:
+    severity: medium
+    description: Column VALIDFROM should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: VALIDTO
+  meta:
+    severity: critical
+    description: Column VALIDTO must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: VALIDTO
+  meta:
+    severity: medium
+    description: Column VALIDTO should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0

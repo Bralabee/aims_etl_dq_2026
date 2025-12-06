@@ -33,10 +33,12 @@ echo "=============================================================="
 echo ""
 
 # Determine project root
-AIMS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-FABRIC_DQ_DIR="$(cd "$AIMS_DIR/../fabric_data_quality" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Assuming script is in AIMS_LOCAL/scripts
+AIMS_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+FABRIC_DQ_DIR="$(cd "$AIMS_ROOT/../fabric_data_quality" && pwd)"
 
-echo -e "${BLUE}📁 AIMS_LOCAL directory:${NC} $AIMS_DIR"
+echo -e "${BLUE}📁 AIMS_LOCAL directory:${NC} $AIMS_ROOT"
 echo -e "${BLUE}📁 fabric_data_quality directory:${NC} $FABRIC_DQ_DIR"
 echo ""
 
@@ -83,7 +85,7 @@ echo "Step 2: Creating directory structure"
 echo "=============================================================="
 echo ""
 
-cd "$AIMS_DIR"
+cd "$AIMS_ROOT"
 
 mkdir -p config/data_quality
 mkdir -p logs
@@ -130,7 +132,7 @@ echo "Step 4: Testing with sample data"
 echo "=============================================================="
 echo ""
 
-DATA_DIR="$AIMS_DIR/data/Samples_LH_Bronze_Aims_26_parquet"
+DATA_DIR="$AIMS_ROOT/data/Samples_LH_Bronze_Aims_26_parquet"
 
 if [ -d "$DATA_DIR" ]; then
     FILE_COUNT=$(find "$DATA_DIR" -name "*.parquet" | wc -l)
@@ -158,7 +160,7 @@ echo "Usage Examples:"
 echo "----------------------------------------"
 echo ""
 echo "1. Profile all parquet files:"
-echo "   cd $AIMS_DIR"
+echo "   cd $AIMS_ROOT"
 echo "   python profile_aims_parquet.py"
 echo ""
 echo "2. Profile specific file:"

@@ -1,0 +1,205 @@
+validation_name: aims_aims_ua_noncompimppartytypes
+description: Data quality validation for aims_ua_noncompimppartytypes.parquet
+generated_at: '2025-12-06T15:04:20.717041'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 40
+  profiled_columns: 9
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 9
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: critical
+    description: Column CREATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CREATEDBY
+  meta:
+    severity: medium
+    description: Column CREATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CREATEDBY
+    min_value: 22
+    max_value: 30
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: critical
+    description: Column WHENCREATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WHENCREATED
+  meta:
+    severity: medium
+    description: Column WHENCREATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: critical
+    description: Column UPDATEDBY must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UPDATEDBY
+  meta:
+    severity: medium
+    description: Column UPDATEDBY should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: UPDATEDBY
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: critical
+    description: Column LASTUPDATED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LASTUPDATED
+  meta:
+    severity: medium
+    description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: LASTUPDATED
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NONCOMPLIANCEID
+  meta:
+    severity: critical
+    description: Column NONCOMPLIANCEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NONCOMPLIANCEID
+  meta:
+    severity: medium
+    description: Column NONCOMPLIANCEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NONCOMPLIANCEID
+    min_value: 3
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: NONCOMPLIANCE
+  meta:
+    severity: critical
+    description: Column NONCOMPLIANCE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: NONCOMPLIANCE
+  meta:
+    severity: medium
+    description: Column NONCOMPLIANCE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: NONCOMPLIANCE
+    min_value: 6
+    max_value: 7
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OPTIONSETVALUEID
+  meta:
+    severity: critical
+    description: Column OPTIONSETVALUEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OPTIONSETVALUEID
+  meta:
+    severity: medium
+    description: Column OPTIONSETVALUEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: OPTIONSETVALUEID
+    min_value: 3
+    max_value: 3
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: OPTIONSETVALUE
+  meta:
+    severity: critical
+    description: Column OPTIONSETVALUE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OPTIONSETVALUE
+  meta:
+    severity: medium
+    description: Column OPTIONSETVALUE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: OPTIONSETVALUE
+    min_value: 10
+    max_value: 21
+  meta:
+    severity: low
+    description: String length should be within observed range

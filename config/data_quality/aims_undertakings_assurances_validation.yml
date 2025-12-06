@@ -1,0 +1,686 @@
+validation_name: aims_aims_undertakings_assurances
+description: Data quality validation for aims_undertakings_assurances.parquet
+generated_at: '2025-12-06T15:05:01.525953'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 4952
+  profiled_columns: 33
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 33
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DOORSID
+  meta:
+    severity: critical
+    description: Column DOORSID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DOORSID
+  meta:
+    severity: high
+    description: Column DOORSID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: DOORSID
+  meta:
+    severity: critical
+    description: ID column DOORSID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: TYPE
+  meta:
+    severity: critical
+    description: Column TYPE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: TYPE
+  meta:
+    severity: medium
+    description: Column TYPE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: TYPE
+    value_set:
+    - Assurances
+    - Undertakings
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: STATUS
+  meta:
+    severity: critical
+    description: Column STATUS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: STATUS
+  meta:
+    severity: medium
+    description: Column STATUS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: STATUS
+    value_set:
+    - Superseded
+    - Current
+    - Discharged - After Royal Assent
+    - Discharged - Pre Royal Assent
+    - Deleted
+    - Object Heading
+    - No longer applicable
+    - Confidential- DO NOT DISTRIBUTE
+    - Pending signature
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: REFERENCEID
+  meta:
+    severity: critical
+    description: Column REFERENCEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: REFERENCEID
+  meta:
+    severity: high
+    description: Column REFERENCEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: REFERENCEID
+  meta:
+    severity: critical
+    description: ID column REFERENCEID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SUBJECT
+  meta:
+    severity: critical
+    description: Column SUBJECT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SUBJECT
+  meta:
+    severity: medium
+    description: Column SUBJECT should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: SUBJECT
+    min_value: 3
+    max_value: 231
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UATEXT
+  meta:
+    severity: critical
+    description: Column UATEXT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UATEXT
+  meta:
+    severity: medium
+    description: Column UATEXT should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UAREFERENCE
+  meta:
+    severity: critical
+    description: Column UAREFERENCE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UAREFERENCE
+  meta:
+    severity: medium
+    description: Column UAREFERENCE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: LINKTODOCUMENT
+  meta:
+    severity: critical
+    description: Column LINKTODOCUMENT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: LINKTODOCUMENT
+  meta:
+    severity: medium
+    description: Column LINKTODOCUMENT should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: LINKTODOCUMENT
+    value_set:
+    - Link
+    - https://eb.hs2.org.uk/eb/Framework/Default.aspx?o=7638451&t=3&i=view
+    - 'Beneficiary Record:
+
+      https://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=HS2-HS2-HY-REC-000-000037&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view
+
+
+      Note on Clause 9:
+
+
+      https://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=C224-HS2-HY-NOT-030-000001&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view'
+    - "TfL\nhttps://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=HS2-HS2-HY-REC-000-000195&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view\
+      \ \n\nGLA\nhttps://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=HS2-HS2-HY-REC-010-000002&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view"
+    - 'DB Schenker
+
+      https://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=HS2-HS2-HY-REC-000-000235&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view
+
+
+      Freightliner
+
+      https://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=HS2-HS2-HY-REC-000-000254&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view'
+    - 'Solihull Metropolitan Borough Council
+
+      https://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=HS2-HS2-HY-REC-000-000089&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view
+
+
+      Heneage James Daniel Finch-Knightly (Lord Guernsey)
+
+      https://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=HS2-HS2-HY-REC-000-000037&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view
+
+
+      Birmingham City Council
+
+      https://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=HS2-HS2-HY-REC-040-000060&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view
+
+
+      Coleshill Estate
+
+      https://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=HS2-HS2-HY-REC-040-000061&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view'
+    - 'Solihull Metropolitan Borough Council
+
+      https://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=HS2-HS2-HY-REC-000-000089&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view
+
+
+      Heneage James Daniel Finch-Knightly (Lord Guernsey)
+
+      https://eb.hs2.org.uk/eB/Search/QuickLink.aspx?n=HS2-HS2-HY-REC-000-000037&t=3&d=Main%5chs2-eb-db-prod&sc=Global&state=LatestRevision&i=view'
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DATEISSUED
+  meta:
+    severity: critical
+    description: Column DATEISSUED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DATEISSUED
+  meta:
+    severity: medium
+    description: Column DATEISSUED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: SPECIFICLOCATION
+  meta:
+    severity: critical
+    description: Column SPECIFICLOCATION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SPECIFICLOCATION
+  meta:
+    severity: medium
+    description: Column SPECIFICLOCATION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: SPECIFICLOCATION
+    min_value: 3
+    max_value: 786
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CHAINAGEFROM
+  meta:
+    severity: critical
+    description: Column CHAINAGEFROM must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CHAINAGEFROM
+  meta:
+    severity: medium
+    description: Column CHAINAGEFROM should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CHAINAGEFROM
+    min_value: 1
+    max_value: 19
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CHAINAGETO
+  meta:
+    severity: critical
+    description: Column CHAINAGETO must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CHAINAGETO
+  meta:
+    severity: medium
+    description: Column CHAINAGETO should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CHAINAGETO
+    min_value: 1
+    max_value: 19
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CURRENTRDPS
+  meta:
+    severity: critical
+    description: Column CURRENTRDPS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CURRENTRDPS
+  meta:
+    severity: medium
+    description: Column CURRENTRDPS should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CURRENTRDPS
+    min_value: 1
+    max_value: 623
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CHALLENGES
+  meta:
+    severity: critical
+    description: Column CHALLENGES must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CHALLENGES
+  meta:
+    severity: medium
+    description: Column CHALLENGES should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CHALLENGES
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CORDP
+  meta:
+    severity: critical
+    description: Column CORDP must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CORDP
+  meta:
+    severity: medium
+    description: Column CORDP should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: UASECTION
+  meta:
+    severity: critical
+    description: Column UASECTION must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: UASECTION
+  meta:
+    severity: medium
+    description: Column UASECTION should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PARENTID
+  meta:
+    severity: critical
+    description: Column PARENTID must exist in the data
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PARENTID
+    min_value: 5
+    max_value: 6
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PARENT
+  meta:
+    severity: critical
+    description: Column PARENT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PARENT
+  meta:
+    severity: medium
+    description: Column PARENT should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: COMMITMENTOWNERID
+  meta:
+    severity: critical
+    description: Column COMMITMENTOWNERID must exist in the data
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: COMMITMENTOWNER
+  meta:
+    severity: critical
+    description: Column COMMITMENTOWNER must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: COMMITMENTOWNER
+  meta:
+    severity: medium
+    description: Column COMMITMENTOWNER should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PHASEID
+  meta:
+    severity: critical
+    description: Column PHASEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PHASEID
+  meta:
+    severity: medium
+    description: Column PHASEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: PHASEID
+    value_set:
+    - '13000015'
+    - '13000016'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PHASE
+  meta:
+    severity: critical
+    description: Column PHASE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PHASE
+  meta:
+    severity: medium
+    description: Column PHASE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: PHASE
+    value_set:
+    - Phase 1 - London to Birmingham & Handsacre
+    - Phase 2a - Accelerated route to Crewe (Streethay Jn - Crewe)
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: DISCHARGEPROGRESSSTATUS
+  meta:
+    severity: critical
+    description: Column DISCHARGEPROGRESSSTATUS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: DISCHARGEPROGRESSSTATUS
+  meta:
+    severity: medium
+    description: Column DISCHARGEPROGRESSSTATUS should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: DISCHARGEPROGRESSSTATUS
+    value_set:
+    - None
+    - Completed
+    - Ready for discharge
+    - Approved by SP DWS
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: IPTREPORTINGID
+  meta:
+    severity: critical
+    description: Column IPTREPORTINGID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: IPTREPORTINGID
+  meta:
+    severity: medium
+    description: Column IPTREPORTINGID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: IPTREPORTINGID
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: IPTREPORTING
+  meta:
+    severity: critical
+    description: Column IPTREPORTING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: IPTREPORTING
+  meta:
+    severity: medium
+    description: Column IPTREPORTING should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: IPTREPORTING
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CMRESPONSIBLEID
+  meta:
+    severity: critical
+    description: Column CMRESPONSIBLEID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CMRESPONSIBLEID
+  meta:
+    severity: medium
+    description: Column CMRESPONSIBLEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CMRESPONSIBLEID
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CMRESPONSIBLE
+  meta:
+    severity: critical
+    description: Column CMRESPONSIBLE must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CMRESPONSIBLE
+  meta:
+    severity: medium
+    description: Column CMRESPONSIBLE should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CMRESPONSIBLE
+    value_set:
+    - None
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CONFIDENTIALITYSTATUS
+  meta:
+    severity: critical
+    description: Column CONFIDENTIALITYSTATUS must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CONFIDENTIALITYSTATUS
+  meta:
+    severity: medium
+    description: Column CONFIDENTIALITYSTATUS should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CONFIDENTIALITYSTATUS
+    value_set:
+    - None
+    - Not confidential
+    - Redacted
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: PCRNUMBER
+  meta:
+    severity: critical
+    description: Column PCRNUMBER must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: PCRNUMBER
+  meta:
+    severity: medium
+    description: Column PCRNUMBER should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: PCRNUMBER
+    min_value: 1
+    max_value: 89
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: THIRDPARTYAGREEMENT
+  meta:
+    severity: critical
+    description: Column THIRDPARTYAGREEMENT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: THIRDPARTYAGREEMENT
+  meta:
+    severity: medium
+    description: Column THIRDPARTYAGREEMENT should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: THIRDPARTYAGREEMENT
+    value_set:
+    - None
+    - 'Yes'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: WBSSECTOR
+  meta:
+    severity: critical
+    description: Column WBSSECTOR must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: WBSSECTOR
+  meta:
+    severity: medium
+    description: Column WBSSECTOR should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CCPCCCPPROVIDED
+  meta:
+    severity: critical
+    description: Column CCPCCCPPROVIDED must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CCPCCCPPROVIDED
+  meta:
+    severity: medium
+    description: Column CCPCCCPPROVIDED should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0

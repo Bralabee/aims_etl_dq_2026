@@ -1,0 +1,129 @@
+validation_name: aims_aims_assetconsents
+description: Data quality validation for aims_assetconsents.parquet
+generated_at: '2025-12-06T15:07:06.472629'
+data_source:
+  type: runtime_dataframe
+  profiled_rows: 6797
+  profiled_columns: 5
+quality_thresholds:
+  critical: 100.0
+  high: 95.0
+  medium: 80.0
+  low: 50.0
+expectations:
+- expectation_type: expect_table_row_count_to_be_between
+  kwargs:
+    min_value: 1
+    max_value: null
+  meta:
+    severity: critical
+    description: Table should not be empty
+- expectation_type: expect_table_column_count_to_equal
+  kwargs:
+    value: 5
+  meta:
+    severity: high
+    description: Detect schema drift - column count should remain stable
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: Column ID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ID
+  meta:
+    severity: high
+    description: Column ID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_unique
+  kwargs:
+    column: ID
+  meta:
+    severity: critical
+    description: ID column ID must have unique values
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CONSENTID
+  meta:
+    severity: critical
+    description: Column CONSENTID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CONSENTID
+  meta:
+    severity: medium
+    description: Column CONSENTID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CONSENTID
+    min_value: 3
+    max_value: 4
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: CONSENT
+  meta:
+    severity: critical
+    description: Column CONSENT must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: CONSENT
+  meta:
+    severity: medium
+    description: Column CONSENT should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: CONSENT
+    min_value: 14
+    max_value: 14
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ASSETID
+  meta:
+    severity: critical
+    description: Column ASSETID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ASSETID
+  meta:
+    severity: medium
+    description: Column ASSETID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ASSETID
+    min_value: 8
+    max_value: 8
+  meta:
+    severity: low
+    description: String length should be within observed range
+- expectation_type: expect_column_to_exist
+  kwargs:
+    column: ASSET
+  meta:
+    severity: critical
+    description: Column ASSET must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ASSET
+  meta:
+    severity: medium
+    description: Column ASSET should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ASSET
+    min_value: 20
+    max_value: 117
+  meta:
+    severity: low
+    description: String length should be within observed range
