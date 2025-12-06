@@ -36,3 +36,11 @@ logs/
 *.log
 .DS_Store
 dq_great_expectations/uncommitted/
+
+# Testing and Caches
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Temporary/Generated Folders
+abc64232-25a2-499d-90ae-9fe5939ae437/
+.work-folder-info
