@@ -20,7 +20,7 @@ A complete, production-ready data quality pipeline for AIMS parquet files featur
 
 ### Libraries
 - **dq_framework** - Custom DQ library built on Great Expectations
-- Pre-built wheel: `dq_great_expectations/dq_package_dist/fabric_data_quality-1.0.0-py3-none-any.whl`
+- Pre-built wheel: `dq_great_expectations/dq_package_dist/fabric_data_quality-1.1.3-py3-none-any.whl`
 
 ### State Management
 - `data/state/watermarks.json` - Tracks processed files (idempotency)
@@ -62,6 +62,20 @@ jupyter notebook notebooks/
 - ✅ 68 YAML configs generated
 - ✅ 68 files validated  
 - ✅ 5 interactive dashboards displayed
+
+### Step 3: CLI Execution (Alternative)
+
+You can also run the pipeline from the command line:
+
+```bash
+# Run full pipeline
+python scripts/run_pipeline.py run-all
+
+# Run with custom options
+python scripts/run_pipeline.py ingest --force --workers 8
+```
+
+See `ORCHESTRATION_GUIDE.md` for full CLI documentation.
 
 ---
 

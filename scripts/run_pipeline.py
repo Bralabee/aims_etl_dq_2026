@@ -7,16 +7,19 @@ Executes the data ingestion process with Data Quality checks.
 This script is designed to be run via cron or CI/CD pipelines.
 
 Usage:
-    python run_pipeline.py [--force] [--dry-run]
+    python run_pipeline.py [--force] [--dry-run] [--workers N] [--threshold N.N]
 
 Options:
-    --force     Ignore watermarks and re-process all files
-    --dry-run   Run validation but do not update state or move files
+    --force         Ignore watermarks and re-process all files
+    --dry-run       Run validation but do not update state or move files
+    --workers N     Number of parallel workers (default: 4)
+    --threshold N.N Global quality threshold 0-100 (overrides defaults)
 """
 
 import os
 import sys
 import json
+import time
 import argparse
 import logging
 import requests
@@ -51,7 +54,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Paths
-BASE_DIR = Path(os.getenv("BASE_DIR", "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/AIMS_LOCAL"))
+# Default to the project root (two levels up from scripts/run_pipeline.py)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(os.getenv("BASE_DIR", str(PROJECT_ROOT)))
 DATA_PATH = BASE_DIR / os.getenv("DATA_PATH", "data/Samples_LH_Bronze_Aims_26_parquet")
 CONFIG_DIR = BASE_DIR / os.getenv("CONFIG_DIR", "dq_great_expectations/generated_configs")
 STATE_DIR = BASE_DIR / os.getenv("STATE_DIR", "data/state")
@@ -144,18 +149,19 @@ def is_processed(file_name):
     watermarks = load_watermarks()
     return file_name in watermarks
 
-def log_dq_result(file_name, status, score, details=None):
+def log_dq_result(file_name, status, score, details=None, lineage=None):
     entry = {
         "timestamp": datetime.now().isoformat(),
         "file": file_name,
         "status": status,
         "score": score,
-        "details": details or {}
+        "details": details or {},
+        "lineage": lineage or {}
     }
     with open(DQ_LOG_FILE, "a") as f:
         f.write(json.dumps(entry) + "\n")
 
-def process_single_file(file_path_str, config_dir_str):
+def process_single_file(file_path_str, config_dir_str, threshold=None):
     """
     Process a single file.
     Returns a dict with results.
@@ -164,45 +170,72 @@ def process_single_file(file_path_str, config_dir_str):
     file_name = file_path.name
     config_dir = Path(config_dir_str)
     
-    try:
-        # 1. DQ Check
-        config_name = file_name.replace('.parquet', '_validation.yml')
-        config_path = config_dir / config_name
-        
-        if not config_path.exists():
+    MAX_RETRIES = 3
+    RETRY_DELAY = 5
+    
+    last_error = None
+    
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            # 1. DQ Check
+            config_name = file_name.replace('.parquet', '_validation.yml')
+            config_path = config_dir / config_name
+            
+            if not config_path.exists():
+                return {
+                    "file_name": file_name,
+                    "status": "SKIPPED_NO_CONFIG",
+                    "score": 0.0,
+                    "failures": [],
+                    "lineage": {}
+                }
+            
+            validator = DataQualityValidator(config_path=str(config_path))
+            df_batch = DataLoader.load_data(str(file_path), sample_size=100000)
+            result = validator.validate(df_batch, threshold=threshold)
+            
+            validation_passed = result['success']
+            score = result['success_rate']
+            failures = result.get('failed_expectations', [])
+            threshold_failures = result.get('threshold_failures', [])
+            
+            lineage = {
+                "source_path": str(file_path),
+                "config_path": str(config_path),
+                "file_size_bytes": file_path.stat().st_size,
+                "modification_time": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat(),
+                "validation_timestamp": datetime.now().isoformat(),
+                "host": os.uname().nodename
+            }
+            
             return {
                 "file_name": file_name,
-                "status": "SKIPPED_NO_CONFIG",
-                "score": 0.0,
-                "failures": []
+                "status": "PASSED" if validation_passed else "FAILED",
+                "score": score,
+                "failures": failures,
+                "threshold_failures": threshold_failures,
+                "lineage": lineage
             }
-        
-        validator = DataQualityValidator(config_path=str(config_path))
-        df_batch = DataLoader.load_data(str(file_path), sample_size=100000)
-        result = validator.validate(df_batch)
-        
-        validation_passed = result['success']
-        score = result['success_rate']
-        failures = result.get('failed_expectations', [])
-        
-        return {
-            "file_name": file_name,
-            "status": "PASSED" if validation_passed else "FAILED",
-            "score": score,
-            "failures": failures
-        }
 
-    except Exception as e:
-        return {
-            "file_name": file_name,
-            "status": "ERROR",
-            "score": 0.0,
-            "error": str(e)
-        }
+        except Exception as e:
+            last_error = e
+            if attempt < MAX_RETRIES:
+                logger.warning(f"⚠️ Attempt {attempt}/{MAX_RETRIES} failed for {file_name}: {e}. Retrying in {RETRY_DELAY}s...")
+                time.sleep(RETRY_DELAY)
+            else:
+                logger.error(f"❌ All {MAX_RETRIES} attempts failed for {file_name}.")
+
+    return {
+        "file_name": file_name,
+        "status": "ERROR",
+        "score": 0.0,
+        "error": str(last_error),
+        "lineage": {}
+    }
 
 # --- Main Pipeline ---
 
-def run_pipeline(force=False, dry_run=False, max_workers=4):
+def run_pipeline(force=False, dry_run=False, max_workers=4, threshold=None):
     logger.info(f"🚀 Starting AIMS Data Quality Pipeline (Workers: {max_workers})")
     
     if not DATA_PATH.exists():
@@ -238,7 +271,7 @@ def run_pipeline(force=False, dry_run=False, max_workers=4):
     with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
         # Submit all tasks
         future_to_file = {
-            executor.submit(process_single_file, str(fp), str(CONFIG_DIR)): fp 
+            executor.submit(process_single_file, str(fp), str(CONFIG_DIR), threshold): fp 
             for fp in files_to_process
         }
         
@@ -251,6 +284,8 @@ def run_pipeline(force=False, dry_run=False, max_workers=4):
                 status = result["status"]
                 score = result.get("score", 0.0)
                 
+                lineage = result.get("lineage", {})
+
                 if status == "SKIPPED_NO_CONFIG":
                     logger.warning(f"No config found for {file_name}. Skipping DQ.")
                     # Treat as passed but with warning? Or skipped?
@@ -259,7 +294,7 @@ def run_pipeline(force=False, dry_run=False, max_workers=4):
                     # Or maybe skipped is better.
                     # Original: validation_passed = True, score = 0.0
                     if not dry_run:
-                        log_dq_result(file_name, "PASSED", 0.0, {"note": "No config found"})
+                        log_dq_result(file_name, "PASSED", 0.0, {"note": "No config found"}, lineage)
                         save_watermark(file_name)
                     stats["passed"] += 1
                     stats["processed"] += 1
@@ -267,24 +302,43 @@ def run_pipeline(force=False, dry_run=False, max_workers=4):
                 elif status == "PASSED":
                     logger.info(f"✅ DQ Passed: {file_name} (Score: {score:.1f}%)")
                     if not dry_run:
-                        log_dq_result(file_name, "PASSED", score, {"failed_count": 0})
+                        log_dq_result(file_name, "PASSED", score, {"failed_count": 0}, lineage)
                         save_watermark(file_name)
+                    else:
+                        logger.info(f"[DRY RUN] Lineage for {file_name}: {lineage}")
                     stats["passed"] += 1
                     stats["processed"] += 1
                     
                 elif status == "FAILED":
                     failures = result.get("failures", [])
-                    logger.warning(f"❌ DQ Failed: {file_name} (Score: {score:.1f}%) - {len(failures)} failures")
+                    threshold_failures = result.get("threshold_failures", [])
+                    
+                    failure_msg = f"❌ DQ Failed: {file_name} (Score: {score:.1f}%) - {len(failures)} failures"
+                    if threshold_failures:
+                        failure_msg += f". Thresholds missed: {', '.join(threshold_failures)}"
+                    
+                    logger.warning(failure_msg)
+                    
                     if not dry_run:
                         log_dq_result(
                             file_name, 
                             "FAILED", 
                             score, 
-                            {"failed_count": len(failures), "failures": failures[:5]}
+                            {
+                                "failed_count": len(failures), 
+                                "failures": failures[:5],
+                                "threshold_failures": threshold_failures
+                            },
+                            lineage
                         )
                         alert_msg = f"❌ DQ Failed: *{file_name}*\nScore: {score:.1f}%\nFailures: {len(failures)}"
-                        send_slack_alert(alert_msg, severity="error")
-                        send_teams_alert(alert_msg, severity="error")
+                        if threshold_failures:
+                            alert_msg += f"\nThresholds: {', '.join(threshold_failures)}"
+                            
+                        send_teams_alert(alert_msg, severity="warning")
+                        send_slack_alert(alert_msg, severity="warning")
+                    else:
+                        logger.info(f"[DRY RUN] Lineage for {file_name}: {lineage}")
                     stats["failed"] += 1
                     stats["processed"] += 1
                     
@@ -292,7 +346,7 @@ def run_pipeline(force=False, dry_run=False, max_workers=4):
                     error_msg = result.get("error", "Unknown error")
                     logger.error(f"💥 Error processing {file_name}: {error_msg}")
                     if not dry_run:
-                        log_dq_result(file_name, "ERROR", 0.0, {"error": error_msg})
+                        log_dq_result(file_name, "ERROR", 0.0, {"error": error_msg}, lineage)
                         alert_msg = f"💥 Pipeline Error: {file_name}\n{error_msg}"
                         send_slack_alert(alert_msg, severity="error")
                         send_teams_alert(alert_msg, severity="error")
@@ -326,7 +380,8 @@ if __name__ == "__main__":
     parser.add_argument("--force", action="store_true", help="Ignore watermarks")
     parser.add_argument("--dry-run", action="store_true", help="Simulate run")
     parser.add_argument("--workers", type=int, default=4, help="Number of parallel workers")
+    parser.add_argument("--threshold", type=float, default=None, help="Global quality threshold (0-100)")
     
     args = parser.parse_args()
     
-    run_pipeline(force=args.force, dry_run=args.dry_run, max_workers=args.workers)
+    run_pipeline(force=args.force, dry_run=args.dry_run, max_workers=args.workers, threshold=args.threshold)

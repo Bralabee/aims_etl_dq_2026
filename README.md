@@ -20,16 +20,34 @@ Profile your AIMS parquet files to understand data quality and generate validati
 
 ```bash
 # Setup (one-time)
-bash setup_aims_profiling.sh
+bash setup.sh
 
 # Profile all parquet files
-python profile_aims_parquet.py
+python scripts/profile_aims_parquet.py
 
 # Or use Jupyter notebook for interactive profiling
 jupyter notebook notebooks/03_Profile_AIMS_Data.ipynb
 ```
 
 **📖 See [README_PROFILING.md](README_PROFILING.md) for complete documentation.**
+
+## 🚀 Pipeline Runner (NEW!)
+
+Run the end-to-end data quality pipeline with configurable thresholds:
+
+```bash
+# Run pipeline with default settings (dry-run)
+python scripts/run_pipeline.py --dry-run
+
+# Run with a global 90% success threshold
+python scripts/run_pipeline.py --dry-run --threshold 90.0
+
+# Force re-processing of all files with more workers
+python scripts/run_pipeline.py --force --threshold 95.0 --workers 8
+```
+
+The `--threshold` flag sets a global baseline. Files with specific configurations (in `dq_great_expectations/generated_configs/`) will use their specific thresholds if defined, otherwise they default to this global value.
+The `--workers` flag controls parallelism (default: 4).
 
 ## Quick Start
 

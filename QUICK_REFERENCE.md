@@ -68,6 +68,18 @@ rm data/state/watermarks.json
 # Then run Notebooks 02 & 03
 ```
 
+### CLI Operations (Alternative to Notebooks)
+```bash
+# Run pipeline (dry-run)
+python scripts/run_pipeline.py --dry-run
+
+# Run with custom threshold
+python scripts/run_pipeline.py --threshold 90.0
+
+# Force re-process all files
+python scripts/run_pipeline.py --force --workers 8
+```
+
 ### Investigate Failures
 ```bash
 # Run Notebook 03, then check:
