@@ -94,3 +94,64 @@ def test_validator_missing_column(config_file):
     
     # Missing column usually causes validation failure
     assert result['success'] is False
+
+def test_validator_custom_thresholds():
+    """Test validation with custom thresholds."""
+    # Config with 80% threshold
+    config = {
+        'validation_name': 'test_thresholds',
+        'quality_thresholds': {
+            'critical': 80.0
+        },
+        'expectations': [
+            {
+                'expectation_type': 'expect_column_values_to_not_be_null',
+                'kwargs': {'column': 'id'},
+                'meta': {'severity': 'critical'}
+            },
+            {
+                'expectation_type': 'expect_column_values_to_be_unique',
+                'kwargs': {'column': 'id'},
+                'meta': {'severity': 'critical'}
+            }
+        ]
+    }
+    
+    # Create temp file
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.yml', delete=False) as tmp:
+        yaml.dump(config, tmp)
+        tmp_path = tmp.name
+        
+    try:
+        # Create bad data
+        # id: [1, 1, 2] -> Unique fails. Not null passes.
+        bad_df = pd.DataFrame({
+            'id': [1, 1, 2]
+        })
+        
+        validator = DataQualityValidator(tmp_path)
+        result = validator.validate(bad_df)
+        
+        # 1 pass (not null), 1 fail (unique) -> 50% score.
+        assert result['success_rate'] == 50.0
+        
+        # Threshold is 80%, so it should fail
+        assert result['success'] is False
+        # The error message format depends on implementation, checking substring
+        assert any("Severity 'critical' threshold 80.0% failed" in f for f in result['threshold_failures'])
+        
+        # Now update config to 40% threshold
+        config['quality_thresholds']['critical'] = 40.0
+        with open(tmp_path, 'w') as f:
+            yaml.dump(config, f)
+            
+        validator = DataQualityValidator(tmp_path)
+        result = validator.validate(bad_df)
+        
+        # 50% score > 40% threshold -> PASS
+        assert result['success'] is True
+        assert len(result['threshold_failures']) == 0
+        
+    finally:
+        if os.path.exists(tmp_path):
+            os.remove(tmp_path)
