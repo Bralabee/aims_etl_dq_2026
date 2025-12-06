@@ -31,17 +31,18 @@ The "Fabric way" to handle configuration (replacing `.env` files) is to use **Sp
 ### Option A: Fabric Environment Variables (Recommended)
 1.  Open your `AIMS_Env` Environment.
 2.  Go to **Spark Properties** (or **Custom Configuration**).
-3.  Add the following **Environment Variables** (Keys must match exactly what the notebook expects):
+3.  Add the following **Environment Variables**.
+    *   **Important**: Use **Relative Paths** (folder names only). The notebook automatically maps these to your Lakehouse structure (`/lakehouse/default/Files/...`).
 
-    | Key | Value (Example) |
-    | :--- | :--- |
-    | `BRONZE_PATH` | `data/Samples_LH_Bronze_Aims_26_parquet` |
-    | `SILVER_PATH` | `data/Silver` |
-    | `GOLD_PATH` | `data/Gold` |
-    | `CONFIG_DIR` | `dq_configs` |
-    | `STATE_DIR` | `data/state` |
+    | Key | Value (Your Specific Setup) | Description |
+    | :--- | :--- | :--- |
+    | `BRONZE_PATH` | `13-11-2025` | The folder containing your raw parquet files. |
+    | `SILVER_PATH` | `Silver` | Where validated data will be saved. |
+    | `GOLD_PATH` | `Gold` | Where aggregated data will be saved. |
+    | `CONFIG_DIR` | `dq_configs` | Where validation rules are stored. |
+    | `STATE_DIR` | `state` | Where logs and watermarks are stored. |
 
-    *Note: Use **relative paths** (e.g., `data/Silver`) because the notebook automatically prepends `/lakehouse/default/Files/`.*
+    *Resulting Path*: `BRONZE_PATH` will resolve to `abfss://.../Files/13-11-2025`.
 
 ### Option B: Startup Script (Robust Alternative)
 1.  Create a python script named `set_env.py` locally:
