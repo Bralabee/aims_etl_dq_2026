@@ -30,9 +30,18 @@ The "Fabric way" to handle configuration (replacing `.env` files) is to use **Sp
 
 ### Option A: Fabric Environment Variables (Recommended)
 1.  Open your `AIMS_Env` Environment.
-2.  Go to **Spark Properties** (or **Custom Configuration** depending on your Fabric version).
-3.  Add the following **Environment Variables** (usually defined in the `spark.driver.extraJavaOptions` or similar, but Fabric has a dedicated UI for this now, or you can use a startup script).
-    *   *Note: If the UI for Env Vars is not available, use Option B or a startup script.*
+2.  Go to **Spark Properties** (or **Custom Configuration**).
+3.  Add the following **Environment Variables** (Keys must match exactly what the notebook expects):
+
+    | Key | Value (Example) |
+    | :--- | :--- |
+    | `BRONZE_PATH` | `data/Samples_LH_Bronze_Aims_26_parquet` |
+    | `SILVER_PATH` | `data/Silver` |
+    | `GOLD_PATH` | `data/Gold` |
+    | `CONFIG_DIR` | `dq_configs` |
+    | `STATE_DIR` | `data/state` |
+
+    *Note: Use **relative paths** (e.g., `data/Silver`) because the notebook automatically prepends `/lakehouse/default/Files/`.*
 
 ### Option B: Startup Script (Robust Alternative)
 1.  Create a python script named `set_env.py` locally:
