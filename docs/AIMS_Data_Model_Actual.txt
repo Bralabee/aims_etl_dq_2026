@@ -1,8 +1,8 @@
 // AIMS Data Model (Reversed from Parquet Data)
-// Generated on 2025-12-07 17:57:16.786081
+// Generated on 2025-12-07 17:58:39.663090
 
 Table Activitydates {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     NAME varchar(255)
     ACTIVITYID varchar(255)
     INITIALDATE varchar(255)
@@ -13,7 +13,7 @@ Table Activitydates {
 }
 
 Table AssetAttributes {
-    ID integer
+    ID integer [primary key]
     ASSETID varchar(255)
     ASSET integer
     ATTRIBUTEID varchar(255)
@@ -74,7 +74,7 @@ Table AssetAttributes {
 }
 
 Table AssetClassAttributes {
-    ID integer
+    ID integer [primary key]
     ASSETCLASSID varchar(255)
     ASSETCLASS integer
     ATTRIBUTEID varchar(255)
@@ -102,7 +102,7 @@ Table AssetClassAttributes {
 }
 
 Table AssetClassChangeLogs {
-    ID integer
+    ID integer [primary key]
     ASSETCLASSID varchar(255)
     ASSETCLASS integer
     CHANGEDATE string
@@ -110,7 +110,7 @@ Table AssetClassChangeLogs {
 }
 
 Table AssetClasses {
-    ID integer
+    ID integer [primary key]
     CODE string
     NAME string
     PARENTID varchar(255)
@@ -153,7 +153,7 @@ Table AssetClasses {
 }
 
 Table AssetClassRelationships {
-    ID integer
+    ID integer [primary key]
     SOURCEASSETCLASSID varchar(255)
     SOURCEASSETCLASS integer
     TARGETASSETCLASSID varchar(255)
@@ -174,7 +174,7 @@ Table AssetClassRelationships {
 }
 
 Table Assetconsents {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CONSENTID varchar(255)
     CONSENT varchar(255)
     ASSETID varchar(255)
@@ -190,7 +190,7 @@ Table AssetHierarchyMap {
 }
 
 Table AssetLocations {
-    ID integer
+    ID integer [primary key]
     ASSETID varchar(255)
     ASSET integer
     ROUTEID varchar(255)
@@ -229,7 +229,7 @@ Table AssetLocations {
 }
 
 Table Assets {
-    ID integer
+    ID integer [primary key]
     OWNERID varchar(255)
     OWNER integer
     PHASEID varchar(255)
@@ -264,7 +264,7 @@ Table AttributeDomains {
     LASTUPDATED varchar(255)
     LOWESTEXPECTED string
     HIGHESTEXPECTED string
-    ID integer
+    ID integer [primary key]
     NAME string
     DOMAINTYPE string
     LOWERLIMIT string
@@ -276,7 +276,7 @@ Table AttributeDomains {
 }
 
 Table AttributeDomainValues {
-    ID integer
+    ID integer [primary key]
     CODE string
     DESCRIPTION string
     CREATEDBY varchar(255)
@@ -290,7 +290,7 @@ Table AttributeDomainValues {
 }
 
 Table AttributeGroups {
-    ID integer
+    ID integer [primary key]
     NAME string
     PREFIX string
     SUFFIX string
@@ -303,7 +303,7 @@ Table AttributeGroups {
 }
 
 Table Attributes {
-    ID integer
+    ID integer [primary key]
     CODE string
     NAME string
     TYPE string
@@ -339,7 +339,7 @@ Table Attributes {
 }
 
 Table Consentlinks {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     DESCRIPTION varchar(255)
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
@@ -353,7 +353,7 @@ Table Consentlinks {
 
 Table Consentmilestones {
     DAYSOVERRIDE varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CONSENTID varchar(255)
     CONSENT varchar(255)
     CONSENTMILESTONETYPEID varchar(255)
@@ -366,7 +366,7 @@ Table Consentmilestones {
 
 Table Consentmilestonetypes {
     CODE varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     NAME varchar(255)
     CALENDARDAYS varchar(255)
 }
@@ -381,7 +381,7 @@ Table Consents {
     CONTRACTORSREFERENCE varchar(255)
     CONTRACTCODE varchar(255)
     CONSENTORCOMPLIANCE varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CONSENTNUMBER varchar(255)
     TYPEID varchar(255)
     TYPE varchar(255)
@@ -403,7 +403,7 @@ Table Consenttypemilestones {
     OVERRIDEMILESTONENAME varchar(255)
     NOTES varchar(255)
     MILESTONECODE varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CONSENTTYPEID varchar(255)
     CONSENTTYPE varchar(255)
     CONSENTMILESTONETYPEID varchar(255)
@@ -413,7 +413,7 @@ Table Consenttypemilestones {
 
 Table Consenttypes {
     CODE varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     DESCRIPTION varchar(255)
     PARENTID varchar(255)
     PARENT varchar(255)
@@ -422,7 +422,7 @@ Table Consenttypes {
 }
 
 Table Informationneedassetclass {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -439,7 +439,7 @@ Table Informationneedattributes {
     IMPLEMENTATIONDATE varchar(255)
     IMPLEMENTEDBYID varchar(255)
     IMPLEMENTEDBY varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     INFORMATIONNEEDID varchar(255)
     INFORMATIONNEED varchar(255)
     ATTRIBUTEID varchar(255)
@@ -456,7 +456,7 @@ Table Informationneeddocs {
     IMPLEMENTEDBYID varchar(255)
     IMPLEMENTEDBY varchar(255)
     IMPLEMENTATIONDATE varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -477,7 +477,7 @@ Table Informationneedgeometries {
     IMPLEMENTEDBY varchar(255)
     IMPLEMENTATIONDATE varchar(255)
     RASTER varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     INFORMATIONNEEDID varchar(255)
     INFORMATIONNEED varchar(255)
     DETAIL varchar(255)
@@ -495,7 +495,7 @@ Table Informationneedgeometries {
 }
 
 Table Informationneedlinks {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -524,7 +524,7 @@ Table Informationneedpropchngs {
     NOTAPPLICABLETOSINGLEATTRIBUTE varchar(255)
     ATTRIBUTEDOMAINID varchar(255)
     ATTRIBUTEDOMAIN varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     INFORMATIONNEEDID varchar(255)
     INFORMATIONNEED varchar(255)
     ANYOTHERCOMMENTS varchar(255)
@@ -559,7 +559,7 @@ Table Informationneeds {
     CREATEDBYPERSON varchar(255)
     APPLICABLETOMULTIPLECLASSES varchar(255)
     IMPLEMENTATIONSTATUS varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     INFORMATIONSPECIFIERID varchar(255)
     INFORMATIONSPECIFIER varchar(255)
     ASSETCLASSID varchar(255)
@@ -588,7 +588,7 @@ Table Informationneeds {
 }
 
 Table Informationneedsourcedocs {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     NAME varchar(255)
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
@@ -601,7 +601,7 @@ Table Informationneedsourcedocs {
 }
 
 Table Informationneedstatusupd {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     INFORMATIONNEEDID varchar(255)
     INFORMATIONNEED varchar(255)
     TYPE varchar(255)
@@ -612,7 +612,7 @@ Table Informationneedstatusupd {
 
 Table InformationPackages {
     SUITABILITYSTATUS varchar(255)
-    ID integer
+    ID integer [primary key]
     REVISION varchar(255)
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
@@ -624,7 +624,7 @@ Table InformationPackages {
 }
 
 Table Links {
-    ID integer
+    ID integer [primary key]
     ASSETID varchar(255)
     ASSET integer
     LINKTYPEID varchar(255)
@@ -644,7 +644,7 @@ Table Links {
 }
 
 Table LinkTypes {
-    ID integer
+    ID integer [primary key]
     CODE string
     DESCRIPTION string
     SYSTEMFIELD string
@@ -660,7 +660,7 @@ Table LinkTypes {
 }
 
 Table Noncompliances {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -773,7 +773,7 @@ Table Noncompliances {
 }
 
 Table Organisations {
-    ID integer
+    ID integer [primary key]
     NAME string
     PARENTID varchar(255)
     PARENT string
@@ -785,7 +785,7 @@ Table Organisations {
 }
 
 Table Owners {
-    ID integer
+    ID integer [primary key]
     NAME string
     CODE string
     CREATEDBY varchar(255)
@@ -797,7 +797,7 @@ Table Owners {
 }
 
 Table People {
-    ID integer
+    ID integer [primary key]
     FIRSTNAME string
     LASTNAME string
     USERID string
@@ -814,7 +814,7 @@ Table People {
 }
 
 Table Phases {
-    ID integer
+    ID integer [primary key]
     CODE string
     DESCRIPTION string
     DEFAULTCHAINAGEBASELINE integer
@@ -827,7 +827,7 @@ Table Phases {
 Table Productassetclasses {
     APPROVEDBYID varchar(255)
     APPROVEDBY varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -843,7 +843,7 @@ Table Productcharacteristics {
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
     LASTUPDATED varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     PRODUCTID varchar(255)
     PRODUCT varchar(255)
     ATTRIBUTEID varchar(255)
@@ -866,7 +866,7 @@ Table Productlinks {
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
     LASTUPDATED varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     NAME varchar(255)
     PRODUCTID varchar(255)
     PRODUCT varchar(255)
@@ -890,7 +890,7 @@ Table Products {
     DEPRECATEDBYID varchar(255)
     DEPRECATEDBY varchar(255)
     DEPRECATEDDATE varchar(255)
-    ID varchar(255)
+    ID varchar(255) [primary key]
     NAME varchar(255)
     AIMSPRODUCTCODE varchar(255)
     MANUFACTURERPRODUCTCODE varchar(255)
@@ -898,7 +898,7 @@ Table Products {
 }
 
 Table Projectitemactions {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     PROJECTITEMID varchar(255)
     PROJECTITEM varchar(255)
     PROJECTITEMACTIONTYPE varchar(255)
@@ -925,7 +925,7 @@ Table Projectitemactions {
 }
 
 Table Projectitemassignedroles {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     PROJECTITEMID varchar(255)
     PROJECTITEM varchar(255)
     PROJECTITEMROLE varchar(255)
@@ -936,7 +936,7 @@ Table Projectitemassignedroles {
 }
 
 Table Projectitemattributes {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     PROJECTITEMID varchar(255)
     PROJECTITEM varchar(255)
     ATTRIBUTEID varchar(255)
@@ -961,7 +961,7 @@ Table Projectitemattributes {
 }
 
 Table Projectitemlinks {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     INPUTITEMID varchar(255)
     INPUTITEM varchar(255)
     LINKTYPE varchar(255)
@@ -976,7 +976,7 @@ Table Projectitemlinks {
 }
 
 Table Projectitems {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     TITLE varchar(255)
     ITEMID varchar(255)
     CREATEDBY varchar(255)
@@ -991,7 +991,7 @@ Table Projectitems {
 }
 
 Table Relationships {
-    ID integer
+    ID integer [primary key]
     SOURCEASSETID varchar(255)
     SOURCEASSET integer
     TARGETASSETID varchar(255)
@@ -1007,7 +1007,7 @@ Table Relationships {
 }
 
 Table RelationshipTypes {
-    ID integer
+    ID integer [primary key]
     CODE string
     DESCRIPTION string
     ASYMMETRIC string
@@ -1027,7 +1027,7 @@ Table RelationshipTypes {
 }
 
 Table Routes {
-    ID integer
+    ID integer [primary key]
     CODE string
     DESCRIPTION string
     LPO string
@@ -1043,7 +1043,7 @@ Table Routes {
 }
 
 Table SecondaryAssetClassCodes {
-    ID integer
+    ID integer [primary key]
     ASSETCLASSID varchar(255)
     ASSETCLASS integer
     CODE string
@@ -1055,7 +1055,7 @@ Table SecondaryAssetClassCodes {
 }
 
 Table Stages {
-    ID integer
+    ID integer [primary key]
     STAGENUMBER string
     DESCRIPTION string
     COORDINATESREQUIRED string
@@ -1066,7 +1066,7 @@ Table Stages {
 }
 
 Table Taskdefinitions {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -1086,14 +1086,14 @@ Table Taskdefinitions {
 }
 
 Table Tracks {
-    ID integer
+    ID integer [primary key]
     CODE string
     ROUTEID varchar(255)
     ROUTE string
 }
 
 Table Ua_beneficiaries {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -1105,7 +1105,7 @@ Table Ua_beneficiaries {
 }
 
 Table Ua_comments {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     MEETINGID varchar(255)
@@ -1117,7 +1117,7 @@ Table Ua_comments {
 }
 
 Table Ua_entities {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -1129,7 +1129,7 @@ Table Ua_entities {
 }
 
 Table Ua_meetingattendees {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -1140,7 +1140,7 @@ Table Ua_meetingattendees {
 }
 
 Table Ua_meetings {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -1152,7 +1152,7 @@ Table Ua_meetings {
 }
 
 Table Ua_noncompimppartytypes {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -1164,7 +1164,7 @@ Table Ua_noncompimppartytypes {
 }
 
 Table Ua_noncomplianceimpacts {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -1176,7 +1176,7 @@ Table Ua_noncomplianceimpacts {
 }
 
 Table Ua_noncompotheruas {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -1190,7 +1190,7 @@ Table Ua_noncompotheruas {
 }
 
 Table Ua_optionvalues {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     NAME varchar(255)
     OPTIONSET varchar(255)
     PARENTCATEGORYID varchar(255)
@@ -1198,7 +1198,7 @@ Table Ua_optionvalues {
 }
 
 Table Undertakings_assurances {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     DOORSID varchar(255)
     TYPE varchar(255)
     STATUS varchar(255)
@@ -1234,7 +1234,7 @@ Table Undertakings_assurances {
 }
 
 Table Workbanks {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -1254,7 +1254,7 @@ Table Workbanks {
 }
 
 Table Workbankworkorders {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     UPDATEDBY varchar(255)
@@ -1267,7 +1267,7 @@ Table Workbankworkorders {
 }
 
 Table Workorderattributes {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     WORKORDERID varchar(255)
     WORKORDER varchar(255)
     ATTRIBUTEID varchar(255)
@@ -1287,7 +1287,7 @@ Table Workorderattributes {
 }
 
 Table Workorders {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     TASKDEFINITIONID varchar(255)
     TASKDEFINITION varchar(255)
     ASSETID varchar(255)
@@ -1313,7 +1313,7 @@ Table Workorders {
 }
 
 Table Workorderstatustransition {
-    ID varchar(255)
+    ID varchar(255) [primary key]
     CREATEDBY varchar(255)
     WHENCREATED varchar(255)
     WORKORDERID varchar(255)
@@ -1331,3 +1331,91 @@ Table Workorderstatustransition {
     ORGANISATION varchar(255)
     TARGETCOMPLETIONDATE varchar(255)
 }
+
+
+// Inferred Relationships
+Ref: AssetAttributes.ASSETID > Assets.ID
+Ref: AssetAttributes.ATTRIBUTEID > Attributes.ID
+Ref: AssetAttributes.ASSETLOCATIONID > AssetLocations.ID
+Ref: AssetAttributes.OWNERID > Owners.ID
+Ref: AssetAttributes.PHASEID > Phases.ID
+Ref: AssetAttributes.ORGANISATIONID > Organisations.ID
+Ref: AssetAttributes.STAGEID > Stages.ID
+Ref: AssetAttributes.TRACKID > Tracks.ID
+Ref: AssetAttributes.ROUTEID > Routes.ID
+Ref: AssetAttributes.INFORMATIONPACKAGEID > InformationPackages.ID
+Ref: AssetClassAttributes.ATTRIBUTEID > Attributes.ID
+Ref: AssetClassAttributes.OWNERID > Owners.ID
+Ref: AssetClassAttributes.ATTRIBUTEDOMAINID > AttributeDomains.ID
+Ref: AssetClasses.OWNERID > Owners.ID
+Ref: AssetClassRelationships.RELATIONSHIPTYPEID > RelationshipTypes.ID
+Ref: AssetClassRelationships.OWNERID > Owners.ID
+Ref: Assetconsents.CONSENTID > Consents.ID
+Ref: Assetconsents.ASSETID > Assets.ID
+Ref: AssetLocations.ASSETID > Assets.ID
+Ref: AssetLocations.ROUTEID > Routes.ID
+Ref: AssetLocations.TRACKID > Tracks.ID
+Ref: Assets.OWNERID > Owners.ID
+Ref: Assets.PHASEID > Phases.ID
+Ref: Assets.STAGEID > Stages.ID
+Ref: Assets.PRODUCTID > Products.ID
+Ref: AttributeDomainValues.ATTRIBUTEDOMAINID > AttributeDomains.ID
+Ref: Attributes.ATTRIBUTEGROUPID > AttributeGroups.ID
+Ref: Attributes.OWNERID > Owners.ID
+Ref: Attributes.RELATIONSHIPTYPEID > RelationshipTypes.ID
+Ref: Attributes.ATTRIBUTEDOMAINID > AttributeDomains.ID
+Ref: Consentlinks.CONSENTID > Consents.ID
+Ref: Consentmilestones.CONSENTID > Consents.ID
+Ref: Consentmilestones.CONSENTMILESTONETYPEID > Consentmilestonetypes.ID
+Ref: Consents.PHASEID > Phases.ID
+Ref: Consents.OWNERID > Owners.ID
+Ref: Consenttypemilestones.CONSENTTYPEID > Consenttypes.ID
+Ref: Consenttypemilestones.CONSENTMILESTONETYPEID > Consentmilestonetypes.ID
+Ref: Informationneedassetclass.INFORMATIONNEEDATTRIBUTEID > Informationneedattributes.ID
+Ref: Informationneedattributes.INFORMATIONNEEDID > Informationneeds.ID
+Ref: Informationneedattributes.ATTRIBUTEID > Attributes.ID
+Ref: Informationneeddocs.INFORMATIONNEEDID > Informationneeds.ID
+Ref: Informationneedgeometries.INFORMATIONNEEDID > Informationneeds.ID
+Ref: Informationneedlinks.INFORMATIONNEEDID > Informationneeds.ID
+Ref: Informationneedlinks.LINKTYPEID > LinkTypes.ID
+Ref: Informationneedpropchngs.ATTRIBUTEDOMAINID > AttributeDomains.ID
+Ref: Informationneedpropchngs.INFORMATIONNEEDID > Informationneeds.ID
+Ref: Informationneedpropchngs.ATTRIBUTEID > Attributes.ID
+Ref: Informationneedsourcedocs.INFORMATIONNEEDID > Informationneeds.ID
+Ref: Informationneedstatusupd.INFORMATIONNEEDID > Informationneeds.ID
+Ref: Links.ASSETID > Assets.ID
+Ref: Links.LINKTYPEID > LinkTypes.ID
+Ref: Organisations.OWNERID > Owners.ID
+Ref: People.ORGANISATIONID > Organisations.ID
+Ref: Productassetclasses.PRODUCTID > Products.ID
+Ref: Productcharacteristics.PRODUCTID > Products.ID
+Ref: Productcharacteristics.ATTRIBUTEID > Attributes.ID
+Ref: Productlinks.PRODUCTID > Products.ID
+Ref: Projectitemactions.PROJECTITEMID > Projectitems.ID
+Ref: Projectitemactions.WORKORDERID > Workorders.ID
+Ref: Projectitemassignedroles.PROJECTITEMID > Projectitems.ID
+Ref: Projectitemattributes.PROJECTITEMID > Projectitems.ID
+Ref: Projectitemattributes.ATTRIBUTEID > Attributes.ID
+Ref: Projectitemattributes.ORGANISATIONID > Organisations.ID
+Ref: Projectitemlinks.WORKORDERID > Workorders.ID
+Ref: Projectitemlinks.ASSETID > Assets.ID
+Ref: Relationships.RELATIONSHIPTYPEID > RelationshipTypes.ID
+Ref: RelationshipTypes.OWNERID > Owners.ID
+Ref: Tracks.ROUTEID > Routes.ID
+Ref: Ua_comments.NONCOMPLIANCEID > Noncompliances.ID
+Ref: Ua_meetings.NONCOMPLIANCEID > Noncompliances.ID
+Ref: Ua_noncompimppartytypes.NONCOMPLIANCEID > Noncompliances.ID
+Ref: Ua_noncomplianceimpacts.NONCOMPLIANCEID > Noncompliances.ID
+Ref: Ua_noncompotheruas.NONCOMPLIANCEID > Noncompliances.ID
+Ref: Undertakings_assurances.PHASEID > Phases.ID
+Ref: Workbanks.ORGANISATIONID > Organisations.ID
+Ref: Workbankworkorders.WORKORDERID > Workorders.ID
+Ref: Workbankworkorders.WORKBANKID > Workbanks.ID
+Ref: Workorderattributes.WORKORDERID > Workorders.ID
+Ref: Workorderattributes.ATTRIBUTEID > Attributes.ID
+Ref: Workorders.TASKDEFINITIONID > Taskdefinitions.ID
+Ref: Workorders.ASSETID > Assets.ID
+Ref: Workorders.ORGANISATIONID > Organisations.ID
+Ref: Workorders.WORKORDERID > Workorders.ID
+Ref: Workorderstatustransition.WORKORDERID > Workorders.ID
+Ref: Workorderstatustransition.ORGANISATIONID > Organisations.ID
