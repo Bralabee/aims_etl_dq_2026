@@ -1,0 +1,1333 @@
+// AIMS Data Model (Reversed from Parquet Data)
+// Generated on 2025-12-07 17:57:16.786081
+
+Table Activitydates {
+    ID varchar(255)
+    NAME varchar(255)
+    ACTIVITYID varchar(255)
+    INITIALDATE varchar(255)
+    CURRENTDATE varchar(255)
+    INITIALFLOAT varchar(255)
+    CURRENTFLOAT varchar(255)
+    MILESTONEDATETYPE varchar(255)
+}
+
+Table AssetAttributes {
+    ID integer
+    ASSETID varchar(255)
+    ASSET integer
+    ATTRIBUTEID varchar(255)
+    ATTRIBUTE integer
+    TEXTVALUE string
+    NUMERICVALUE string
+    DATEVALUE string
+    DECIMALVALUE2DP string
+    SELECTIONVALUEID varchar(255)
+    SELECTIONVALUE integer
+    ASSETLOCATIONID varchar(255)
+    ASSETLOCATION varchar(255)
+    VALIDFROM string
+    VALIDTO string
+    HS2CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    OWNERID varchar(255)
+    OWNER string
+    PHASEID varchar(255)
+    PHASE string
+    PERSONID varchar(255)
+    PERSON string
+    ORGANISATIONID varchar(255)
+    ORGANISATION string
+    TEXTSTOREFORTYPETRANSITION string
+    DECIMALSTOREFORTYPETRANSITION string
+    NUMERICSTOREFORTYPETRANSITION string
+    ASSETCLASSID varchar(255)
+    ASSETCLASS string
+    DECIMALVALUE4DP string
+    ADDRESSLINE1 string
+    ADDRESSLINE2 string
+    ADDRESSLINE3 string
+    TOWNCITY string
+    POSTCODE string
+    STAGEID varchar(255)
+    STAGE string
+    STATUS string
+    CHAINAGEBASELINE string
+    BOOLEANVALUE string
+    TIMEVALUE string
+    MEMOVALUE string
+    MEMOSTOREFORTYPETRANSITION string
+    TRACKID varchar(255)
+    TRACK string
+    ROUTEID varchar(255)
+    ROUTE string
+    DECIMALVALUE3DP string
+    VALUESTATUS string
+    INFORMATIONPACKAGEID varchar(255)
+    INFORMATIONPACKAGE string
+    PUBLISHEDATSTAGEID varchar(255)
+    PUBLISHEDATSTAGE integer
+    ISLATESTPUBLISHED string
+    TYPECONVERSIONFAILED string
+}
+
+Table AssetClassAttributes {
+    ID integer
+    ASSETCLASSID varchar(255)
+    ASSETCLASS integer
+    ATTRIBUTEID varchar(255)
+    ATTRIBUTE integer
+    VALIDFROM string
+    VALIDTO string
+    EXPECTED string
+    DESCRIPTION string
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    AVAILABLEFROMSTAGEID varchar(255)
+    AVAILABLEFROMSTAGE integer
+    REQUIREDATSTAGEID varchar(255)
+    REQUIREDATSTAGE integer
+    OWNERID varchar(255)
+    OWNER integer
+    STATUS string
+    MOVEDTOLIVEBY string
+    MOVEDTOLIVEDATE string
+    ATTRIBUTEDOMAINID varchar(255)
+    ATTRIBUTEDOMAIN integer
+    PHASEAPPLICABILITY string
+}
+
+Table AssetClassChangeLogs {
+    ID integer
+    ASSETCLASSID varchar(255)
+    ASSETCLASS integer
+    CHANGEDATE string
+    CHANGES string
+}
+
+Table AssetClasses {
+    ID integer
+    CODE string
+    NAME string
+    PARENTID varchar(255)
+    PARENT integer
+    LEVELNUMBER string
+    DESCRIPTION string
+    VALIDFROM string
+    VALIDTO string
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    CHAINAGEAPPLICABILITY string
+    POSTALADDRESSAPPLICABILITY string
+    GRIDCOORDINATES string
+    ASSETLEVEL string
+    INCLUDEIDENTIFICATIONPLATES varchar(255)
+    IDENTIFICATIONPLATEDESCRIPTION string
+    OWNERID varchar(255)
+    OWNER integer
+    MOVEDTOLIVEBY string
+    MOVEDTOLIVEDATE string
+    INTANGIBLE string
+    REPLACEDBYCLASSID varchar(255)
+    REPLACEDBYCLASS varchar(255)
+    CLASSABBREVIATION varchar(255)
+    ASSETIDLABELREQUIRED varchar(255)
+    EQUIPMENTRECORDREQUIRED varchar(255)
+    EXAMPLENAME varchar(255)
+    EXAMPLEREFERENCEROUTELOCATED varchar(255)
+    EXAMPLEREFERENCESPACELOCATED varchar(255)
+    ASSETIDLABELPOSITIONGUIDANCE varchar(255)
+    PHASEAPPLICABILITY string
+    STATUS string
+    UAIDOVERRIDECHARACTER string
+    ALLOWASSIGNMENTOFPRODUCT string
+    REMOVALREASON string
+    CANHAVEASSETPLANS string
+    DISALLOWSELECTIONFORASSETS string
+}
+
+Table AssetClassRelationships {
+    ID integer
+    SOURCEASSETCLASSID varchar(255)
+    SOURCEASSETCLASS integer
+    TARGETASSETCLASSID varchar(255)
+    TARGETASSETCLASS integer
+    RELATIONSHIPTYPEID varchar(255)
+    RELATIONSHIPTYPE integer
+    EXPECTED string
+    ADDITIONALDESCRIPTION string
+    VALIDFROM string
+    VALIDTO string
+    REQUIREDATSTAGEID varchar(255)
+    REQUIREDATSTAGE integer
+    OWNERID varchar(255)
+    OWNER integer
+    MOVEDTOLIVEBY string
+    MOVETOLIVEDATE string
+    STATUS string
+}
+
+Table Assetconsents {
+    ID varchar(255)
+    CONSENTID varchar(255)
+    CONSENT varchar(255)
+    ASSETID varchar(255)
+    ASSET varchar(255)
+}
+
+Table AssetHierarchyMap {
+    ANCESTORASSETID varchar(255)
+    ANCESTORASSET integer
+    DESCENDANTASSETID varchar(255)
+    DESCENDANTASSET integer
+    LEVELS string
+}
+
+Table AssetLocations {
+    ID integer
+    ASSETID varchar(255)
+    ASSET integer
+    ROUTEID varchar(255)
+    ROUTE integer
+    ASSETCLASSID varchar(255)
+    ASSETCLASS integer
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    VALIDFROM string
+    VALIDTO string
+    LOCATIONID string
+    REMOVEDBY string
+    REMOVEDREASON string
+    CHAINAGEUNITS string
+    ADDRESSATTRIBUTEVALUEID varchar(255)
+    OSGBEASTING string
+    OSGBNORTHING string
+    CHAINAGEBASELINE integer
+    OFFSET varchar(255)
+    ENDOFFSET string
+    SNAKEGRIDSTARTEASTING string
+    SNAKEGRIDSTARTNORTHING string
+    SNAKEGRIDENDEASTING string
+    SNAKEGRIDENDNORTHING string
+    TRACKID varchar(255)
+    TRACK integer
+    STARTOFFSET string
+    SNAKEGRIDEASTING string
+    SNAKEGRIDNORTHING string
+    STARTOSGBEASTING string
+    STARTOSGBNORTHING string
+    ENDOSGBEASTING string
+    ENDOSGBNORTHING string
+}
+
+Table Assets {
+    ID integer
+    OWNERID varchar(255)
+    OWNER integer
+    PHASEID varchar(255)
+    PHASE integer
+    NAME string
+    NOTES string
+    HYBRIDBILLCODE string
+    REFERENCECHAINAGE string
+    VALIDFROM string
+    VALIDTO string
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    UNIQUEASSETID string
+    LASTUPDATEDATE string
+    REMOVEDBY string
+    REMOVEDREASON string
+    STAGEID varchar(255)
+    STAGE integer
+    STATUS integer
+    ISPRIMARYASSET string
+    LASTUPDATEDATETHISASSET varchar(255)
+    PRODUCTID varchar(255)
+    PRODUCT string
+}
+
+Table AttributeDomains {
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    LOWESTEXPECTED string
+    HIGHESTEXPECTED string
+    ID integer
+    NAME string
+    DOMAINTYPE string
+    LOWERLIMIT string
+    UPPERLIMIT string
+    CODE string
+    VALIDFROM string
+    VALIDTO string
+    MAXIMUMCHARACTERS string
+}
+
+Table AttributeDomainValues {
+    ID integer
+    CODE string
+    DESCRIPTION string
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    VALIDFROM string
+    VALIDTO string
+    ATTRIBUTEDOMAINID varchar(255)
+    ATTRIBUTEDOMAIN integer
+}
+
+Table AttributeGroups {
+    ID integer
+    NAME string
+    PREFIX string
+    SUFFIX string
+    VISIBILITY string
+    SECURITY string
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+}
+
+Table Attributes {
+    ID integer
+    CODE string
+    NAME string
+    TYPE string
+    CLASS string
+    UNITOFMEASURE string
+    DEFINITION string
+    VALIDFROM string
+    VALIDTO string
+    ATTRIBUTEGROUPID varchar(255)
+    ATTRIBUTEGROUP integer
+    DISPLAYCODE string
+    SOURCE string
+    SOURCEATTRIBUTEID varchar(255)
+    SOURCEATTRIBUTE varchar(255)
+    DERIVATIONTYPE string
+    STATICVALUE string
+    CONTRACTORTOCOMPLETE string
+    OWNERID varchar(255)
+    OWNER integer
+    AGGREGATABLE string
+    RELATIONSHIPTYPEID varchar(255)
+    RELATIONSHIPTYPE string
+    AGGREGATEATTRIBUTEID varchar(255)
+    AGGREGATEATTRIBUTE string
+    AGGREGATEFUNCTION string
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    REMOVALREASON string
+    ATTRIBUTEDOMAINID varchar(255)
+    ATTRIBUTEDOMAIN integer
+}
+
+Table Consentlinks {
+    ID varchar(255)
+    DESCRIPTION varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    LINK varchar(255)
+    CONSENTID varchar(255)
+    CONSENT varchar(255)
+    DOCUMENTNUMBER varchar(255)
+}
+
+Table Consentmilestones {
+    DAYSOVERRIDE varchar(255)
+    ID varchar(255)
+    CONSENTID varchar(255)
+    CONSENT varchar(255)
+    CONSENTMILESTONETYPEID varchar(255)
+    CONSENTMILESTONETYPE varchar(255)
+    INITIALMILESTONE varchar(255)
+    CURRENTMILESTONE varchar(255)
+    FORECASTDATE varchar(255)
+    ACTUALDATE varchar(255)
+}
+
+Table Consentmilestonetypes {
+    CODE varchar(255)
+    ID varchar(255)
+    NAME varchar(255)
+    CALENDARDAYS varchar(255)
+}
+
+Table Consents {
+    CONSENTGRANTINGBODYREFERENCE varchar(255)
+    ASSETTYPETOBECONSENTED varchar(255)
+    PHASEID varchar(255)
+    PHASE varchar(255)
+    OWNERID varchar(255)
+    OWNER varchar(255)
+    CONTRACTORSREFERENCE varchar(255)
+    CONTRACTCODE varchar(255)
+    CONSENTORCOMPLIANCE varchar(255)
+    ID varchar(255)
+    CONSENTNUMBER varchar(255)
+    TYPEID varchar(255)
+    TYPE varchar(255)
+    ACTIVITYIDID varchar(255)
+    ACTIVITYID varchar(255)
+    STATUS varchar(255)
+    DISCIPLINEID varchar(255)
+    DISCIPLINE varchar(255)
+    COMMENTS varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    EXPIRYDATE varchar(255)
+    CONSENTSGRANTINGBODY varchar(255)
+}
+
+Table Consenttypemilestones {
+    OVERRIDEMILESTONENAME varchar(255)
+    NOTES varchar(255)
+    MILESTONECODE varchar(255)
+    ID varchar(255)
+    CONSENTTYPEID varchar(255)
+    CONSENTTYPE varchar(255)
+    CONSENTMILESTONETYPEID varchar(255)
+    CONSENTMILESTONETYPE varchar(255)
+    DAYS varchar(255)
+}
+
+Table Consenttypes {
+    CODE varchar(255)
+    ID varchar(255)
+    DESCRIPTION varchar(255)
+    PARENTID varchar(255)
+    PARENT varchar(255)
+    EXPLANATION varchar(255)
+    VERSION varchar(255)
+}
+
+Table Informationneedassetclass {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    INFORMATIONNEEDPROPOSEDCHANGID varchar(255)
+    INFORMATIONNEEDPROPOSEDCHANGE varchar(255)
+    ASSETCLASSID varchar(255)
+    ASSETCLASS varchar(255)
+    INFORMATIONNEEDATTRIBUTEID varchar(255)
+    INFORMATIONNEEDATTRIBUTE varchar(255)
+}
+
+Table Informationneedattributes {
+    IMPLEMENTATIONDATE varchar(255)
+    IMPLEMENTEDBYID varchar(255)
+    IMPLEMENTEDBY varchar(255)
+    ID varchar(255)
+    INFORMATIONNEEDID varchar(255)
+    INFORMATIONNEED varchar(255)
+    ATTRIBUTEID varchar(255)
+    ATTRIBUTE varchar(255)
+    NOTES varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    IMPLEMENTATIONSTATUS varchar(255)
+}
+
+Table Informationneeddocs {
+    IMPLEMENTEDBYID varchar(255)
+    IMPLEMENTEDBY varchar(255)
+    IMPLEMENTATIONDATE varchar(255)
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    INFORMATIONNEEDID varchar(255)
+    INFORMATIONNEED varchar(255)
+    CATEGORY varchar(255)
+    DOCUMENTFORM varchar(255)
+    NOTES varchar(255)
+    IMPLEMENTATIONSTATUS varchar(255)
+}
+
+Table Informationneedgeometries {
+    FEATURETYPE varchar(255)
+    LEVELOFMODELDEVELOPMENT varchar(255)
+    LEVELOFMODELINFORMATION varchar(255)
+    IMPLEMENTEDBYID varchar(255)
+    IMPLEMENTEDBY varchar(255)
+    IMPLEMENTATIONDATE varchar(255)
+    RASTER varchar(255)
+    ID varchar(255)
+    INFORMATIONNEEDID varchar(255)
+    INFORMATIONNEED varchar(255)
+    DETAIL varchar(255)
+    DIMENSIONALITY varchar(255)
+    LOCATION varchar(255)
+    MATERIALAPPEARANCE varchar(255)
+    NOTES varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    TYPE varchar(255)
+    PURPOSE varchar(255)
+    IMPLEMENTATIONSTATUS varchar(255)
+}
+
+Table Informationneedlinks {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    INFORMATIONNEEDID varchar(255)
+    INFORMATIONNEED varchar(255)
+    LINKTYPEID varchar(255)
+    LINKTYPE varchar(255)
+    IMPLEMENTATIONSTATUS varchar(255)
+    IMPLEMENTEDBYID varchar(255)
+    IMPLEMENTEDBY varchar(255)
+    IMPLEMENTEDDATE varchar(255)
+    NOTES varchar(255)
+}
+
+Table Informationneedpropchngs {
+    IMPLEMENTEDBYID varchar(255)
+    IMPLEMENTEDBY varchar(255)
+    IMPLEMENTATIONDATE varchar(255)
+    LINKSOURCE varchar(255)
+    LINKCODE varchar(255)
+    SYSTEMFIELD varchar(255)
+    INCLUDEINWEBSERVICES varchar(255)
+    DISPLAYASPRIMARYASSETIMAGE varchar(255)
+    URLROOT varchar(255)
+    NOTAPPLICABLETOSINGLEATTRIBUTE varchar(255)
+    ATTRIBUTEDOMAINID varchar(255)
+    ATTRIBUTEDOMAIN varchar(255)
+    ID varchar(255)
+    INFORMATIONNEEDID varchar(255)
+    INFORMATIONNEED varchar(255)
+    ANYOTHERCOMMENTS varchar(255)
+    ATTRIBUTEID varchar(255)
+    ATTRIBUTE varchar(255)
+    NEWATTRIBUTENAME varchar(255)
+    DATATYPE varchar(255)
+    UNITOFMEASURE varchar(255)
+    DESCRIPTION varchar(255)
+    ASSETCLASSID varchar(255)
+    ASSETCLASS varchar(255)
+    UPPERBOUND varchar(255)
+    LOWERBOUND varchar(255)
+    INHERITTODESCENDANTCLASSES varchar(255)
+    INFONEEDPROPOSEDCHANGETYPE varchar(255)
+    CLASSNAME varchar(255)
+    CLASSCODE varchar(255)
+    ASSUBCLASSOFID varchar(255)
+    ASSUBCLASSOF varchar(255)
+    ISNULLABLE varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    IMPLEMENTATIONSTATUS varchar(255)
+    LENGTH varchar(255)
+    CONTRACTORTOCOMPLETE varchar(255)
+}
+
+Table Informationneeds {
+    CREATEDBYPERSONID varchar(255)
+    CREATEDBYPERSON varchar(255)
+    APPLICABLETOMULTIPLECLASSES varchar(255)
+    IMPLEMENTATIONSTATUS varchar(255)
+    ID varchar(255)
+    INFORMATIONSPECIFIERID varchar(255)
+    INFORMATIONSPECIFIER varchar(255)
+    ASSETCLASSID varchar(255)
+    ASSETCLASS varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    TITLE varchar(255)
+    COMMENTARY varchar(255)
+    PROXYREQUEST varchar(255)
+    RECEIVERNAME varchar(255)
+    RECEIVERDISCIPLINE varchar(255)
+    CONTRACTORNAME varchar(255)
+    PROVIDERNAME varchar(255)
+    INFORMATIONPURPOSE varchar(255)
+    OTHERPURPOSE varchar(255)
+    CONTENTSUMMARY varchar(255)
+    STATUS varchar(255)
+    REFERENCE varchar(255)
+    REVIEWCOMMENTS varchar(255)
+    REVIEWEDBYID varchar(255)
+    REVIEWEDBY varchar(255)
+    REVIEWEDON varchar(255)
+    DISCIPLINE varchar(255)
+}
+
+Table Informationneedsourcedocs {
+    ID varchar(255)
+    NAME varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    URL varchar(255)
+    INFORMATIONNEEDID varchar(255)
+    INFORMATIONNEED varchar(255)
+    NOTES varchar(255)
+}
+
+Table Informationneedstatusupd {
+    ID varchar(255)
+    INFORMATIONNEEDID varchar(255)
+    INFORMATIONNEED varchar(255)
+    TYPE varchar(255)
+    COMMENTS varchar(255)
+    WHENCREATED varchar(255)
+    WHO varchar(255)
+}
+
+Table InformationPackages {
+    SUITABILITYSTATUS varchar(255)
+    ID integer
+    REVISION varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    PACKAGE varchar(255)
+    DISCIPLINE varchar(255)
+    REVIEWSTATUS varchar(255)
+}
+
+Table Links {
+    ID integer
+    ASSETID varchar(255)
+    ASSET integer
+    LINKTYPEID varchar(255)
+    LINKTYPE integer
+    ADDRESS string
+    HS2_CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    URL string
+    DESCRIPTION string
+    FILETYPE string
+    FILENAMEFIELD string
+    FILESIZE string
+    VALIDFROM string
+    VALIDTO string
+}
+
+Table LinkTypes {
+    ID integer
+    CODE string
+    DESCRIPTION string
+    SYSTEMFIELD string
+    DESLINK string
+    URLROOT string
+    URLTAIL string
+    SOURCE string
+    INCLUDEINWEBSERVICES string
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+}
+
+Table Noncompliances {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    REFERENCEID varchar(255)
+    UNDERTAKINGASSURANCEID varchar(255)
+    UNDERTAKINGASSURANCE varchar(255)
+    DESCRIPTIONOFTHEINCIDENT varchar(255)
+    CORRECTIVEACTION varchar(255)
+    CATEGORYTYPEID varchar(255)
+    CATEGORYTYPE varchar(255)
+    HS2NOTIFICATIONDATE varchar(255)
+    DATECOMPLIANCETEAMINFORMED varchar(255)
+    ASSESSMENTCOMMENTS varchar(255)
+    DATECLOSED varchar(255)
+    STATUS varchar(255)
+    CMACKNOWLEDGEDDATE varchar(255)
+    FINALINVESTIGATIONDATE varchar(255)
+    CCHEARINGDATE varchar(255)
+    ACKNOWLEDGEDTOBENEFICIARY varchar(255)
+    DATECFOINFORMED varchar(255)
+    POSSIBLENONCOMPLIANTPARTY varchar(255)
+    SOURCEID varchar(255)
+    SOURCE varchar(255)
+    PRELIMINARYFINDINGID varchar(255)
+    PRELIMINARYFINDING varchar(255)
+    HS2COMPLIANCEDECISIONID varchar(255)
+    HS2COMPLIANCEDECISION varchar(255)
+    DECISIONENDORSEDBYCOMPLIANCEID varchar(255)
+    DECISIONENDORSEDBYCOMPLIANCECO varchar(255)
+    PRELIMINARYIMPACTRATINGID varchar(255)
+    PRELIMINARYIMPACTRATING varchar(255)
+    SOURCEREFERENCE varchar(255)
+    INCIDENTDATE varchar(255)
+    HELPDESKREFERENCE varchar(255)
+    SCMDFTNOTIFICATIONDATE varchar(255)
+    SERVICEAREAID varchar(255)
+    SERVICEAREA varchar(255)
+    DATEOFSIGNPOST varchar(255)
+    HOCENDORSEDID varchar(255)
+    HOCENDORSED varchar(255)
+    PREASSESSMENTOUTCOMEID varchar(255)
+    PREASSESSMENTOUTCOME varchar(255)
+    INITIALINVESTIGATIONMEETINGDAT varchar(255)
+    REISSUEDNOTIFICATIONINITIALINV varchar(255)
+    FULLINVESTIGATIONREQUIREDID varchar(255)
+    FULLINVESTIGATIONREQUIRED varchar(255)
+    INVESTIGATIONREPORTUPLOADED varchar(255)
+    INTERNALMEETINGWITHLEGAL varchar(255)
+    INTERNALMEETINGNOTFICATIONISSU varchar(255)
+    FINALINVESTIGATIONCOMPLETED varchar(255)
+    FINALINVESTIGATIONNOTIFICATION varchar(255)
+    ALLIMPACTEDUASRECORDED varchar(255)
+    ACKNOWLEDGEDTOBENEFICIARYDATE varchar(255)
+    FINALIMPACTRATINGID varchar(255)
+    FINALIMPACTRATING varchar(255)
+    PROGRAMMEREVIEWBOARDREPORTDATE varchar(255)
+    INTERNALDECISIONNOTIFICATIONDT varchar(255)
+    CFOLETTERDRAFTEDATE varchar(255)
+    CFOLETTERSIGNEDOFFDATE varchar(255)
+    SCMINFORMEDDATE varchar(255)
+    UACGLESSONSLEARNTDATE varchar(255)
+    RECOMENDATIONSRECEIVEDFROMDFTL varchar(255)
+    BASELINEREVIEWDATE varchar(255)
+    HORACEASSURANCEREQUESTDATE varchar(255)
+    OTHERAUDIENCEFORLESSONSLEARNT varchar(255)
+    SUMMARYOFLESSSONSLEARNT varchar(255)
+    NOTIFICATIONOFCASECLOSURETOALL varchar(255)
+    CLOSURENOTIFIEDTOBENEFICIARYP varchar(255)
+    DISPUTERAISEDID varchar(255)
+    DISPUTERAISED varchar(255)
+    CONSIDERATIONDATE varchar(255)
+    DISPUTEOUTCOMEID varchar(255)
+    DISPUTEOUTCOME varchar(255)
+    ESCALATINGPARTYDFTID varchar(255)
+    ESCALATINGPARTYDFT varchar(255)
+    DATEOFESCALATIONTODFT varchar(255)
+    DATEDFTNOTIFIEDHS2 varchar(255)
+    DFTDECISIONID varchar(255)
+    DFTDECISION varchar(255)
+    DFTRECOMMENDATIONDUEDATE varchar(255)
+    INCIDENTDATEKNOWN varchar(255)
+    OUTCOMENOTIFICATIONDATE varchar(255)
+    ADDITIONALNOTIFICATIONREQUIRED varchar(255)
+    RECOMMENDATIONSBYDFTDE varchar(255)
+    HORACERAISEDDATE varchar(255)
+    ESCALATINGPARTYHOCID varchar(255)
+    ESCALATINGPARTYHOC varchar(255)
+    DATEOFESCALATIONTOHOC varchar(255)
+    DATEHOCNOTIFIEDHS2 varchar(255)
+    HOCDECISIONID varchar(255)
+    HOCDECISION varchar(255)
+    RECOMMENDATIONSBYHOC varchar(255)
+    HOCRECOMMENDATIONDUEDATE varchar(255)
+    ROLEOFNONCOMPLIANTPARTYID varchar(255)
+    ROLEOFNONCOMPLIANTPARTY varchar(255)
+    NONCOMPLIANTPARTYFULLINV varchar(255)
+    REPORTEDBYID varchar(255)
+    REPORTEDBY varchar(255)
+    HS2COMPLIANCEDECISIONRATIONALE varchar(255)
+    FULLINVESTIGATIONDECISIONMAKER varchar(255)
+    INITIALINVESTIGATIONDECISIONMA varchar(255)
+    INTERNALMEETINGISSUEDTO varchar(255)
+    WHORAISEDTHEDISPUTEID varchar(255)
+    WHORAISEDTHEDISPUTE varchar(255)
+    DISPUTERATIONALE varchar(255)
+    IMPACTEDPARTY varchar(255)
+    NONCOMPLIANCEMANAGERID varchar(255)
+    NONCOMPLIANCEMANAGER varchar(255)
+}
+
+Table Organisations {
+    ID integer
+    NAME string
+    PARENTID varchar(255)
+    PARENT string
+    OWNERID varchar(255)
+    OWNER integer
+    ALLOWINFODELIVERYPACKAGING string
+    DEFAULTASSETSTATUS string
+    ATTRIBUTESTOUPDATEINDATALOADS string
+}
+
+Table Owners {
+    ID integer
+    NAME string
+    CODE string
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    UAIDPREFIXOVERRIDE string
+    ALLOWATTRIBUTES string
+}
+
+Table People {
+    ID integer
+    FIRSTNAME string
+    LASTNAME string
+    USERID string
+    ORGANISATIONID varchar(255)
+    ORGANISATION integer
+    EMAILADDRESS string
+    HOLDDATALOADS string
+    ALLOWCSVDATALOADS string
+    TELEPHONENUMBER string
+    ALLOWUSERTORENEWTHEIRTOKENS string
+    DISCIPLINE string
+    CREATEDBY varchar(255)
+    WHENPERSONCREATED varchar(255)
+}
+
+Table Phases {
+    ID integer
+    CODE string
+    DESCRIPTION string
+    DEFAULTCHAINAGEBASELINE integer
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+}
+
+Table Productassetclasses {
+    APPROVEDBYID varchar(255)
+    APPROVEDBY varchar(255)
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    PRODUCTID varchar(255)
+    PRODUCT varchar(255)
+    ASSETCLASSID varchar(255)
+    ASSETCLASS varchar(255)
+}
+
+Table Productcharacteristics {
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    ID varchar(255)
+    PRODUCTID varchar(255)
+    PRODUCT varchar(255)
+    ATTRIBUTEID varchar(255)
+    ATTRIBUTE varchar(255)
+    NUMERICVALUE varchar(255)
+    TEXTVALUE varchar(255)
+    MEMOVALUE varchar(255)
+    BOOLEANVALUE varchar(255)
+    DATEVALUE varchar(255)
+    DATETIMEVALUE varchar(255)
+    DECIMALVALUE2DP varchar(255)
+    DECIMALVALUE3DP varchar(255)
+    SELECTIONVALUEID varchar(255)
+    SELECTIONVALUE varchar(255)
+    TIMEVALUE varchar(255)
+}
+
+Table Productlinks {
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    ID varchar(255)
+    NAME varchar(255)
+    PRODUCTID varchar(255)
+    PRODUCT varchar(255)
+    URL varchar(255)
+}
+
+Table Products {
+    MANUFACTURER varchar(255)
+    APPLICABILITY varchar(255)
+    STATUS varchar(255)
+    PROPOSEDBYID varchar(255)
+    PROPOSEDBY varchar(255)
+    REVIEWEDBYID varchar(255)
+    REVIEWEDBY varchar(255)
+    REVIEWEDDATE varchar(255)
+    REJECTIONREASON varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    DEPRECATEDBYID varchar(255)
+    DEPRECATEDBY varchar(255)
+    DEPRECATEDDATE varchar(255)
+    ID varchar(255)
+    NAME varchar(255)
+    AIMSPRODUCTCODE varchar(255)
+    MANUFACTURERPRODUCTCODE varchar(255)
+    DESCRIPTION varchar(255)
+}
+
+Table Projectitemactions {
+    ID varchar(255)
+    PROJECTITEMID varchar(255)
+    PROJECTITEM varchar(255)
+    PROJECTITEMACTIONTYPE varchar(255)
+    WHENCREATED varchar(255)
+    NEWSTATE varchar(255)
+    COMMENTSFIELD varchar(255)
+    FILEUPLOADFILENAME varchar(255)
+    REASSIGNTOID varchar(255)
+    REASSIGNTO varchar(255)
+    PERSONID varchar(255)
+    PERSON varchar(255)
+    NEWPROJECTITEMID varchar(255)
+    NEWPROJECTITEM varchar(255)
+    DELEGATETOID varchar(255)
+    DELEGATETO varchar(255)
+    LINKTOFILE varchar(255)
+    ATTRIBUTESSET varchar(255)
+    ROLESSET varchar(255)
+    WORKORDERID varchar(255)
+    WORKORDER varchar(255)
+    NOTESINSTRUCTIONS varchar(255)
+    EXISTINGPROJECTITEMID varchar(255)
+    EXISTINGPROJECTITEM varchar(255)
+}
+
+Table Projectitemassignedroles {
+    ID varchar(255)
+    PROJECTITEMID varchar(255)
+    PROJECTITEM varchar(255)
+    PROJECTITEMROLE varchar(255)
+    PERSONID varchar(255)
+    PERSON varchar(255)
+    WHENCREATED varchar(255)
+    CREATEDBY varchar(255)
+}
+
+Table Projectitemattributes {
+    ID varchar(255)
+    PROJECTITEMID varchar(255)
+    PROJECTITEM varchar(255)
+    ATTRIBUTEID varchar(255)
+    ATTRIBUTE varchar(255)
+    TEXTVALUE varchar(255)
+    NUMERICVALUE varchar(255)
+    DECIMAL2DPVALUE varchar(255)
+    DECIMAL3DPVALUE varchar(255)
+    MEMOVALUE varchar(255)
+    DATETIMEVALUE varchar(255)
+    TIMEVALUE varchar(255)
+    BOOLEANVALUE varchar(255)
+    VALIDFROM varchar(255)
+    VALIDTO varchar(255)
+    DOMAINVALUEID varchar(255)
+    DOMAINVALUE varchar(255)
+    PERSONVALUEID varchar(255)
+    PERSONVALUE varchar(255)
+    ORGANISATIONID varchar(255)
+    ORGANISATION varchar(255)
+    DATEVALUE varchar(255)
+}
+
+Table Projectitemlinks {
+    ID varchar(255)
+    INPUTITEMID varchar(255)
+    INPUTITEM varchar(255)
+    LINKTYPE varchar(255)
+    OUTPUTITEMID varchar(255)
+    OUTPUTITEM varchar(255)
+    WORKORDERID varchar(255)
+    WORKORDER varchar(255)
+    ASSETID varchar(255)
+    ASSET varchar(255)
+    ASSETCLASSID varchar(255)
+    ASSETCLASS varchar(255)
+}
+
+Table Projectitems {
+    ID varchar(255)
+    TITLE varchar(255)
+    ITEMID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    PROJECTITEMTYPE varchar(255)
+    CURRENTSTATUS varchar(255)
+    ORIGINATORID varchar(255)
+    ORIGINATOR varchar(255)
+    LATESTRISKSCORE varchar(255)
+}
+
+Table Relationships {
+    ID integer
+    SOURCEASSETID varchar(255)
+    SOURCEASSET integer
+    TARGETASSETID varchar(255)
+    TARGETASSET integer
+    RELATIONSHIPTYPEID varchar(255)
+    RELATIONSHIPTYPE integer
+    VALIDFROM string
+    VALIDTO string
+    HS2_CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+}
+
+Table RelationshipTypes {
+    ID integer
+    CODE string
+    DESCRIPTION string
+    ASYMMETRIC string
+    REVERSEDESCRIPTION string
+    VALIDFROM string
+    VALIDTO string
+    OWNERID varchar(255)
+    OWNER integer
+    CONSTRAINTTYPE string
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    DEFINITION string
+    NAME string
+    IMPLIESDELIVERYOFFUNCTION string
+}
+
+Table Routes {
+    ID integer
+    CODE string
+    DESCRIPTION string
+    LPO string
+    CHAINAGEUNITS string
+    ARCAPPLICABLE string
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    VALIDATECHAINAGE string
+    MINIMUM string
+    MAXIMUM string
+}
+
+Table SecondaryAssetClassCodes {
+    ID integer
+    ASSETCLASSID varchar(255)
+    ASSETCLASS integer
+    CODE string
+    SECONDARYCODINGSYSTEM integer
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+}
+
+Table Stages {
+    ID integer
+    STAGENUMBER string
+    DESCRIPTION string
+    COORDINATESREQUIRED string
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+}
+
+Table Taskdefinitions {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    STATUS varchar(255)
+    TASKDEFINITIONCLASS varchar(255)
+    DESCRIPTION varchar(255)
+    OBJECTIVE varchar(255)
+    TITLE varchar(255)
+    REQUIRESTEXTUALCOMMENTARY varchar(255)
+    REQUIRESATTACHMENTS varchar(255)
+    ALLOWSCAPTUREOFATTRIBUTES varchar(255)
+    REFERENCE varchar(255)
+    REQUIRESLOCATIONGATHERING varchar(255)
+    NOTES varchar(255)
+    APPLICABLETOALLCLASSES varchar(255)
+}
+
+Table Tracks {
+    ID integer
+    CODE string
+    ROUTEID varchar(255)
+    ROUTE string
+}
+
+Table Ua_beneficiaries {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    UNDERTAKINGASSURANCEID varchar(255)
+    UNDERTAKINGASSURANCE varchar(255)
+    BENEFICIARYID varchar(255)
+    BENEFICIARY varchar(255)
+}
+
+Table Ua_comments {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    MEETINGID varchar(255)
+    MEETING varchar(255)
+    DESCRIPTION varchar(255)
+    NONCOMPLIANCEID varchar(255)
+    NONCOMPLIANCE varchar(255)
+    ATTACHMENTFILENAME varchar(255)
+}
+
+Table Ua_entities {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    NAME varchar(255)
+    TYPE varchar(255)
+    ROLEOFREPORTINGPARTY varchar(255)
+    DEPRECATED varchar(255)
+}
+
+Table Ua_meetingattendees {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    MEETINGID varchar(255)
+    MEETING varchar(255)
+    ATTENDEE varchar(255)
+}
+
+Table Ua_meetings {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    DATEOFMEETING varchar(255)
+    NONCOMPLIANCEID varchar(255)
+    NONCOMPLIANCE varchar(255)
+    MEETINGCOMPLETE varchar(255)
+}
+
+Table Ua_noncompimppartytypes {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    NONCOMPLIANCEID varchar(255)
+    NONCOMPLIANCE varchar(255)
+    OPTIONSETVALUEID varchar(255)
+    OPTIONSETVALUE varchar(255)
+}
+
+Table Ua_noncomplianceimpacts {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    NONCOMPLIANCEID varchar(255)
+    NONCOMPLIANCE varchar(255)
+    OPTIONSETVALUEID varchar(255)
+    OPTIONSETVALUE varchar(255)
+}
+
+Table Ua_noncompotheruas {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    RELATIONSHIPTYPE varchar(255)
+    DESCRIPTION varchar(255)
+    TOUAID varchar(255)
+    TOUA varchar(255)
+    NONCOMPLIANCEID varchar(255)
+    NONCOMPLIANCE varchar(255)
+}
+
+Table Ua_optionvalues {
+    ID varchar(255)
+    NAME varchar(255)
+    OPTIONSET varchar(255)
+    PARENTCATEGORYID varchar(255)
+    PARENTCATEGORY varchar(255)
+}
+
+Table Undertakings_assurances {
+    ID varchar(255)
+    DOORSID varchar(255)
+    TYPE varchar(255)
+    STATUS varchar(255)
+    REFERENCEID varchar(255)
+    SUBJECT varchar(255)
+    UATEXT varchar(255)
+    UAREFERENCE varchar(255)
+    LINKTODOCUMENT varchar(255)
+    DATEISSUED varchar(255)
+    SPECIFICLOCATION varchar(255)
+    CHAINAGEFROM varchar(255)
+    CHAINAGETO varchar(255)
+    CURRENTRDPS varchar(255)
+    CHALLENGES varchar(255)
+    CORDP varchar(255)
+    UASECTION varchar(255)
+    PARENTID varchar(255)
+    PARENT varchar(255)
+    COMMITMENTOWNERID varchar(255)
+    COMMITMENTOWNER varchar(255)
+    PHASEID varchar(255)
+    PHASE varchar(255)
+    DISCHARGEPROGRESSSTATUS varchar(255)
+    IPTREPORTINGID varchar(255)
+    IPTREPORTING varchar(255)
+    CMRESPONSIBLEID varchar(255)
+    CMRESPONSIBLE varchar(255)
+    CONFIDENTIALITYSTATUS varchar(255)
+    PCRNUMBER varchar(255)
+    THIRDPARTYAGREEMENT varchar(255)
+    WBSSECTOR varchar(255)
+    CCPCCCPPROVIDED varchar(255)
+}
+
+Table Workbanks {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    ORGANISATIONID varchar(255)
+    ORGANISATION varchar(255)
+    ASSIGNEEID varchar(255)
+    ASSIGNEE varchar(255)
+    REFERENCE varchar(255)
+    NAME varchar(255)
+    VERSION varchar(255)
+    STATUS varchar(255)
+    DELIVERYORGANISATIONID varchar(255)
+    DELIVERYORGANISATION varchar(255)
+    DELIVERYASSIGNEEID varchar(255)
+    DELIVERYASSIGNEE varchar(255)
+}
+
+Table Workbankworkorders {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    WORKORDERID varchar(255)
+    WORKORDER varchar(255)
+    WORKBANKID varchar(255)
+    WORKBANK varchar(255)
+    SUPERSEDEDDATE varchar(255)
+}
+
+Table Workorderattributes {
+    ID varchar(255)
+    WORKORDERID varchar(255)
+    WORKORDER varchar(255)
+    ATTRIBUTEID varchar(255)
+    ATTRIBUTE varchar(255)
+    TEXTVALUE varchar(255)
+    INTEGERVALUE varchar(255)
+    DECIMAL2DPVALUE varchar(255)
+    DECIMAL3DPVALUE varchar(255)
+    MEMOVALUE varchar(255)
+    DATEVALUE varchar(255)
+    TIMEVALUE varchar(255)
+    BOOLEANVALUE varchar(255)
+    PERSONVALUEID varchar(255)
+    PERSONVALUE varchar(255)
+    SINGLEATTRIBUTEDOMAINVALUEID varchar(255)
+    SINGLEATTRIBUTEDOMAINVALUE varchar(255)
+}
+
+Table Workorders {
+    ID varchar(255)
+    TASKDEFINITIONID varchar(255)
+    TASKDEFINITION varchar(255)
+    ASSETID varchar(255)
+    ASSET varchar(255)
+    PARENTID varchar(255)
+    PARENT varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    UPDATEDBY varchar(255)
+    LASTUPDATED varchar(255)
+    NOTES varchar(255)
+    ACTUALSTARTDATE varchar(255)
+    PLANNEDCOMPLETIONDATE varchar(255)
+    PERSONID varchar(255)
+    PERSON varchar(255)
+    ORGANISATIONID varchar(255)
+    ORGANISATION varchar(255)
+    SIGNEDOFFDATE varchar(255)
+    WORKORDERID varchar(255)
+    TARGETCOMPLETIONDATE varchar(255)
+    REQUIREDBYDATE varchar(255)
+    ACTUALCOMPLETIONDATE varchar(255)
+}
+
+Table Workorderstatustransition {
+    ID varchar(255)
+    CREATEDBY varchar(255)
+    WHENCREATED varchar(255)
+    WORKORDERID varchar(255)
+    WORKORDER varchar(255)
+    PERFORMEDBYID varchar(255)
+    PERFORMEDBY varchar(255)
+    TRANSITIONPERFORMED varchar(255)
+    JUSTIFICATION varchar(255)
+    PLANNEDCOMPLETIONDATE varchar(255)
+    REQUIREDBYDATE varchar(255)
+    ACTUALSTARTDATE varchar(255)
+    ACTUALCOMPLETIONDATE varchar(255)
+    SIGNEDOFFDATE varchar(255)
+    ORGANISATIONID varchar(255)
+    ORGANISATION varchar(255)
+    TARGETCOMPLETIONDATE varchar(255)
+}
