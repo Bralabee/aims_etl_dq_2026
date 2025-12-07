@@ -15,7 +15,7 @@ class Config:
     BASE_DIR = Path(__file__).parent.parent
     SOURCE_DATA_PATH = Path(os.getenv(
         "SOURCE_DATA_PATH",
-        "/home/sanmi/Documents/HS2/aims_data_1/aims_data_parquet"
+        BASE_DIR / "data" / "Samples_LH_Bronze_Aims_26_parquet"
     ))
     TARGET_DATA_PATH = Path(os.getenv(
         "TARGET_DATA_PATH", 

@@ -28,11 +28,17 @@ if [ -f "requirements.txt" ]; then
 fi
 
 # Install fabric_data_quality from local wheel
-# Find the latest wheel
-WHEEL_PATH=$(find ../fabric_data_quality/dist -name "fabric_data_quality-*.whl" | sort -V | tail -n 1)
+# Find the latest wheel in the project's distribution folder
+WHEEL_PATH=$(find dq_great_expectations/dq_package_dist -name "fabric_data_quality-*.whl" | sort -V | tail -n 1)
 
 if [ -z "$WHEEL_PATH" ]; then
-    echo "Warning: fabric_data_quality wheel not found. Please build it first."
+    echo "Warning: fabric_data_quality wheel not found in dq_great_expectations/dq_package_dist."
+    echo "Checking parent directory..."
+    WHEEL_PATH=$(find ../2_DATA_QUALITY_LIBRARY/dist -name "fabric_data_quality-*.whl" | sort -V | tail -n 1)
+fi
+
+if [ -z "$WHEEL_PATH" ]; then
+    echo "Error: fabric_data_quality wheel not found. Please build it in 2_DATA_QUALITY_LIBRARY."
 else
     echo "Installing fabric_data_quality from $WHEEL_PATH..."
     pip install --force-reinstall "$WHEEL_PATH"

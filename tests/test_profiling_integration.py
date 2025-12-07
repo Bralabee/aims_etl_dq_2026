@@ -16,8 +16,14 @@ import pytest
 from pathlib import Path
 import pandas as pd
 
-# Ensure we can import from the project root if needed
+# Ensure we can import from the project root
 sys.path.append(str(Path(__file__).parent.parent))
+
+# Ensure we can import the DQ library (assuming it's in the workspace)
+# This allows tests to run without installing the package
+DQ_LIB_PATH = Path(__file__).parent.parent.parent / "2_DATA_QUALITY_LIBRARY"
+if DQ_LIB_PATH.exists():
+    sys.path.append(str(DQ_LIB_PATH))
 
 def test_imports():
     """Test that all necessary imports work."""
