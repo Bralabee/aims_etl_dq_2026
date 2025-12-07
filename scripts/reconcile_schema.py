@@ -4,10 +4,12 @@ from pathlib import Path
 import pyarrow.parquet as pq
 import pyarrow as pa
 import pandas as pd
+import argparse
 
 # Configuration
 DATA_MODEL_FILE = Path("docs/AIMS Data Model.txt")
 PARQUET_DIR = Path("data/Samples_LH_Bronze_Aims_26_parquet")
+GENERATED_MODEL_FILE = Path("docs/AIMS_Data_Model_Actual.txt")
 
 def parse_data_model(file_path):
     """Parses the AIMS Data Model text file."""
@@ -54,6 +56,158 @@ def format_size(size_bytes):
             return f"{size_bytes:.2f} {unit}"
         size_bytes /= 1024.0
     return f"{size_bytes:.2f} TB"
+
+def map_arrow_type(arrow_type):
+    """Maps PyArrow types to AIMS Model types."""
+    t = str(arrow_type)
+    if 'string' in t: return 'varchar(255)'
+    if 'int64' in t: return 'bigint'
+    if 'int32' in t: return 'int'
+    if 'double' in t or 'float' in t: return 'float'
+    if 'bool' in t: return 'bit'
+    if 'timestamp' in t: return 'datetime'
+    return 'varchar(255)' # Default fallback
+
+def check_relationship(source_table, source_col, target_table, target_col):
+    """Checks if values in source_col exist in target_col."""
+    source_file = PARQUET_DIR / f"aims_{source_table.lower()}.parquet"
+    target_file = PARQUET_DIR / f"aims_{target_table.lower()}.parquet"
+    
+    if not source_file.exists() or not target_file.exists():
+        return False, "Files not found"
+        
+    try:
+        # Optimization: Read only relevant columns
+        source_df = pq.read_table(source_file, columns=[source_col]).to_pandas()
+        target_df = pq.read_table(target_file, columns=[target_col]).to_pandas()
+        
+        # Use sets for O(1) lookup
+        source_vals = set(source_df[source_col].dropna().unique())
+        target_vals = set(target_df[target_col].dropna().unique())
+        
+        if len(source_vals) == 0:
+            return False, "No source data"
+            
+        valid_refs = len(source_vals.intersection(target_vals))
+        total_refs = len(source_vals)
+        
+        percentage = (valid_refs / total_refs) * 100
+        return valid_refs > 0, f"{percentage:.2f}% ({valid_refs}/{total_refs})"
+    except Exception as e:
+        return False, f"Error: {e}"
+
+def generate_model(tables, parquet_dir):
+    """Generates a new data model from Parquet files with inferred and validated relationships."""
+    print("Generating new data model...")
+    new_model_lines = []
+    new_model_lines.append("// AIMS Data Model (Reversed from Parquet Data)")
+    new_model_lines.append(f"// Generated on {pd.Timestamp.now()}")
+    new_model_lines.append("")
+
+    all_parquet_files = sorted(list(parquet_dir.glob("*.parquet")))
+    generated_tables = {} # Store table name -> list of columns
+
+    # 1. Generate Tables
+    for file_path in all_parquet_files:
+        file_name = file_path.name
+        name_part = file_name.replace('aims_', '').replace('.parquet', '')
+        
+        # Try to find matching original table name
+        table_name = name_part.capitalize()
+        original_cols = {}
+        for t_name, t_cols in tables.items():
+            if t_name.lower() == name_part.lower():
+                table_name = t_name
+                original_cols = t_cols
+                break
+        
+        generated_tables[table_name] = []
+        
+        try:
+            metadata = pq.read_metadata(file_path)
+            schema = metadata.schema.to_arrow_schema()
+        except Exception as e:
+            print(f"Skipping {file_name}: {e}")
+            continue
+            
+        new_model_lines.append(f"Table {table_name} {{")
+        
+        for field in schema:
+            col_name = field.name
+            col_type = "varchar(255)"
+            
+            # Preserve original type if known
+            found_orig = False
+            for orig_col, orig_type in original_cols.items():
+                if orig_col.lower() == col_name.lower():
+                    col_type = orig_type
+                    found_orig = True
+                    break
+            
+            if not found_orig:
+                col_type = map_arrow_type(field.type)
+            
+            generated_tables[table_name].append(col_name)
+            
+            suffix = ""
+            if col_name.upper() == 'ID':
+                suffix = " [primary key]"
+            
+            new_model_lines.append(f"    {col_name} {col_type}{suffix}")
+            
+        new_model_lines.append("}")
+        new_model_lines.append("")
+
+    # 2. Infer and Validate Relationships
+    print("Inferring and validating relationships...")
+    relationships = []
+    
+    # Build singular map
+    singular_map = {}
+    for t in generated_tables:
+        singular = t[:-1] if t.endswith('s') and not t.endswith('ss') else t
+        if t.endswith('ies'): singular = t[:-3] + 'y'
+        singular_map[singular.lower()] = t
+        singular_map[t.lower()] = t
+
+    for table_name, columns in generated_tables.items():
+        for col_name in columns:
+            if col_name.upper() == 'ID': continue
+            
+            if col_name.upper().endswith('ID'):
+                potential_ref = col_name[:-2]
+                if potential_ref.lower() in singular_map:
+                    target_table = singular_map[potential_ref.lower()]
+                    
+                    # Validate
+                    print(f"  Checking {table_name}.{col_name} -> {target_table}.ID...", end=" ", flush=True)
+                    
+                    # Skip huge tables validation if needed, or just do it
+                    # AssetAttributes is huge, let's skip it for speed unless critical
+                    if table_name == 'AssetAttributes':
+                         print("Skipped (Large Table)")
+                         relationships.append(f"Ref: {table_name}.{col_name} > {target_table}.ID // Unverified (Large Table)")
+                         continue
+
+                    is_valid, details = check_relationship(table_name, col_name, target_table, 'ID')
+                    
+                    if is_valid:
+                        print(f"VALID {details}")
+                        relationships.append(f"Ref: {table_name}.{col_name} > {target_table}.ID // Verified: {details}")
+                    else:
+                        print(f"INVALID {details}")
+                        # relationships.append(f"// Ref: {table_name}.{col_name} > {target_table}.ID // Rejected: {details}")
+
+    if relationships:
+        new_model_lines.append("")
+        new_model_lines.append("// Validated Relationships")
+        new_model_lines.extend(relationships)
+
+    with open(GENERATED_MODEL_FILE, 'w') as f:
+        f.write('\n'.join(new_model_lines))
+    
+    print(f"\nSuccessfully generated new data model: {GENERATED_MODEL_FILE}")
+
 
 def reconcile(tables, parquet_dir):
     """Reconciles the data model with parquet files."""
@@ -162,10 +316,23 @@ def reconcile(tables, parquet_dir):
     print("\nReport saved to RECONCILIATION_REPORT.md")
 
 if __name__ == "__main__":
-    import pandas as pd # Import here for timestamp
+    parser = argparse.ArgumentParser(description="AIMS Schema Reconciliation Tool")
+    parser.add_argument("--generate", action="store_true", help="Generate a new data model from Parquet files")
+    parser.add_argument("--reconcile", action="store_true", help="Reconcile existing model with Parquet files")
+    
+    args = parser.parse_args()
+    
+    # Default to reconcile if no args provided
+    if not args.generate and not args.reconcile:
+        args.reconcile = True
+
     print("Parsing Data Model...")
     tables = parse_data_model(DATA_MODEL_FILE)
     print(f"Found {len(tables)} tables in model.")
     
-    print("\nReconciling with Parquet files...")
-    reconcile(tables, PARQUET_DIR)
+    if args.reconcile:
+        print("\nReconciling with Parquet files...")
+        reconcile(tables, PARQUET_DIR)
+        
+    if args.generate:
+        generate_model(tables, PARQUET_DIR)

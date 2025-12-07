@@ -1,5 +1,5 @@
 // AIMS Data Model (Reversed from Parquet Data)
-// Generated on 2025-12-07 17:58:39.663090
+// Generated on 2025-12-07 18:31:00.135150
 
 Table Activitydates {
     ID varchar(255) [primary key]
@@ -1333,89 +1333,53 @@ Table Workorderstatustransition {
 }
 
 
-// Inferred Relationships
-Ref: AssetAttributes.ASSETID > Assets.ID
-Ref: AssetAttributes.ATTRIBUTEID > Attributes.ID
-Ref: AssetAttributes.ASSETLOCATIONID > AssetLocations.ID
-Ref: AssetAttributes.OWNERID > Owners.ID
-Ref: AssetAttributes.PHASEID > Phases.ID
-Ref: AssetAttributes.ORGANISATIONID > Organisations.ID
-Ref: AssetAttributes.STAGEID > Stages.ID
-Ref: AssetAttributes.TRACKID > Tracks.ID
-Ref: AssetAttributes.ROUTEID > Routes.ID
-Ref: AssetAttributes.INFORMATIONPACKAGEID > InformationPackages.ID
-Ref: AssetClassAttributes.ATTRIBUTEID > Attributes.ID
-Ref: AssetClassAttributes.OWNERID > Owners.ID
-Ref: AssetClassAttributes.ATTRIBUTEDOMAINID > AttributeDomains.ID
-Ref: AssetClasses.OWNERID > Owners.ID
-Ref: AssetClassRelationships.RELATIONSHIPTYPEID > RelationshipTypes.ID
-Ref: AssetClassRelationships.OWNERID > Owners.ID
-Ref: Assetconsents.CONSENTID > Consents.ID
-Ref: Assetconsents.ASSETID > Assets.ID
-Ref: AssetLocations.ASSETID > Assets.ID
-Ref: AssetLocations.ROUTEID > Routes.ID
-Ref: AssetLocations.TRACKID > Tracks.ID
-Ref: Assets.OWNERID > Owners.ID
-Ref: Assets.PHASEID > Phases.ID
-Ref: Assets.STAGEID > Stages.ID
-Ref: Assets.PRODUCTID > Products.ID
-Ref: AttributeDomainValues.ATTRIBUTEDOMAINID > AttributeDomains.ID
-Ref: Attributes.ATTRIBUTEGROUPID > AttributeGroups.ID
-Ref: Attributes.OWNERID > Owners.ID
-Ref: Attributes.RELATIONSHIPTYPEID > RelationshipTypes.ID
-Ref: Attributes.ATTRIBUTEDOMAINID > AttributeDomains.ID
-Ref: Consentlinks.CONSENTID > Consents.ID
-Ref: Consentmilestones.CONSENTID > Consents.ID
-Ref: Consentmilestones.CONSENTMILESTONETYPEID > Consentmilestonetypes.ID
-Ref: Consents.PHASEID > Phases.ID
-Ref: Consents.OWNERID > Owners.ID
-Ref: Consenttypemilestones.CONSENTTYPEID > Consenttypes.ID
-Ref: Consenttypemilestones.CONSENTMILESTONETYPEID > Consentmilestonetypes.ID
-Ref: Informationneedassetclass.INFORMATIONNEEDATTRIBUTEID > Informationneedattributes.ID
-Ref: Informationneedattributes.INFORMATIONNEEDID > Informationneeds.ID
-Ref: Informationneedattributes.ATTRIBUTEID > Attributes.ID
-Ref: Informationneeddocs.INFORMATIONNEEDID > Informationneeds.ID
-Ref: Informationneedgeometries.INFORMATIONNEEDID > Informationneeds.ID
-Ref: Informationneedlinks.INFORMATIONNEEDID > Informationneeds.ID
-Ref: Informationneedlinks.LINKTYPEID > LinkTypes.ID
-Ref: Informationneedpropchngs.ATTRIBUTEDOMAINID > AttributeDomains.ID
-Ref: Informationneedpropchngs.INFORMATIONNEEDID > Informationneeds.ID
-Ref: Informationneedpropchngs.ATTRIBUTEID > Attributes.ID
-Ref: Informationneedsourcedocs.INFORMATIONNEEDID > Informationneeds.ID
-Ref: Informationneedstatusupd.INFORMATIONNEEDID > Informationneeds.ID
-Ref: Links.ASSETID > Assets.ID
-Ref: Links.LINKTYPEID > LinkTypes.ID
-Ref: Organisations.OWNERID > Owners.ID
-Ref: People.ORGANISATIONID > Organisations.ID
-Ref: Productassetclasses.PRODUCTID > Products.ID
-Ref: Productcharacteristics.PRODUCTID > Products.ID
-Ref: Productcharacteristics.ATTRIBUTEID > Attributes.ID
-Ref: Productlinks.PRODUCTID > Products.ID
-Ref: Projectitemactions.PROJECTITEMID > Projectitems.ID
-Ref: Projectitemactions.WORKORDERID > Workorders.ID
-Ref: Projectitemassignedroles.PROJECTITEMID > Projectitems.ID
-Ref: Projectitemattributes.PROJECTITEMID > Projectitems.ID
-Ref: Projectitemattributes.ATTRIBUTEID > Attributes.ID
-Ref: Projectitemattributes.ORGANISATIONID > Organisations.ID
-Ref: Projectitemlinks.WORKORDERID > Workorders.ID
-Ref: Projectitemlinks.ASSETID > Assets.ID
-Ref: Relationships.RELATIONSHIPTYPEID > RelationshipTypes.ID
-Ref: RelationshipTypes.OWNERID > Owners.ID
-Ref: Tracks.ROUTEID > Routes.ID
-Ref: Ua_comments.NONCOMPLIANCEID > Noncompliances.ID
-Ref: Ua_meetings.NONCOMPLIANCEID > Noncompliances.ID
-Ref: Ua_noncompimppartytypes.NONCOMPLIANCEID > Noncompliances.ID
-Ref: Ua_noncomplianceimpacts.NONCOMPLIANCEID > Noncompliances.ID
-Ref: Ua_noncompotheruas.NONCOMPLIANCEID > Noncompliances.ID
-Ref: Undertakings_assurances.PHASEID > Phases.ID
-Ref: Workbanks.ORGANISATIONID > Organisations.ID
-Ref: Workbankworkorders.WORKORDERID > Workorders.ID
-Ref: Workbankworkorders.WORKBANKID > Workbanks.ID
-Ref: Workorderattributes.WORKORDERID > Workorders.ID
-Ref: Workorderattributes.ATTRIBUTEID > Attributes.ID
-Ref: Workorders.TASKDEFINITIONID > Taskdefinitions.ID
-Ref: Workorders.ASSETID > Assets.ID
-Ref: Workorders.ORGANISATIONID > Organisations.ID
-Ref: Workorders.WORKORDERID > Workorders.ID
-Ref: Workorderstatustransition.WORKORDERID > Workorders.ID
-Ref: Workorderstatustransition.ORGANISATIONID > Organisations.ID
+// Validated Relationships
+Ref: AssetAttributes.ASSETID > Assets.ID // Unverified (Large Table)
+Ref: AssetAttributes.ATTRIBUTEID > Attributes.ID // Unverified (Large Table)
+Ref: AssetAttributes.ASSETLOCATIONID > AssetLocations.ID // Unverified (Large Table)
+Ref: AssetAttributes.OWNERID > Owners.ID // Unverified (Large Table)
+Ref: AssetAttributes.PHASEID > Phases.ID // Unverified (Large Table)
+Ref: AssetAttributes.ORGANISATIONID > Organisations.ID // Unverified (Large Table)
+Ref: AssetAttributes.STAGEID > Stages.ID // Unverified (Large Table)
+Ref: AssetAttributes.TRACKID > Tracks.ID // Unverified (Large Table)
+Ref: AssetAttributes.ROUTEID > Routes.ID // Unverified (Large Table)
+Ref: AssetAttributes.INFORMATIONPACKAGEID > InformationPackages.ID // Unverified (Large Table)
+Ref: AssetClassAttributes.ATTRIBUTEID > Attributes.ID // Verified: 100.00% (6417/6417)
+Ref: AssetClassAttributes.OWNERID > Owners.ID // Verified: 100.00% (1/1)
+Ref: AssetClasses.OWNERID > Owners.ID // Verified: 100.00% (1/1)
+Ref: AssetClassRelationships.OWNERID > Owners.ID // Verified: 100.00% (1/1)
+Ref: Assetconsents.CONSENTID > Consents.ID // Verified: 100.00% (5161/5161)
+Ref: Assetconsents.ASSETID > Assets.ID // Verified: 100.00% (1547/1547)
+Ref: AssetLocations.ASSETID > Assets.ID // Verified: 100.00% (2217599/2217599)
+Ref: AssetLocations.ROUTEID > Routes.ID // Verified: 40.82% (20/49)
+Ref: Assets.OWNERID > Owners.ID // Verified: 100.00% (19/19)
+Ref: Assets.PHASEID > Phases.ID // Verified: 100.00% (6/6)
+Ref: Assets.STAGEID > Stages.ID // Verified: 100.00% (7/7)
+Ref: AttributeDomainValues.ATTRIBUTEDOMAINID > AttributeDomains.ID // Verified: 99.87% (763/764)
+Ref: Consentmilestones.CONSENTID > Consents.ID // Verified: 100.00% (5162/5162)
+Ref: Consentmilestones.CONSENTMILESTONETYPEID > Consentmilestonetypes.ID // Verified: 100.00% (33/33)
+Ref: Consents.PHASEID > Phases.ID // Verified: 100.00% (1/1)
+Ref: Consenttypemilestones.CONSENTTYPEID > Consenttypes.ID // Verified: 100.00% (102/102)
+Ref: Consenttypemilestones.CONSENTMILESTONETYPEID > Consentmilestonetypes.ID // Verified: 100.00% (33/33)
+Ref: Informationneedattributes.INFORMATIONNEEDID > Informationneeds.ID // Verified: 100.00% (210/210)
+Ref: Informationneedattributes.ATTRIBUTEID > Attributes.ID // Verified: 100.00% (291/291)
+Ref: Informationneedgeometries.INFORMATIONNEEDID > Informationneeds.ID // Verified: 100.00% (23/23)
+Ref: Informationneedlinks.INFORMATIONNEEDID > Informationneeds.ID // Verified: 100.00% (1/1)
+Ref: Informationneedlinks.LINKTYPEID > LinkTypes.ID // Verified: 100.00% (1/1)
+Ref: Informationneedpropchngs.INFORMATIONNEEDID > Informationneeds.ID // Verified: 100.00% (510/510)
+Ref: Informationneedsourcedocs.INFORMATIONNEEDID > Informationneeds.ID // Verified: 100.00% (165/165)
+Ref: Informationneedstatusupd.INFORMATIONNEEDID > Informationneeds.ID // Verified: 100.00% (45/45)
+Ref: Links.ASSETID > Assets.ID // Verified: 100.00% (16060/16060)
+Ref: People.ORGANISATIONID > Organisations.ID // Verified: 100.00% (26/26)
+Ref: Projectitemactions.PROJECTITEMID > Projectitems.ID // Verified: 100.00% (1/1)
+Ref: Projectitemassignedroles.PROJECTITEMID > Projectitems.ID // Verified: 100.00% (1/1)
+Ref: Projectitemattributes.PROJECTITEMID > Projectitems.ID // Verified: 100.00% (1/1)
+Ref: Projectitemattributes.ATTRIBUTEID > Attributes.ID // Verified: 100.00% (3/3)
+Ref: Relationships.RELATIONSHIPTYPEID > RelationshipTypes.ID // Verified: 100.00% (23/23)
+Ref: RelationshipTypes.OWNERID > Owners.ID // Verified: 100.00% (1/1)
+Ref: Tracks.ROUTEID > Routes.ID // Verified: 100.00% (13/13)
+Ref: Ua_meetings.NONCOMPLIANCEID > Noncompliances.ID // Verified: 100.00% (38/38)
+Ref: Ua_noncompimppartytypes.NONCOMPLIANCEID > Noncompliances.ID // Verified: 100.00% (24/24)
+Ref: Ua_noncomplianceimpacts.NONCOMPLIANCEID > Noncompliances.ID // Verified: 100.00% (129/129)
+Ref: Ua_noncompotheruas.NONCOMPLIANCEID > Noncompliances.ID // Verified: 100.00% (6/6)
+Ref: Undertakings_assurances.PHASEID > Phases.ID // Verified: 100.00% (2/2)
