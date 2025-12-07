@@ -7,9 +7,9 @@ import pandas as pd
 
 # Configuration
 # These defaults can be overridden by passing arguments
-DEFAULT_DATA_MODEL_FILE = Path("docs/AIMS Data Model.txt")
-DEFAULT_PARQUET_DIR = Path("data/Samples_LH_Bronze_Aims_26_parquet")
-DEFAULT_GENERATED_MODEL_FILE = Path("docs/AIMS_Data_Model_Actual.txt")
+DEFAULT_DATA_MODEL_FILE = Path(os.getenv("DATA_MODEL_FILE", "docs/AIMS Data Model.txt"))
+DEFAULT_PARQUET_DIR = Path(os.getenv("BRONZE_PATH", "data/Samples_LH_Bronze_Aims_26_parquet"))
+DEFAULT_GENERATED_MODEL_FILE = Path(os.getenv("GENERATED_MODEL_FILE", "docs/AIMS_Data_Model_Actual.txt"))
 
 def parse_data_model(file_path):
     """

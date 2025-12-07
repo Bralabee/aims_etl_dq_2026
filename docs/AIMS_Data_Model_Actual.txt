@@ -1,5 +1,5 @@
 // AIMS Data Model (Reversed from Parquet Data)
-// Generated on 2025-12-07 18:47:34.686944
+// Generated on 2025-12-07 19:56:06.333011
 
 Table Activitydates {
     ID varchar(255) [primary key]
@@ -1334,16 +1334,8 @@ Table Workorderstatustransition {
 
 
 // Validated Relationships
-Ref: AssetAttributes.ASSETID > Assets.ID // Unverified (Large Table)
-Ref: AssetAttributes.ATTRIBUTEID > Attributes.ID // Unverified (Large Table)
-Ref: AssetAttributes.ASSETLOCATIONID > AssetLocations.ID // Unverified (Large Table)
-Ref: AssetAttributes.OWNERID > Owners.ID // Unverified (Large Table)
-Ref: AssetAttributes.PHASEID > Phases.ID // Unverified (Large Table)
-Ref: AssetAttributes.ORGANISATIONID > Organisations.ID // Unverified (Large Table)
-Ref: AssetAttributes.STAGEID > Stages.ID // Unverified (Large Table)
-Ref: AssetAttributes.TRACKID > Tracks.ID // Unverified (Large Table)
-Ref: AssetAttributes.ROUTEID > Routes.ID // Unverified (Large Table)
-Ref: AssetAttributes.INFORMATIONPACKAGEID > InformationPackages.ID // Unverified (Large Table)
+Ref: AssetAttributes.ASSETID > Assets.ID // Verified: 100.00% (12131/12131) (Sampled 100000)
+Ref: AssetAttributes.ATTRIBUTEID > Attributes.ID // Verified: 100.00% (21/21) (Sampled 100000)
 Ref: AssetClassAttributes.ATTRIBUTEID > Attributes.ID // Verified: 100.00% (6417/6417)
 Ref: AssetClassAttributes.OWNERID > Owners.ID // Verified: 100.00% (1/1)
 Ref: AssetClasses.OWNERID > Owners.ID // Verified: 100.00% (1/1)
@@ -1383,3 +1375,30 @@ Ref: Ua_noncompimppartytypes.NONCOMPLIANCEID > Noncompliances.ID // Verified: 10
 Ref: Ua_noncomplianceimpacts.NONCOMPLIANCEID > Noncompliances.ID // Verified: 100.00% (129/129)
 Ref: Ua_noncompotheruas.NONCOMPLIANCEID > Noncompliances.ID // Verified: 100.00% (6/6)
 Ref: Undertakings_assurances.PHASEID > Phases.ID // Verified: 100.00% (2/2)
+
+// Orphaned Tables (No Relationships Detected)
+// - Activitydates
+// - AssetClassChangeLogs
+// - AssetHierarchyMap
+// - AttributeGroups
+// - Consentlinks
+// - InformationPackages
+// - Informationneedassetclass
+// - Informationneeddocs
+// - Productassetclasses
+// - Productcharacteristics
+// - Productlinks
+// - Products
+// - Projectitemlinks
+// - SecondaryAssetClassCodes
+// - Taskdefinitions
+// - Ua_beneficiaries
+// - Ua_comments
+// - Ua_entities
+// - Ua_meetingattendees
+// - Ua_optionvalues
+// - Workbanks
+// - Workbankworkorders
+// - Workorderattributes
+// - Workorders
+// - Workorderstatustransition

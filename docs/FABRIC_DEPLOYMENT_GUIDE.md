@@ -93,7 +93,7 @@ class FabricConfig:
         self.parquet_engine = kwargs.get("parquet_engine", "pyarrow")
         self.compression = kwargs.get("compression", "snappy")
         self.watermark_column = kwargs.get("watermark_column", "LASTUPDATED")
-        self.batch_size = kwargs.get("batch_size", 10000)
+        self.batch_size = kwargs.get("batch_size", 1.0.2)
         self.log_level = kwargs.get("log_level", "INFO")
     
     @staticmethod
@@ -155,7 +155,7 @@ long_description = readme_file.read_text(encoding="utf-8") if readme_file.exists
 
 setup(
     name="aims-data-platform",
-    version="1.0.0",
+    version="1.0.2",
     description="AIMS data ingestion platform with incremental loading and data quality",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -212,7 +212,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aims-data-platform"
-version = "1.0.0"
+version = "1.0.2"
 description = "AIMS data ingestion platform for MS Fabric"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -271,7 +271,7 @@ Update `src/__init__.py` to export properly:
 ```python
 """AIMS Data Platform - Cloud-ready data ingestion with data quality."""
 
-__version__ = "1.0.0"
+__version__ = "1.0.2"
 
 # Export main classes for easy import
 from .fabric_config import FabricConfig
@@ -321,18 +321,18 @@ find . -type d -name __pycache__ -exec rm -rf {} +
 python -m build
 
 # This creates:
-# - dist/aims_data_platform-1.0.0-py3-none-any.whl
-# - dist/aims-data-platform-1.0.0.tar.gz
+# - dist/aims_data_platform-1.0.2-py3-none-any.whl
+# - dist/aims-data-platform-1.0.2.tar.gz
 ```
 
 ### Step 2.3: Verify the Wheel
 
 ```bash
 # List contents of wheel
-unzip -l dist/aims_data_platform-1.0.0-py3-none-any.whl
+unzip -l dist/aims_data_platform-1.0.2-py3-none-any.whl
 
 # Test local installation
-pip install dist/aims_data_platform-1.0.0-py3-none-any.whl
+pip install dist/aims_data_platform-1.0.2-py3-none-any.whl
 
 # Test import
 python -c "from src import FabricConfig, DataIngester; print('✅ Import successful')"
@@ -350,7 +350,7 @@ python -c "from src import FabricConfig, DataIngester; print('✅ Import success
 2. Navigate to your Lakehouse: `LH_AIMSExtract_Bronze`
 3. Go to **Files** section
 4. Create folder structure: `Files/wheels/`
-5. Upload `aims_data_platform-1.0.0-py3-none-any.whl`
+5. Upload `aims_data_platform-1.0.2-py3-none-any.whl`
 
 **Option B: Via Azure CLI (if you have access)**
 
@@ -365,13 +365,13 @@ az login
 az storage blob upload \
     --account-name onelake \
     --container-name "DPT_F_DE_AIMSAssurance" \
-    --name "LH_AIMSExtract_Bronze.Lakehouse/Files/wheels/aims_data_platform-1.0.0-py3-none-any.whl" \
-    --file dist/aims_data_platform-1.0.0-py3-none-any.whl
+    --name "LH_AIMSExtract_Bronze.Lakehouse/Files/wheels/aims_data_platform-1.0.2-py3-none-any.whl" \
+    --file dist/aims_data_platform-1.0.2-py3-none-any.whl
 ```
 
 **Final Path in Fabric:**
 ```
-/lakehouse/default/Files/wheels/aims_data_platform-1.0.0-py3-none-any.whl
+/lakehouse/default/Files/wheels/aims_data_platform-1.0.2-py3-none-any.whl
 ```
 
 ### Step 3.2: Upload Source Data (if not already there)
@@ -392,7 +392,7 @@ Create notebook: `01_Install_AIMS_Package`
 **Cell 1: Install the wheel**
 ```python
 # Install AIMS Data Platform package
-%pip install /lakehouse/default/Files/wheels/aims_data_platform-1.0.0-py3-none-any.whl --force-reinstall
+%pip install /lakehouse/default/Files/wheels/aims_data_platform-1.0.2-py3-none-any.whl --force-reinstall
 
 # Verify installation
 import sys
@@ -428,7 +428,7 @@ from notebookutils import mssparkutils
 config = FabricConfig.for_fabric(
     source_path="abfss://DPT_F_DE_AIMSAssurance@onelake.dfs.fabric.microsoft.com/LH_AIMSExtract_Bronze.Lakehouse/Files/Parquet files from Datb/13-11-2025",
     watermark_column="LASTUPDATED",
-    batch_size=10000
+    batch_size=1.0.2
 )
 
 print("🔧 Configuration:")
@@ -494,7 +494,7 @@ df_spark.printSchema()
 **Cell 5: Convert to Pandas for processing**
 ```python
 # Get sample or full data
-sample_size = 100000  # Adjust based on your needs
+sample_size = 1.0.20  # Adjust based on your needs
 
 if df_spark.count() > sample_size:
     df_pd = df_spark.limit(sample_size).toPandas()
@@ -747,7 +747,7 @@ GROUP BY source_name
 **Solution**:
 ```python
 # Reinstall package
-%pip install /lakehouse/default/Files/wheels/aims_data_platform-1.0.0-py3-none-any.whl --force-reinstall --no-deps
+%pip install /lakehouse/default/Files/wheels/aims_data_platform-1.0.2-py3-none-any.whl --force-reinstall --no-deps
 ```
 
 ### Issue 2: ABFSS Access Denied
@@ -793,7 +793,7 @@ for batch in pd.read_parquet(file, chunksize=batch_size):
 mssparkutils.fs.ls("/lakehouse/default/Files/wheels/")
 
 # Use absolute path
-%pip install /lakehouse/default/Files/wheels/aims_data_platform-1.0.0-py3-none-any.whl
+%pip install /lakehouse/default/Files/wheels/aims_data_platform-1.0.2-py3-none-any.whl
 ```
 
 ---
@@ -896,13 +896,13 @@ jobs:
 python -m build
 
 # Install locally
-pip install dist/aims_data_platform-1.0.0-py3-none-any.whl
+pip install dist/aims_data_platform-1.0.2-py3-none-any.whl
 
 # Test import
 python -c "from src import FabricConfig; print('OK')"
 
 # In Fabric notebook:
-%pip install /lakehouse/default/Files/wheels/aims_data_platform-1.0.0-py3-none-any.whl
+%pip install /lakehouse/default/Files/wheels/aims_data_platform-1.0.2-py3-none-any.whl
 ```
 
 ---
