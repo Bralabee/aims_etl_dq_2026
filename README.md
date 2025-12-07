@@ -2,52 +2,62 @@
 
 ![CI Status](https://github.com/Bralabee/HSS/actions/workflows/aims_dq_ci.yml/badge.svg)
 
-Federated, governed data ingestion platform with incremental loading, data quality validation using Great Expectations, and Microsoft Fabric compatibility.
+A comprehensive, governed data ingestion platform designed for incremental loading, data quality validation via Great Expectations, and seamless integration with Microsoft Fabric.
 
-## Features
+## Key Features
 
-- ✅ **Incremental Loading** - Watermark-based incremental data ingestion
-- ✅ **Data Quality** - Great Expectations integration for validation
-- ✅ **Data Profiling** - Automated profiling using fabric_data_quality framework
-- ✅ **Parquet Repair** - Handle corrupted/legacy parquet files
-- ✅ **Governance** - Load history and watermark tracking
-- ✅ **CLI Interface** - Easy-to-use command-line interface
-- ✅ **MS Fabric Ready** - Compatible with Microsoft Fabric/OneLake
+- ✅ **Incremental Loading** - Implements watermark-based incremental data ingestion.
+- ✅ **Data Quality** - Integrates Great Expectations for robust data validation.
+- ✅ **Data Profiling** - Provides automated profiling utilizing the `fabric_data_quality` framework.
+- ✅ **Parquet Repair** - Includes mechanisms to handle and repair corrupted or legacy Parquet files.
+- ✅ **Governance** - Maintains detailed load history and watermark tracking for auditability.
+- ✅ **CLI Interface** - Offers a user-friendly command-line interface for operations.
+- ✅ **MS Fabric Ready** - Fully compatible with Microsoft Fabric and OneLake architectures.
 
-## 📊 Data Profiling (NEW!)
+## 📊 Data Profiling Capabilities
 
-Profile your AIMS parquet files to understand data quality and generate validation configs:
+Analyze AIMS Parquet files to assess data quality and generate validation configurations automatically.
 
 ```bash
-# Setup (one-time)
+# Initial Setup (one-time)
 bash setup.sh
 
-# Profile all parquet files
+# Execute profiling for all Parquet files
 python scripts/profile_aims_parquet.py
 
-# Or use Jupyter notebook for interactive profiling
+# Interactive profiling via Jupyter Notebook
 jupyter notebook notebooks/01_AIMS_Data_Profiling.ipynb
 ```
 
-**📖 See [docs/README_PROFILING.md](docs/README_PROFILING.md) for complete documentation.**
+**📖 Refer to [docs/README_PROFILING.md](docs/README_PROFILING.md) for comprehensive documentation.**
 
-## 🚀 Pipeline Runner (NEW!)
+## 🚀 Pipeline Execution
 
-Run the end-to-end data quality pipeline with configurable thresholds:
+Execute the end-to-end data quality pipeline with configurable success thresholds.
 
 ```bash
-# Run pipeline with default settings (dry-run)
+# Execute pipeline with default settings (dry-run mode)
 python scripts/run_pipeline.py --dry-run
 
-# Run with a global 90% success threshold
+# Execute with a global 90% success threshold
 python scripts/run_pipeline.py --dry-run --threshold 90.0
 
-# Force re-processing of all files with more workers
+# Force re-processing of all files with increased parallelism
 python scripts/run_pipeline.py --force --threshold 95.0 --workers 8
 ```
 
-The `--threshold` flag sets a global baseline. Files with specific configurations (in `dq_great_expectations/generated_configs/`) will use their specific thresholds if defined, otherwise they default to this global value.
-The `--workers` flag controls parallelism (default: 4).
+The `--threshold` parameter establishes a global baseline. Files with specific configurations (located in `dq_great_expectations/generated_configs/`) utilize their defined thresholds; otherwise, the global default is applied.
+The `--workers` parameter controls the level of parallelism (default: 4).
+
+## 📚 Documentation
+
+For detailed guides and references, please consult the following resources located in the `docs/` directory:
+
+- **[Complete Documentation](docs/README_COMPLETE.md)**: The comprehensive guide to the platform.
+- **[Quick Reference](docs/QUICK_REFERENCE.md)**: A cheat sheet for common tasks and commands.
+- **[Orchestration Guide](docs/ORCHESTRATION_GUIDE.md)**: Instructions for running and monitoring the pipeline.
+- **[Fabric Migration Guide](docs/FABRIC_MIGRATION_GUIDE.md)**: Steps for deploying to Microsoft Fabric.
+- **[Critical Analysis](docs/CRITICAL_ANALYSIS.md)**: Architectural review and design decisions.
 
 ## Quick Start
 

@@ -1,0 +1,859 @@
+-- AIMS Data Model
+
+Table Routes {
+  ID integer [primary key]
+  CODE string
+  DESCRIPTION string
+  LPO string
+  COPIEDFROM string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  CHAINAGEUNITS string
+  VALIDATECHAINAGE string
+  MINIMUM string
+  MAXIMUM string
+  ARCAPPLICABLE string
+}
+
+Table Phases {
+  ID integer [primary key]
+  DefaultChainageBaseline integer
+  CODE string
+  DESCRIPTION string
+  LATESTVOLUMERECORD string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+}
+
+Table Stages {
+  ID integer [primary key]
+  STAGENUMBER string
+  DESCRIPTION string
+  EIRTYPE string
+  COORDINATESREQUIRED string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+}
+
+Table Owners {
+  ID integer [primary key]
+  NAME string
+  CODE string
+  UAIDPREFIXOVERRIDE string
+  ALLOWATTRIBUTES string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+}
+
+Table RelationshipTypes {
+  ID integer [primary key]
+  Owner integer
+  CODE string
+  DESCRIPTION string
+  ASYMMETRIC string
+  REVERSEDESCRIPTION string
+  DISPLAYASTABLE string
+  DISPLAYREVERSEASTABLE string
+  DISPLAYORDER string
+  NAME string
+  CONSTRAINTTYPE string
+  VALIDFROM string
+  VALIDTO string
+  DISPLAYCOLOUR string
+  DEFAULTVIEW string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  ALLOWSELECTIONINVISUALISATION string
+  IMPLIESDELIVERYOFFUNCTION string
+  DEFINITION string
+}
+
+Table LinkTypes {
+  ID integer [primary key]
+  CODE string
+  DESCRIPTION string
+  SYSTEMFIELD string
+  DESLINK string
+  URLROOT string
+  URLTAIL string
+  SOURCE string
+  INCLUDEINWEBSERVICES string
+  DISPLAYORDER string
+  DISPLAYASPRIMARYASSETIMAGE string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+}
+
+Table Organisations {
+  ID integer [primary key]
+  Owner integer
+  NAME string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  PARENT string
+  PARENTKEYHIERARCHY string
+  ISCONTRACTOR string
+  DEFAULTASSETSTATUS string
+  DISPLAYORDER string
+  ISPRINCIPALCONTRACTOR string
+  ISUAALLOWABLE string
+  DEFAULTEMPLOYER string
+  WITHINLMJVSCOPE string
+  CONTACTNAME string
+  CONTACTNUMBER string
+  CONTACTEMAIL string
+  SUPPRESSCONTRACTORTOCOMPLETE string
+  ALLOWCHILDRENTOBESELECTEDASTHI string
+  ECOLOGYORIGINATORCODE string
+  ATTRIBUTESTOUPDATEINDATALOADS string
+  PREFILTERFORASSETRESULTS string
+  FILTERCRITERIA string
+  APPLICABLEASSETCLASSES string
+  LEADER string
+  ALLOWINFODELIVERYPACKAGING string
+  DEFAULTASSIGNEEFORWORKORDERS string
+}
+
+Table People {
+  ID integer [primary key]
+  Organisation integer
+  FIRSTNAME string
+  LASTNAME string
+  USERID string
+  PREDECESSOR string
+  SUCCEEDEDON string
+  EMAILADDRESS string
+  CREATEUSERPROCESS string
+  INITIALPASSWORD string
+  USERIDFORNEWACCOUNT string
+  CURRENTBOOKMARK string
+  HOLDDATALOADS string
+  SHOWGVIEWERFRAMEONASSETFORM string
+  TEMPLATE string
+  EMAILNEWUSER string
+  INCLUDEINKPIFILTER string
+  RECEIVESLEVEL1CONTROLREPORT string
+  RECEIVESLANDREPORT string
+  TELEPHONENUMBER string
+  PREFILTERFORASSETRESULTS string
+  FILTERCRITERIA string
+  REQUESTSFROMORGANISATION string
+  REQUESTDATEFILER string
+  SURVEYASSURANCEFILTERSET string
+  ALLOWUSERTORENEWTHEIRTOKENS string
+  PERSONISASURVEYOR string
+  DL_BATCHID string
+  DL_FULLNAME string
+  DL_ORGANISATION string
+  DL_EMAIL string
+  DL_PHONENUMBER string
+  HEALTHANDSAFETYSITEINDUCTIONM string
+  STAKEHOLDERCOMMUNICATIONSTRAIN string
+  FIRSTAIDTRAININGEXPIRYDATE string
+  WATERTRAININGDATEATTENDED string
+  HIGHSPEEDROADTRAININGDATEATTE string
+  WORKATHEIGHTTRAININGINCLUDELA string
+  ASBESTOSAWARENESSTRAININGFORAR string
+  GSTSBFORARUPSTAFFONLYDATEATTE string
+  TRAINTHETRAINERFORHSINDUCTION string
+  COMMENTS string
+  PERSONISACTIVEONPROJECT string
+  APPLYPREFILTERFROM string
+  DIRECTORATE string
+  SUBDIRECTORATE string
+  ROADSAFTEYTRAINING string
+  BLOBTYPE string
+  PHOTO string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  DISCIPLINE string
+  SEESPOWRAS string
+  JOBTITLEFORHOMEPAGEKEYCONTACTS string
+  INCLUDEACTIONEDREMINDERSNLR string
+  SHOWACTIONSONCALENDARNLR string
+  SHOWACTIONEDACTIONSNLR string
+  ALLOWCSVDATALOADS string
+  RECIEVESHANDSEMAILS string
+  PERSONCANBECASEMANAGER string
+}
+
+Table Users {
+  ID integer [primary key]
+  USERID string
+  USER_ID string
+}
+
+Table AssetClasses {
+  ID integer [primary key]
+  Owner integer
+  Parent integer
+  LatestLog integer
+  CODE string
+  NAME string
+  LEVELNUMBER string
+  GROUPINGCLASSFORHIERARCHYREPOR string
+  OLDHIERARCHYENTITY string
+  DISPLAYCOLOUR string
+  CONTAINER string
+  BACKGROUNDCOLOUR string
+  DESCRIPTION string
+  PARENTINHERITEDKEY string
+  VALIDFROM string
+  VALIDTO string
+  DOCUMENTNUMBER string
+  CURRENTVERSION string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  CHAINAGEAPPLICABILITY string
+  POSTALADDRESSAPPLICABILITY string
+  GRIDCOORDINATES string
+  ASSETLEVEL string
+  INCLUDEIDENTIFCATIONPLATES string
+  IDENTIFICATIONPLATEDESCRIPTION string
+  DEFAULTVISUALISATION string
+  INTANGIBLEGROUPINGCODECHARACTE string
+  INTANGIBLENLR string
+  SHOWGISVIEWERPANEL string
+  ASSETFORMTITLE string
+  UUID string
+  ALLOWATTRIBUTEGRAPHING string
+  NEARESTAUTHORITATIVECLASS string
+  SCOPEBOOKDEFINITION string
+  SENSITIVITYLEVEL string
+  RELSHIPSECTIONHEADEROVERRIDE string
+  PRIMARYEXEMPLAR string
+  PHASEAPPLICABILITY string
+  HIDEINHIERARCHYREPORT string
+  DISALLOWSELECTIONFORASSETS string
+  INSTRUCTEDDATE string
+  STATUS string
+  HASDRAFTITEM string
+  CANHAVEASSETPLANS string
+  MOVEDTOLIVEBY string
+  MOVEDTOLIVEDATE string
+  UAIDOVERRIDECHARACTER string
+  ALLOWASSIGNMENTOFPRODUCT string
+  DISPLAYALERTONASSETFORM string
+  ALERTTEXT string
+  REMOVALREASON string
+  INTANGIBLE string
+}
+
+Table AttributeGroups {
+  ID integer [primary key]
+  NAME string
+  PREFIX string
+  SUFFIX string
+  DISPLAYORDER string
+  VISIBILITY string
+  DEFAULTVIEW string
+  DEFINESMATRIX string
+  ROWCOLUMNDELIMITER string
+  SECURITY string
+  REALM string
+  REALMLEVEL string
+  DEFINESLOCATIONREFERENCE string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  KINO_CSID string
+}
+
+Table Attributes {
+  ID integer [primary key]
+  Owner integer
+  AttributeGroup integer
+  AttributeDomain integer
+  CODE string
+  NAME string
+  TYPE string
+  CLASS string
+  UNITOFMEASURE string
+  DEFINITION string
+  ATTRIBUTELEVEL string
+  GRAPHCOLOUR string
+  LINEARATTRIBUTE string
+  INTERPOLATION string
+  DISPLAYORDER string
+  HIGHVALUEFORRECIPROCALS string
+  VALIDFROM string
+  VALIDTO string
+  TRACKATTRIBUTE string
+  DISPLAYCODE string
+  AD4SECTION string
+  AD4DISPLAYORDER string
+  AD4MANDATORY string
+  AD4TYPE string
+  SOURCE string
+  ATTRIBUTE string
+  DERIVATIONTYPE string
+  STATICVALUE string
+  FORMATTING string
+  MATRIXROW string
+  MATRIXCOLUMN string
+  CONTRACTORTOCOMPLETE string
+  AGGREGATABLE string
+  LMJVPROPERTY string
+  RELATIONSHIPTYPE string
+  AGGREGATEATTRIBUTE string
+  AGGREGATEFUNCTION string
+  CONTRACTOROVERRIDE string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  REMOVALREASON string
+}
+
+Table AssetClassAttributes {
+  ID integer [primary key]
+  Owner integer
+  AssetClass integer
+  Attribute integer
+  AttributeDomain integer
+  AvailableFromStage integer
+  RequiredAtStage integer
+  REQUIREDATSTAGEOLD string
+  AVAILABLEFROMSTAGEOLD string
+  VALIDFROM string
+  VALIDTO string
+  EXPECTED string
+  DESCRIPTION string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  CREATEDBYUPDATE string
+  MODELLINGPROPERTY string
+  STATUS string
+  LOCATIONSSETDENORM string
+  LOCATIONSUNSETDENORM string
+  PHASEAPPLICABILITY string
+  PHASEAPPLICABILITYDENORM string
+  SETFROMEXEMPLAR string
+  IGNOREINTRANSITIONCHECK string
+  INHERIT string
+  INHERITEDFROM string
+  MOVEDTOLIVEBY string
+  MOVEDTOLIVEDATE string
+}
+
+Table AssetClassRelationships {
+  ID integer [primary key]
+  Owner integer
+  SourceAssetClass integer
+  TargetAssetClass integer
+  RelationshipType integer
+  RequiredAtStage integer
+  REQUIREDATSTAGEOLD string
+  EXPECTED string
+  ADDITIONALDESCRIPTION string
+  VALIDFROM string
+  VALIDTO string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  CREATEDBYUPDATE string
+  UUID string
+  STATUS string
+  MOVEDTOLIVEBY string
+  MOVETOLIVEDATE string
+}
+
+Table AttributeDomains {
+  ID integer [primary key]
+  NAME string
+  DOMAINTYPE string
+  LOWERLIMIT string
+  UPPERLIMIT string
+  CODE string
+  VALIDFROM string
+  VALIDTO string
+  LOWESTEXPECTED string
+  HIGHESTEXPECTED string
+  MAXIMUMCHARACTERS string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+}
+
+Table AttributeDomainValues {
+  ID integer [primary key]
+  AttributeDomain integer
+  CODE string
+  DESCRIPTION string
+  ATTRIBUTENLR string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  VALIDFROM string
+  VALIDTO string
+  LOWERBOUND string
+  UPPERBOUND string
+  OUPUTVALUE string
+  FORMAT string
+  VALUECONTAINSCOMMA string
+}
+
+Table SecondaryAssetClassCodes {
+  ID integer [primary key]
+  AssetClass integer
+  SecondaryCodingSystem integer
+  CODE string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  CREATEDBYUPDATE string
+}
+
+Table SecondaryCodingSystems {
+  ID integer [primary key]
+  CODINGSYSTEMNAME string
+  LOWERCODINGSYSTEMDENORM string
+  CODINGSYSTEMCODE string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  PERMITMULTIPLECODES string
+  DESCRIPTION string
+}
+
+Table AssetClassChangeLogs {
+  ID integer [primary key]
+  AssetClass integer
+  CODE string
+  NAME string
+  CHAINAGE string
+  POSTALADDRESS string
+  GRIDREFERENCE string
+  CHANGEDATE string
+  CHANGES string
+  DESCRIPTION string
+  PHASE string
+  IDENTIFICATIONPLATEINFO string
+  VALIDTO string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+}
+
+Table Assets {
+  ID integer [primary key]
+  Owner integer
+  Phase integer
+  Status integer
+  Stage integer
+  NAME string
+  NOTES string
+  HYBRIDBILLCODE string
+  ACCESSDBID string
+  OWNERASSETATTRIBUTE string
+  PHASEASSETATTRIBUTE string
+  HYBRIDBILLCODEASSETATTRIBUTE string
+  NAMEASSETATTRIBUTE string
+  REFERENCECHAINAGE string
+  LENGTH string
+  LEGACYID string
+  VALIDFROM string
+  VALIDTO string
+  DELETED string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  XMLDEBUG string
+  UNIQUEASSETID string
+  LASTUPDATEDATE string
+  REFCHAINAGEASSETATTRIBUTE string
+  LENGTHASSETATTRIBUTE string
+  NOTESASSETATTRIBUTE string
+  COUNTLOCATIONSDENORM string
+  HASMULTIPLELOCATIONSDENORM string
+  COPIEDFROM string
+  LEGACYIDASSETATTRIBUTE string
+  REMOVEDBY string
+  REMOVEDREASON string
+  STAGEASSETATTRIBUTE string
+  STATUSASSETATTRIBUTE string
+  WBSCODE string
+  PROCESSEDBY string
+  DELIVERYAREACODE string
+  REMOTEIDOUTSTANDING string
+  ISPRIMARYASSET string
+  ISPRIMARYASSETATTRIBUTE string
+  UUID string
+  DATALOADED string
+  RELATIONSHIPSNOTFULLYRESOLVED string
+  SUPPLYCHAINID string
+  SENIORPROJECTMANAGER string
+  SENIORCONSTRUCTIONMANAGER string
+  EVENTUALOWNER string
+  ACCESSCONTROLOBJECT string
+  AUTHORITATIVESTATUS string
+  AUTHORITATIVESTAGE string
+  OVERRIDEASSETLEVEL string
+  LATESTINBOUNDDL_REQUEST string
+  REQUIRESAUTHHOSTSYNC string
+  VIEWERTYPES string
+  METADATANAME string
+  PRODUCT string
+  STAGECOMPLIANTDENORM string
+}
+
+Table AssetStatuses {
+  ID integer [primary key]
+  NAME string
+  PUBLISHED string
+  CODE string
+  CLIENTSHARED string
+  IGNOREINDAILYCOUNTS string
+  ASSETSTATUSFORAUTHOST string
+  DISPLAYORDER string
+  STAGESPECIFIC string
+  STAGE string
+  ALLOWSENDingTOAUTHHOST string
+  EXCLUDEFROMKPIS string
+  TARGETSTATUSWHENPUBLISHED string
+  PRESUBMISSIONAUTOTRANSITION string
+  SCHEDULESYNCAFTERASSETUPDATE string
+  IGNOREINSTATUSCHECK string
+  IGNOREWHENCASCADINGTRANSITIONS string
+  ALLOWFORGENERICASSETLOADER string
+  COORDINATESREQUIRED string
+}
+
+Table AssetLocations {
+  ID integer [primary key]
+  Asset integer
+  AssetClass integer
+  Route integer
+  Track integer
+  ChainageBaseline integer
+  INSTANCEHIDDEN string
+  STARTCHAINAGE string
+  ENDCHAINAGE string
+  TRACKIDOLD string
+  KINO_CSID string
+  KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  ASSIGNEDTOORGANISATION string
+  ROUTEASSETATTRIBUTE string
+  STARTCHAINAGEASSETATTRIBUTE string
+  ENDCHAINAGEASSETATTRIBUTE string
+  TRACKIDASSETATTRIBUTE string
+  INSTANCEASSETATTRIBUTE string
+  COPIEDFROM string
+  VALIDFROM string
+  VALIDTO string
+  LOCATIONID string
+  TRACKAPPLICABILITY string
+  TRACKAPPLICABILITYASSETATTRIBU string
+  ASSETCLASSASSETATTRIBUTE string
+  REMOVEDBY string
+  REMOVEDREASON string
+  CHAINAGEUNITS string
+  STARTCHAINAGEMILES string
+  ENDCHAINAGEMILES string
+  OSGBEASTINGASSETATTRIBUTE string
+  OSGBNORTHINGASSETATTRIBUTE string
+  ADDRESSATTRIBUTEVALUE string
+  OSGBEASTING string
+  OSGBNORTHING string
+  BASELINEASSETATTRIBUTE string
+  UNICLASS string
+  OFFSETFIELD string
+  OFFSETASSETATTRIBUTE string
+  SUPPRESSPRIMARYEXEMPLARCOPY string
+  STARTOSGBEASTING string
+  STARTOSGBNORTHING string
+  ENDOSGBEASTING string
+  ENDOSGBNORTHING string
+  OSGBEASTINGASSETATTRIBUTE1 string
+  OSGBNORTHINGASSETATTRIBUTE1 string
+  OSGBEASTINGASSETATTRIBUTE2 string
+  OSGBNORTHINGASSETATTRIBUTE2 string
+  ENDOFFSET string
+  ENDOFFSETASSETATTRIBUTE string
+  SNAKEGRIDSTARTEASTING string
+  SNAKEGRIDSTARTNORTHING string
+  SNAKEGRIDENDEASTING string
+  SNAKEGRIDENDNORTHING string
+  TRACKASSETATTRIBUTE string
+  STARTOFFSET string
+  STARTOFFSETASSETATTRIBUTE string
+  SNAKEGRIDEASTING string
+  SNAKEGRIDNORTHING string
+  H2SGEASTINGASSETATTRIBUTE string
+  H2SGEASTING1ASSETATTRIBUTE string
+  H2SGEASTING2ASSETATTRIBUTE string
+  H2SGNORTHINGASSETATTRIBUTE string
+  H2SGNORTHING1ASSETATTRIBUTE string
+  H2SGNORTHING2ASSETATTRIBUTE string
+  ADDEDTOARCQUEUE string
+  STARTCHAINAGEEXPLICITZERO string
+  ENDCHAINAGEEXPLICITZERO string
+}
+
+Table ChainageBaselines {
+  ID integer [primary key]
+  CODE string
+  DESCRIPTION string
+}
+
+Table Tracks {
+  ID integer [primary key]
+  CODE string
+  ROUTE string
+}
+
+Table Links {
+  ID integer [primary key]
+  Asset integer
+  LinkType integer
+  ADDRESS string
+  KINO_CSID string
+  HS2_KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  URL string
+  VALIDFROM string
+  VALIDTO string
+  BASEDON string
+  COPIEDFROM string
+  DESCRIPTION string
+  FILETYPE string
+  FILEFIELD string
+  FILENAMEFIELD string
+  IMAGEWIDTH string
+  FILESIZE string
+  PROCESSEDBY string
+}
+
+Table Relationships {
+  ID integer [primary key]
+  SourceAsset integer
+  TargetAsset integer
+  RelationshipType integer
+  VALIDFROM string
+  VALIDTO string
+  KINO_CSID string
+  HS2_KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  SOURCEASSETLOCATION string
+  TARGETASSETLOCATION string
+  PROCESSEDBY string
+  UUID string
+  FALLBACKPROCESSED string
+}
+
+Table AssetHierarchyMap {
+  ID integer [primary key]
+  AncestorAsset integer
+  DescendantAsset integer
+  LEVELS string
+}
+
+Table AssetAttributes {
+  ID integer [primary key]
+  Asset integer
+  Location integer
+  Attribute integer
+  TextDomainValue integer
+  SelectionValue integer
+  PublishedAtStage integer
+  ASSET string
+  ATTRIBUTE string
+  TEXTVALUE string
+  NUMERICVALUE string
+  DATEVALUE string
+  DECIMALVALUE2DP string
+  LOCATION string
+  VALIDFROM string
+  VALIDTO string
+  KINO_CSID string
+  HS2_KINO_CUID string
+  KINO_CWHEN string
+  KINO_USID string
+  KINO_UUID string
+  KINO_UWHEN string
+  BASEDON string
+  OWNER string
+  PHASE string
+  PERSON string
+  ORGANISATION string
+  TEXTSTOREFORTYPETRANSITION string
+  DECIMALSTOREFORTYPETRANSITION string
+  NUMERICSTOREFORTYPETRANSITION string
+  STARTCHAINAGE string
+  ENDCHAINAGE string
+  NUMERICENDVALUE string
+  DECIMALENDVALUE2DP string
+  ISBEINGSPLIT string
+  SPLITATCHAINAGE string
+  AFTERNUMERICSTARTVALUE string
+  AFTERNUMERICENDVALUE string
+  AFTERDECIMALSTARTVALUE2DP string
+  AFTERDECIMALENDVALUE2DP string
+  AFTERTEXTVALUE string
+  AFTERDATEVALUE string
+  AFTERSELECTIONVALUE string
+  ROUTE string
+  DECIMALVALUE3DP string
+  DECIMALENDVALUE3DP string
+  AFTERDECIMALSTARTVALUE3DP string
+  AFTERDECIMALENDVALUE3DP string
+  COPIEDFROM string
+  ASSETCLASS string
+  DECIMALENDSTOREFORTYPETRANS string
+  NUMERICENDSTOREFORTYPETRANS string
+  DECIMALVALUE4DP string
+  CONSTRAINTOGROUP string
+  ADDRESSLINE1 string
+  ADDRESSLINE2 string
+  ADDRESSLINE3 string
+  TOWNCITY string
+  POSTCODE string
+  STAGE string
+  STATUS string
+  CHAINAGEBASELINE string
+  BOOLEANVALUE string
+  TIMEVALUE string
+  ACCEPTEDBY string
+  NEWCONTRACTSTAGECODE string
+  MEMOVALUE string
+  MEMOSTOREFORTYPETRANSITION string
+  MATRIXUPDATEWIZARD string
+  REQUIRESATTRIBUTEDERIVATION string
+  AFTERTEXTDOMAINVALUE string
+  VALUESTATUS string
+  DEFAULTEDFROM string
+  ACCEPTEDOUTSIDERANGE string
+  INFORMATIONPACKAGE string
+  ISLATESTPUBLISHED string
+  WORKORDER string
+  TRACK string
+  TYPECONVERSIONFAILED string
+}
+
+Table InformationPackages {
+  ID integer [primary key]
+}
+
+// Relationships
+Ref: Phases.DefaultChainageBaseline > ChainageBaselines.ID
+Ref: RelationshipTypes.Owner > Owners.ID
+Ref: Organisations.Owner > Owners.ID
+Ref: People.Organisation > Organisations.ID
+Ref: AssetClasses.Owner > Owners.ID
+Ref: AssetClasses.Parent > AssetClasses.ID
+Ref: AssetClasses.LatestLog > AssetClassChangeLogs.ID
+Ref: Attributes.Owner > Owners.ID
+Ref: Attributes.AttributeGroup > AttributeGroups.ID
+Ref: Attributes.AttributeDomain > AttributeDomains.ID
+Ref: AssetClassAttributes.Owner > Owners.ID
+Ref: AssetClassAttributes.AssetClass > AssetClasses.ID
+Ref: AssetClassAttributes.Attribute > Attributes.ID
+Ref: AssetClassAttributes.AttributeDomain > AttributeDomains.ID
+Ref: AssetClassAttributes.AvailableFromStage > Stages.ID
+Ref: AssetClassAttributes.RequiredAtStage > Stages.ID
+Ref: AssetClassRelationships.Owner > Owners.ID
+Ref: AssetClassRelationships.SourceAssetClass > AssetClasses.ID
+Ref: AssetClassRelationships.TargetAssetClass > AssetClasses.ID
+Ref: AssetClassRelationships.RelationshipType > RelationshipTypes.ID
+Ref: AssetClassRelationships.RequiredAtStage > Stages.ID
+Ref: AttributeDomainValues.AttributeDomain > AttributeDomains.ID
+Ref: SecondaryAssetClassCodes.AssetClass > AssetClasses.ID
+Ref: SecondaryAssetClassCodes.SecondaryCodingSystem > SecondaryCodingSystems.ID
+Ref: AssetClassChangeLogs.AssetClass > AssetClasses.ID
+Ref: Assets.Owner > Owners.ID
+Ref: Assets.Phase > Phases.ID
+Ref: Assets.Status > AssetStatuses.ID
+Ref: Assets.Stage > Stages.ID
+Ref: AssetLocations.Asset > Assets.ID
+Ref: AssetLocations.AssetClass > AssetClasses.ID
+Ref: AssetLocations.Route > Routes.ID
+Ref: AssetLocations.Track > Tracks.ID
+Ref: AssetLocations.ChainageBaseline > ChainageBaselines.ID
+Ref: Links.Asset > Assets.ID
+Ref: Links.LinkType > LinkTypes.ID
+Ref: Relationships.SourceAsset > Assets.ID
+Ref: Relationships.TargetAsset > Assets.ID
+Ref: Relationships.RelationshipType > RelationshipTypes.ID
+Ref: AssetHierarchyMap.AncestorAsset > Assets.ID
+Ref: AssetHierarchyMap.DescendantAsset > Assets.ID
+Ref: AssetAttributes.Asset > Assets.ID
+Ref: AssetAttributes.Location > AssetLocations.ID
+Ref: AssetAttributes.Attribute > Attributes.ID
+Ref: AssetAttributes.TextDomainValue > AttributeDomainValues.ID
+Ref: AssetAttributes.SelectionValue > AttributeDomainValues.ID
+Ref: AssetAttributes.PublishedAtStage > Stages.ID

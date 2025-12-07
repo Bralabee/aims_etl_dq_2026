@@ -38,8 +38,8 @@ try:
     from dq_framework import DataProfiler
     from dq_framework.loader import DataLoader
 except ImportError:
-    print("❌ Error: fabric_data_quality package not found!")
-    print("\nPlease install it first:")
+    print("❌ Error: The 'fabric_data_quality' package is not installed.")
+    print("\nPlease install the required dependency:")
     print("  cd ../fabric_data_quality")
     print("  pip install -e .")
     print("\nOr run: bash setup_aims_profiling.sh")

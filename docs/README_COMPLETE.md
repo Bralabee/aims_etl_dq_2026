@@ -5,7 +5,7 @@
 A complete, production-ready data quality pipeline for AIMS parquet files featuring:
 - **Automated Profiling** - Generate validation rules from your data
 - **DQ Gatekeeping** - Quality gates for data ingestion  
-- **Interactive Dashboards** - Beautiful Plotly visualizations for monitoring
+- **Interactive Dashboards** - Interactive Plotly visualizations for monitoring
 - **Watermark Tracking** - Idempotent processing with state management
 - **Local Execution** - Run entirely locally for testing and development
 
@@ -16,7 +16,7 @@ A complete, production-ready data quality pipeline for AIMS parquet files featur
 ### Notebooks
 1. **01_AIMS_Data_Profiling.ipynb** - Generate YAML validation configs from data
 2. **02_AIMS_Data_Ingestion.ipynb** - ETL pipeline with DQ gatekeeping
-3. **03_AIMS_Monitoring.ipynb** - Interactive monitoring dashboards (15 visualizations!)
+3. **03_AIMS_Monitoring.ipynb** - Interactive monitoring dashboards (15 visualizations)
 
 ### Libraries
 - **dq_framework** - Custom DQ library built on Great Expectations
@@ -184,7 +184,7 @@ STATE_DIR = "data/state"
 ### Notebook 03: Interactive Monitoring Dashboard
 
 **Purpose:** The Observer  
-Comprehensive observability with beautiful visualizations.
+Comprehensive observability with interactive visualizations.
 
 **15 Analysis Sections:**
 
@@ -549,7 +549,7 @@ You'll know the pipeline is working when:
 ### v2.0 (Dec 2025) - Interactive Dashboards
 - ✨ Added 5 Plotly interactive dashboards
 - 📊 Enhanced monitoring with 15 analysis sections
-- 🎨 Beautiful visualizations with drill-down capability
+- 🎨 Interactive visualizations with drill-down capability
 - 🔍 Added failure heatmap and timeline views
 - ⚡ Performance analytics dashboard
 

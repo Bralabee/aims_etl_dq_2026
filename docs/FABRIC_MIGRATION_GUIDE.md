@@ -12,15 +12,29 @@ This guide details the steps to migrate the AIMS Data Quality & Ingestion projec
 
 ## Step 1: Configure Fabric Environment (Libraries)
 
-Instead of installing libraries inside the notebook every time, we will install them once in the Fabric Environment.
+To ensure consistent execution across notebooks and jobs, required libraries are packaged into Python Wheel (`.whl`) files and installed in the Fabric Environment.
 
-1.  **Create Environment**: In your Workspace, create a new **Environment** (e.g., `AIMS_Env`).
-2.  **Upload Library**:
-    *   Go to **Public Libraries** to install public packages (e.g., `great_expectations` if needed).
-    *   Go to **Custom Libraries** -> **Upload**.
-    *   Upload the local wheel file: `dq_great_expectations/dq_package_dist/fabric_data_quality-1.1.2-py3-none-any.whl`.
-3.  **Publish**: Click **Publish** to make the environment ready.
-4.  **Attach**: Go to your Workspace settings or the specific Notebook settings and attach this `AIMS_Env` environment.
+### Deployment Artifacts
+
+The solution utilizes the following custom packages:
+
+| Package Name | Wheel File | Description | Usage |
+| :--- | :--- | :--- | :--- |
+| **AIMS Data Platform** | `dist/aims_data_platform-*.whl` | Contains core ingestion logic, schema reconciliation utilities, and platform configuration. | Primary library for data ingestion and schema management notebooks. |
+| **Fabric Data Quality** | `dq_great_expectations/dq_package_dist/fabric_data_quality-*.whl` | Encapsulates the Great Expectations framework and custom validation logic. | Used by data quality validation and profiling notebooks. |
+
+### Installation Steps
+
+1.  **Create Environment**: In your Fabric Workspace, create a new **Environment** artifact (e.g., `AIMS_Env`).
+2.  **Upload Custom Libraries**:
+    *   Navigate to the **Custom Libraries** section.
+    *   Click **Upload** and select the `.whl` files listed above.
+    *   *Note: Ensure you build the latest versions locally using `python setup.py bdist_wheel` before uploading.*
+3.  **Install Public Libraries**:
+    *   Navigate to **Public Libraries**.
+    *   Add dependencies such as `great_expectations` if they are not bundled.
+4.  **Publish**: Click **Publish** to finalize the environment configuration.
+5.  **Attach to Workspace**: Configure your Workspace or specific Notebooks to use this `AIMS_Env` environment by default.
 
 ---
 
