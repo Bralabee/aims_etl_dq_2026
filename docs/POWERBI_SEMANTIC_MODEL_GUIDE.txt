@@ -1,0 +1,768 @@
+================================================================================
+POWER BI SEMANTIC MODEL IMPLEMENTATION GUIDE
+AIMS Data Platform - Silver Layer Star Schema
+================================================================================
+Version: 1.0.0
+Date: 2025-12-08
+Target: Microsoft Power BI Desktop / Power BI Service
+Data Source: Silver Layer Parquet Files
+================================================================================
+
+TABLE OF CONTENTS
+================================================================================
+1. Overview and Prerequisites
+2. Data Source Connection
+3. Table Import Configuration
+4. Relationship Configuration
+5. Calculated Columns
+6. Measures and DAX Formulas
+7. Hierarchies
+8. Row-Level Security (RLS)
+9. Performance Optimization
+10. Deployment Checklist
+
+================================================================================
+1. OVERVIEW AND PREREQUISITES
+================================================================================
+
+SEMANTIC MODEL ARCHITECTURE:
+  Type: Import Mode (recommended for performance)
+  Schema: Star Schema (1 Fact + 5 Dimensions)
+  Refresh: Scheduled or on-demand
+  Estimated Size: ~5-10 MB (compressed)
+
+PREREQUISITES:
+  ✓ Power BI Desktop (Latest version)
+  ✓ Access to Silver Layer directory: data/silver_layer/
+  ✓ Basic understanding of DAX and Power BI data modeling
+  ✓ Permissions to create relationships and measures
+
+FILES REQUIRED:
+  - FACT_Asset_Inventory.parquet (100,057 rows)
+  - DIM_Route.parquet (33 rows)
+  - DIM_AssetClass.parquet (5,644 rows)
+  - DIM_Organisation.parquet (28 rows)
+  - DIM_Date.parquet (84,961 rows)
+  - DIM_Status.parquet (4 rows)
+
+================================================================================
+2. DATA SOURCE CONNECTION
+================================================================================
+
+STEP 1: Open Power BI Desktop
+  File > Options and settings > Options > Preview features
+  ✓ Enable "Parquet file support" (if not already enabled)
+
+STEP 2: Get Data from Folder
+  1. Home tab > Get Data > More...
+  2. Select "Folder" connector
+  3. Browse to: /path/to/data/silver_layer/
+  4. Click OK
+
+STEP 3: Transform Data
+  Power Query Editor will open
+  1. Click "Combine" > "Combine & Load"
+  2. OR manually select each Parquet file
+  
+ALTERNATIVE - Import Individual Files:
+  For more control, import each table separately:
+  1. Get Data > Parquet
+  2. Select FACT_Asset_Inventory.parquet
+  3. Load
+  4. Repeat for each dimension table
+
+STEP 4: Configure Query Properties
+  For each table, set:
+  - Name: Use table names without file extensions
+    * FACT_Asset_Inventory
+    * DIM_Route
+    * DIM_AssetClass
+    * DIM_Organisation
+    * DIM_Date
+    * DIM_Status
+  - Load: Enabled
+  - Include in report refresh: Enabled
+
+================================================================================
+3. TABLE IMPORT CONFIGURATION
+================================================================================
+
+FACT_Asset_Inventory Configuration:
+------------------------------------------------------------
+Table Name: FACT_Asset_Inventory
+Row Count: ~100,057
+
+COLUMNS TO IMPORT:
+  Required:
+    - Asset_Key (Text)
+    - Route_Key (Text)
+    - Class_Key (Text)
+    - Owner_Key (Text)
+    - Asset_Status (Text)
+  
+  Optional (for analysis):
+    - Asset_Name (Text)
+    - PHASEID (Text)
+    - OSGBEASTING (Text → convert to Decimal)
+    - OSGBNORTHING (Text → convert to Decimal)
+    - Chainage_Baseline (Text → convert to Decimal)
+    - Class_Name (Text - denormalized, use for quick filters)
+    - Route_Name (Text - denormalized, use for quick filters)
+
+DATA TYPE TRANSFORMATIONS (Power Query):
+  1. Convert coordinate fields to Decimal:
+     Right-click column > Change Type > Decimal Number
+     - OSGBEASTING
+     - OSGBNORTHING
+     - STARTOSGBEASTING
+     - STARTOSGBNORTHING
+     - Chainage_Baseline
+
+  2. Handle NULL values:
+     Replace Errors > null
+
+DIMENSION TABLES Configuration:
+------------------------------------------------------------
+Import all columns from dimension tables with default data types.
+Power BI will auto-detect most types correctly.
+
+Special Considerations:
+  - DIM_Date.Date: Ensure type is Date
+  - DIM_Date.Is_Weekend: Ensure type is True/False
+  - All Key fields: Keep as Text (matches fact table keys)
+
+================================================================================
+4. RELATIONSHIP CONFIGURATION
+================================================================================
+
+Power BI may auto-detect some relationships. Verify and create missing ones.
+
+RELATIONSHIP 1: FACT to DIM_Route
+------------------------------------------------------------
+  From: FACT_Asset_Inventory[Route_Key]
+  To: DIM_Route[Route_Key]
+  Cardinality: Many-to-One (*)
+  Cross Filter Direction: Single
+  Active: Yes
+  Assume Referential Integrity: Yes
+
+RELATIONSHIP 2: FACT to DIM_AssetClass
+------------------------------------------------------------
+  From: FACT_Asset_Inventory[Class_Key]
+  To: DIM_AssetClass[Class_Key]
+  Cardinality: Many-to-One (*)
+  Cross Filter Direction: Single
+  Active: Yes
+  Assume Referential Integrity: Yes
+
+RELATIONSHIP 3: FACT to DIM_Organisation
+------------------------------------------------------------
+  From: FACT_Asset_Inventory[Owner_Key]
+  To: DIM_Organisation[Owner_Key]
+  Cardinality: Many-to-One (*)
+  Cross Filter Direction: Single
+  Active: Yes
+  Assume Referential Integrity: No (due to missing values)
+  
+  NOTE: Owner_Key currently uses organization names.
+  If dimension uses numeric IDs, create relationship on:
+    FACT[Owner_Key] to DIM_Organisation[Organisation_Name]
+
+RELATIONSHIP 4: FACT to DIM_Status
+------------------------------------------------------------
+  From: FACT_Asset_Inventory[Asset_Status]
+  To: DIM_Status[Status_Key]
+  Cardinality: Many-to-One (*)
+  Cross Filter Direction: Single
+  Active: Yes
+  Assume Referential Integrity: Yes
+
+RELATIONSHIP 5: DIM_AssetClass Hierarchy (Self-Referencing)
+------------------------------------------------------------
+  From: DIM_AssetClass[Parent_Class_Key]
+  To: DIM_AssetClass[Class_Key]
+  Cardinality: Many-to-One (*)
+  Cross Filter Direction: Single
+  Active: Yes
+  Note: Enables hierarchical asset classification
+
+RELATIONSHIP 6: DIM_Organisation Hierarchy (Self-Referencing)
+------------------------------------------------------------
+  From: DIM_Organisation[Parent_Organisation_Key]
+  To: DIM_Organisation[Owner_Key]
+  Cardinality: Many-to-One (*)
+  Cross Filter Direction: Single
+  Active: Yes
+  Note: Enables organizational hierarchy
+
+DATE RELATIONSHIPS (Optional - if date fields added to FACT):
+------------------------------------------------------------
+If you add date fields to FACT table (e.g., Created_Date, Modified_Date):
+  From: FACT_Asset_Inventory[Date_Field]
+  To: DIM_Date[Date]
+  Cardinality: Many-to-One (*)
+  Cross Filter Direction: Single
+  Active: Yes
+
+VALIDATION STEPS:
+  1. View > Model View
+  2. Verify all relationships show correct cardinality
+  3. Check for circular dependencies (should be none)
+  4. Confirm filter direction arrows point from FACT to DIM
+
+================================================================================
+5. CALCULATED COLUMNS
+================================================================================
+
+Add these calculated columns to enhance analysis capabilities.
+
+DIM_Route Calculated Columns:
+------------------------------------------------------------
+Route_Type = 
+SWITCH(
+    TRUE(),
+    LEFT(DIM_Route[Route_Code], 4) = "H2ML", "Main Line",
+    LEFT(DIM_Route[Route_Code], 4) = "H2BS", "Birmingham Spur",
+    LEFT(DIM_Route[Route_Code], 4) = "H2HC", "Handsacre Connection",
+    LEFT(DIM_Route[Route_Code], 4) = "H2EL", "Eastern Leg",
+    LEFT(DIM_Route[Route_Code], 4) = "H2NC", "North Chord",
+    "Other"
+)
+
+DIM_AssetClass Calculated Columns:
+------------------------------------------------------------
+Class_Category = 
+SWITCH(
+    TRUE(),
+    CONTAINSSTRING(DIM_AssetClass[Class_Code], "ES-EC"), "Environmental Survey",
+    CONTAINSSTRING(DIM_AssetClass[Class_Code], "EI-70"), "Ground Investigation",
+    CONTAINSSTRING(DIM_AssetClass[Class_Code], "UT-"), "Utilities",
+    CONTAINSSTRING(DIM_AssetClass[Class_Code], "NV-"), "Non-Viable",
+    "Other"
+)
+
+Class_Level = 
+IF(
+    ISBLANK(DIM_AssetClass[Parent_Class_Key]),
+    "Top Level",
+    "Child Level"
+)
+
+FACT_Asset_Inventory Calculated Columns:
+------------------------------------------------------------
+Has_Coordinates = 
+IF(
+    AND(
+        NOT(ISBLANK(FACT_Asset_Inventory[OSGBEASTING])),
+        NOT(ISBLANK(FACT_Asset_Inventory[OSGBNORTHING]))
+    ),
+    "Yes",
+    "No"
+)
+
+Coordinate_Valid = 
+VAR Easting = VALUE(FACT_Asset_Inventory[OSGBEASTING])
+VAR Northing = VALUE(FACT_Asset_Inventory[OSGBNORTHING])
+RETURN
+IF(
+    AND(
+        Easting > 0,
+        Easting < 700000,
+        Northing > 0,
+        Northing < 1300000
+    ),
+    "Valid",
+    "Invalid"
+)
+
+DIM_Date Calculated Columns:
+------------------------------------------------------------
+Fiscal_Quarter = 
+VAR FiscalMonth = MOD(DIM_Date[Month] + 2, 12) + 1
+RETURN
+CEILING(FiscalMonth / 3, 1)
+
+Fiscal_Year = 
+IF(
+    DIM_Date[Month] >= 4,
+    DIM_Date[Year],
+    DIM_Date[Year] - 1
+)
+
+Month_Year = 
+FORMAT(DIM_Date[Date], "MMM YYYY")
+
+================================================================================
+6. MEASURES AND DAX FORMULAS
+================================================================================
+
+Create a separate "Measures" table to organize all measures.
+
+STEP: Create Measures Table
+  1. Home > Enter Data
+  2. Create empty table named "_Measures"
+  3. Delete the default column
+  4. Use this table to store all measures
+
+CORE METRICS:
+------------------------------------------------------------
+Total Assets = 
+COUNTROWS(FACT_Asset_Inventory)
+
+Total Routes = 
+DISTINCTCOUNT(FACT_Asset_Inventory[Route_Key])
+
+Total Asset Classes = 
+DISTINCTCOUNT(FACT_Asset_Inventory[Class_Key])
+
+Total Organisations = 
+DISTINCTCOUNT(FACT_Asset_Inventory[Owner_Key])
+
+Assets with Coordinates = 
+CALCULATE(
+    [Total Assets],
+    FACT_Asset_Inventory[Has_Coordinates] = "Yes"
+)
+
+Coordinate Coverage % = 
+DIVIDE(
+    [Assets with Coordinates],
+    [Total Assets],
+    0
+) * 100
+
+ROUTE ANALYSIS MEASURES:
+------------------------------------------------------------
+Assets on Selected Route = 
+CALCULATE(
+    [Total Assets],
+    ALLEXCEPT(FACT_Asset_Inventory, DIM_Route)
+)
+
+% of Total Assets = 
+DIVIDE(
+    [Total Assets],
+    CALCULATE([Total Assets], ALL(FACT_Asset_Inventory)),
+    0
+) * 100
+
+Route Diversity Score = 
+DISTINCTCOUNT(FACT_Asset_Inventory[Class_Key])
+
+CLASSIFICATION MEASURES:
+------------------------------------------------------------
+Assets in Class = 
+CALCULATE(
+    [Total Assets],
+    ALLEXCEPT(FACT_Asset_Inventory, DIM_AssetClass)
+)
+
+Class Utilization % = 
+DIVIDE(
+    DISTINCTCOUNT(FACT_Asset_Inventory[Class_Key]),
+    COUNTROWS(DIM_AssetClass),
+    0
+) * 100
+
+Top Asset Class = 
+CALCULATE(
+    FIRSTNONBLANK(DIM_AssetClass[Class_Name], 1),
+    TOPN(1, VALUES(DIM_AssetClass[Class_Name]), [Total Assets])
+)
+
+ORGANIZATIONAL MEASURES:
+------------------------------------------------------------
+Assets by Organisation = 
+CALCULATE(
+    [Total Assets],
+    ALLEXCEPT(FACT_Asset_Inventory, DIM_Organisation)
+)
+
+Organisation Portfolio Share = 
+DIVIDE(
+    [Assets by Organisation],
+    [Total Assets],
+    0
+) * 100
+
+Average Assets per Organisation = 
+DIVIDE(
+    [Total Assets],
+    [Total Organisations],
+    0
+)
+
+STATUS MEASURES:
+------------------------------------------------------------
+Published Assets = 
+CALCULATE(
+    [Total Assets],
+    DIM_Status[Status_Key] = "Published"
+)
+
+Draft Assets = 
+CALCULATE(
+    [Total Assets],
+    DIM_Status[Status_Key] = "Work in progress"
+)
+
+Publication Rate % = 
+DIVIDE(
+    [Published Assets],
+    [Total Assets],
+    0
+) * 100
+
+GEOSPATIAL MEASURES:
+------------------------------------------------------------
+Average Easting = 
+AVERAGEX(
+    FILTER(
+        FACT_Asset_Inventory,
+        NOT(ISBLANK(FACT_Asset_Inventory[OSGBEASTING]))
+    ),
+    VALUE(FACT_Asset_Inventory[OSGBEASTING])
+)
+
+Average Northing = 
+AVERAGEX(
+    FILTER(
+        FACT_Asset_Inventory,
+        NOT(ISBLANK(FACT_Asset_Inventory[OSGBNORTHING]))
+    ),
+    VALUE(FACT_Asset_Inventory[OSGBNORTHING])
+)
+
+Spatial Extent (km²) = 
+VAR MaxEast = MAXX(FACT_Asset_Inventory, VALUE(FACT_Asset_Inventory[OSGBEASTING]))
+VAR MinEast = MINX(FACT_Asset_Inventory, VALUE(FACT_Asset_Inventory[OSGBEASTING]))
+VAR MaxNorth = MAXX(FACT_Asset_Inventory, VALUE(FACT_Asset_Inventory[OSGBNORTHING]))
+VAR MinNorth = MINX(FACT_Asset_Inventory, VALUE(FACT_Asset_Inventory[OSGBNORTHING]))
+VAR EastRange = (MaxEast - MinEast) / 1000
+VAR NorthRange = (MaxNorth - MinNorth) / 1000
+RETURN
+EastRange * NorthRange
+
+TIME INTELLIGENCE MEASURES (if date fields available):
+------------------------------------------------------------
+Assets YTD = 
+TOTALYTD(
+    [Total Assets],
+    DIM_Date[Date]
+)
+
+Assets Previous Month = 
+CALCULATE(
+    [Total Assets],
+    DATEADD(DIM_Date[Date], -1, MONTH)
+)
+
+Month over Month Growth = 
+VAR CurrentMonth = [Total Assets]
+VAR PreviousMonth = [Assets Previous Month]
+RETURN
+DIVIDE(
+    CurrentMonth - PreviousMonth,
+    PreviousMonth,
+    0
+) * 100
+
+DATA QUALITY MEASURES:
+------------------------------------------------------------
+Missing Owner Count = 
+CALCULATE(
+    COUNTROWS(FACT_Asset_Inventory),
+    ISBLANK(FACT_Asset_Inventory[Owner_Key])
+)
+
+Data Completeness % = 
+VAR TotalFields = 5  // Key fields to check
+VAR CompleteRecords = 
+    CALCULATE(
+        COUNTROWS(FACT_Asset_Inventory),
+        NOT(ISBLANK(FACT_Asset_Inventory[Route_Key])),
+        NOT(ISBLANK(FACT_Asset_Inventory[Class_Key])),
+        NOT(ISBLANK(FACT_Asset_Inventory[Owner_Key])),
+        NOT(ISBLANK(FACT_Asset_Inventory[Asset_Status])),
+        NOT(ISBLANK(FACT_Asset_Inventory[Asset_Name]))
+    )
+RETURN
+DIVIDE(CompleteRecords, [Total Assets], 0) * 100
+
+================================================================================
+7. HIERARCHIES
+================================================================================
+
+Create hierarchies for drill-down analysis capabilities.
+
+HIERARCHY 1: Route Hierarchy
+------------------------------------------------------------
+Table: DIM_Route
+Hierarchy Name: Route Drill-Down
+Levels:
+  1. Route_Type (calculated column)
+  2. Route_Code
+  3. Route_Description
+
+HIERARCHY 2: Asset Classification Hierarchy
+------------------------------------------------------------
+Table: DIM_AssetClass
+Hierarchy Name: Asset Class Hierarchy
+Levels:
+  1. Class_Category (calculated column)
+  2. Parent_Class_Key (for top-level classes)
+  3. Class_Code
+  4. Class_Name
+
+Note: For proper parent-child hierarchy, use:
+  Format > Advanced > Set as Parent-Child Hierarchy
+  Parent Column: Parent_Class_Key
+  Child Column: Class_Key
+
+HIERARCHY 3: Organizational Hierarchy
+------------------------------------------------------------
+Table: DIM_Organisation
+Hierarchy Name: Organisation Hierarchy
+Levels:
+  1. Parent_Organisation_Key (top level)
+  2. Organisation_Name
+
+Use Parent-Child hierarchy format for proper org chart.
+
+HIERARCHY 4: Date Hierarchy
+------------------------------------------------------------
+Table: DIM_Date
+Hierarchy Name: Calendar Hierarchy
+Levels:
+  1. Year
+  2. Quarter
+  3. Month_Name
+  4. Day
+
+Hierarchy Name: Fiscal Hierarchy
+Levels:
+  1. Fiscal_Year (calculated)
+  2. Fiscal_Quarter (calculated)
+  3. Month
+
+================================================================================
+8. ROW-LEVEL SECURITY (RLS)
+================================================================================
+
+Implement RLS to restrict data access based on user roles.
+
+SCENARIO 1: Restrict by Organisation
+------------------------------------------------------------
+Role Name: Organisation User
+Table: DIM_Organisation
+Filter Expression:
+  [Organisation_Name] = USERPRINCIPALNAME()
+
+Or for domain-based filtering:
+  [Organisation_Name] = LOOKUPVALUE(
+      UserTable[Organisation],
+      UserTable[Email], USERPRINCIPALNAME()
+  )
+
+SCENARIO 2: Restrict by Route
+------------------------------------------------------------
+Role Name: Route Manager
+Table: DIM_Route
+Filter Expression:
+  [Route_Code] IN {"H2ML", "H2BS"}  // Specify allowed routes
+
+SCENARIO 3: Restrict by Status
+------------------------------------------------------------
+Role Name: External Viewer
+Table: DIM_Status
+Filter Expression:
+  [Status_Key] = "Published"  // Only published assets
+
+TESTING RLS:
+  1. Modeling tab > Manage Roles
+  2. Select role
+  3. View As > Select role
+  4. Verify filtered data
+
+================================================================================
+9. PERFORMANCE OPTIMIZATION
+================================================================================
+
+BEST PRACTICES:
+------------------------------------------------------------
+1. Import Mode (Recommended):
+   - Faster query performance
+   - Full DAX capability
+   - Suitable for dataset size (~5-10 MB)
+
+2. Remove Unused Columns:
+   - Hide columns not used in reports
+   - Reduces model size and improves performance
+
+3. Optimize Data Types:
+   - Use smallest appropriate data type
+   - Text → Whole Number where possible
+   - Store dates as Date type
+
+4. Aggregation Tables:
+   Create aggregation tables for common queries:
+   
+   Assets_by_Route_Summary = 
+   SUMMARIZE(
+       FACT_Asset_Inventory,
+       DIM_Route[Route_Code],
+       "Asset_Count", [Total Assets],
+       "Class_Count", DISTINCTCOUNT(FACT_Asset_Inventory[Class_Key])
+   )
+
+5. Composite Models (Advanced):
+   Keep dimensions in Import mode
+   Consider DirectQuery for large fact tables if needed
+
+6. Incremental Refresh (Power BI Service):
+   Configure if dataset grows beyond 1GB
+   Archive historical data
+
+7. Query Reduction:
+   Options > Query Reduction > Reduce number of queries sent
+
+8. Disable Auto Date/Time:
+   File > Options > Data Load
+   Uncheck "Auto date/time" (use custom DIM_Date instead)
+
+PERFORMANCE ANALYZER:
+  View > Performance Analyzer
+  Run queries and identify slow visuals
+  Optimize DAX measures causing delays
+
+================================================================================
+10. DEPLOYMENT CHECKLIST
+================================================================================
+
+PRE-DEPLOYMENT:
+  ☐ All relationships configured and validated
+  ☐ Measures tested with sample data
+  ☐ Hierarchies created and functional
+  ☐ Row-level security configured (if required)
+  ☐ Data types optimized
+  ☐ Unused columns hidden
+  ☐ Report performance tested
+  ☐ Documentation updated
+
+DEPLOYMENT TO POWER BI SERVICE:
+  1. Publish from Power BI Desktop
+     Home > Publish > Select workspace
+  
+  2. Configure Gateway (if on-premises data):
+     Power BI Service > Settings > Manage gateways
+  
+  3. Schedule Refresh:
+     Dataset settings > Scheduled refresh
+     Frequency: Daily (recommended)
+     Time: After Silver Layer ETL completion
+  
+  4. Configure Security:
+     Dataset settings > Row-level security
+     Add users to appropriate roles
+  
+  5. Set Data Source Credentials:
+     Dataset settings > Data source credentials
+     Configure authentication
+
+POST-DEPLOYMENT:
+  ☐ Test data refresh manually
+  ☐ Verify RLS with test users
+  ☐ Monitor refresh performance
+  ☐ Set up refresh failure alerts
+  ☐ Share reports with stakeholders
+  ☐ Gather user feedback
+
+================================================================================
+TROUBLESHOOTING GUIDE
+================================================================================
+
+ISSUE: Relationships not auto-detected
+SOLUTION: Manually create relationships using exact column names
+          Ensure key columns have same data type
+
+ISSUE: Measures return blank
+SOLUTION: Check for BLANK() vs 0 in calculations
+          Verify table references are correct
+          Use CALCULATE with proper filter context
+
+ISSUE: Circular dependency error
+SOLUTION: Review relationship directions
+          Check for bidirectional filters creating loops
+          Use CROSSFILTER() in DAX to manage relationships
+
+ISSUE: Performance is slow
+SOLUTION: Reduce visual elements per page
+          Optimize DAX with VARIABLES
+          Remove calculated columns, use measures instead
+          Check for many-to-many relationships
+
+ISSUE: RLS not working
+SOLUTION: Verify role filter expressions
+          Test with "View As" feature
+          Check user assignments in Service
+          Ensure security propagates through relationships
+
+ISSUE: Coordinate visualizations not accurate
+SOLUTION: Convert text coordinates to decimal numbers
+          Filter invalid coordinates (outside UK bounds)
+          Use proper map visual (Azure Maps or Bing Maps)
+          Consider custom coordinate projection
+
+================================================================================
+ADDITIONAL RESOURCES
+================================================================================
+
+Documentation:
+  - Silver Layer Schema: docs/SILVER_LAYER_STAR_SCHEMA.txt
+  - Coding Standards: docs/CODING_STANDARDS_AND_PRINCIPLES.md
+  - Data Quality Report: Notebook 07
+
+Sample Reports:
+  1. Executive Dashboard
+     - KPI cards: Total Assets, Routes, Classes, Organisations
+     - Asset distribution by route (bar chart)
+     - Status breakdown (pie chart)
+     - Geospatial map (map visual)
+  
+  2. Asset Classification Report
+     - Class hierarchy tree
+     - Top 20 classes table
+     - Class utilization gauge
+     - Cross-dimensional matrix
+  
+  3. Organizational Analysis
+     - Org hierarchy visual
+     - Portfolio share by organization
+     - Asset diversity by owner
+     - Ownership trends
+  
+  4. Geospatial Report
+     - Map with route overlays
+     - Spatial density heatmap
+     - Coordinate coverage metrics
+     - Route extent analysis
+
+Power BI Resources:
+  - DAX Guide: https://dax.guide
+  - Power BI Patterns: https://www.daxpatterns.com
+  - Microsoft Docs: https://docs.microsoft.com/power-bi
+
+================================================================================
+VERSION HISTORY
+================================================================================
+
+Version 1.0.0 (2025-12-08):
+  - Initial release
+  - Complete semantic model implementation guide
+  - Sample DAX measures and calculations
+  - RLS configuration guidance
+  - Performance optimization recommendations
+
+================================================================================
+END OF DOCUMENT
+================================================================================

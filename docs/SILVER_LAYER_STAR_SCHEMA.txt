@@ -1,0 +1,501 @@
+================================================================================
+AIMS DATA PLATFORM - SILVER LAYER STAR SCHEMA DATA MODEL
+================================================================================
+Version: 1.0.0
+Generated: 2025-12-08
+Purpose: Business Intelligence and Reporting Layer
+Architecture: Star Schema (1 Fact + 5 Dimension Tables)
+Storage Format: Apache Parquet
+Location: data/silver_layer/
+================================================================================
+
+SCHEMA OVERVIEW
+================================================================================
+
+The Silver Layer implements a Star Schema optimized for analytical queries and
+reporting. This layer contains validated, enriched data transformed from Bronze
+Layer with referential integrity and business logic applied.
+
+FACT TABLE: FACT_Asset_Inventory (100,057 rows)
+DIMENSION TABLES:
+  - DIM_Route (33 rows)
+  - DIM_AssetClass (5,644 rows)
+  - DIM_Organisation (28 rows)
+  - DIM_Date (84,961 rows)
+  - DIM_Status (4 rows)
+
+================================================================================
+TABLE DEFINITIONS
+================================================================================
+
+Table FACT_Asset_Inventory {
+  Asset_Key varchar(255) [primary key, not null]
+  Owner_Key varchar(255) [foreign key > DIM_Organisation.Owner_Key]
+  PHASEID varchar(255)
+  Asset_Status varchar(255) [foreign key > DIM_Status.Status_Key]
+  Asset_Name varchar(255)
+  ASSETID varchar(255)
+  Class_Key varchar(255) [foreign key > DIM_AssetClass.Class_Key]
+  Class_Name varchar(255) [denormalized for query performance]
+  Route_Key varchar(255) [foreign key > DIM_Route.Route_Key]
+  Route_Name varchar(255) [denormalized for query performance]
+  OSGBEASTING varchar(255) [note: "OSGB Easting coordinate (meters)"]
+  OSGBNORTHING varchar(255) [note: "OSGB Northing coordinate (meters)"]
+  STARTOSGBEASTING varchar(255) [note: "Start point Easting coordinate"]
+  STARTOSGBNORTHING varchar(255) [note: "Start point Northing coordinate"]
+  Chainage_Baseline varchar(255) [note: "Linear referencing chainage"]
+  
+  Note: "Central fact table containing asset inventory with foreign keys to dimensions"
+}
+
+Table DIM_Route {
+  Route_Key varchar(255) [primary key, not null]
+  Route_Code varchar(255) [unique, not null]
+  Route_Description text
+  
+  Note: "Route dimension containing HS2 route information (Main Line, Spurs, etc.)"
+}
+
+Table DIM_AssetClass {
+  Class_Key varchar(255) [primary key, not null]
+  Class_Code varchar(255) [unique]
+  Class_Name varchar(255) [not null]
+  Parent_Class_Key varchar(255) [foreign key > DIM_AssetClass.Class_Key]
+  Class_Description text
+  
+  Note: "Hierarchical asset classification dimension with self-referencing parent"
+}
+
+Table DIM_Organisation {
+  Owner_Key varchar(255) [primary key, not null]
+  Organisation_Name varchar(255) [unique, not null]
+  Parent_Organisation_Key varchar(255) [foreign key > DIM_Organisation.Owner_Key]
+  
+  Note: "Organizational hierarchy dimension for asset ownership tracking"
+}
+
+Table DIM_Date {
+  Date_Key integer [primary key, not null, note: "Format: YYYYMMDD"]
+  Date datetime [unique, not null]
+  Year integer [not null]
+  Quarter integer [not null, note: "1-4"]
+  Month integer [not null, note: "1-12"]
+  Month_Name varchar(50) [not null]
+  Week integer [note: "ISO week number 1-53"]
+  Day integer [not null, note: "1-31"]
+  Day_Name varchar(50) [not null]
+  Is_Weekend boolean [not null, note: "True for Saturday/Sunday"]
+  
+  Note: "Time dimension for temporal analysis with pre-calculated date attributes"
+}
+
+Table DIM_Status {
+  Status_Key varchar(255) [primary key, not null]
+  Status_Name varchar(255) [unique, not null]
+  Status_Description text
+  
+  Note: "Asset status dimension (Published, Client-shared, Archived, etc.)"
+}
+
+================================================================================
+RELATIONSHIPS
+================================================================================
+
+Ref: FACT_Asset_Inventory.Route_Key > DIM_Route.Route_Key
+  Type: Many-to-One
+  Description: "Each asset belongs to one route"
+  
+Ref: FACT_Asset_Inventory.Class_Key > DIM_AssetClass.Class_Key
+  Type: Many-to-One
+  Description: "Each asset belongs to one asset class"
+  
+Ref: FACT_Asset_Inventory.Owner_Key > DIM_Organisation.Owner_Key
+  Type: Many-to-One
+  Description: "Each asset is owned by one organization"
+  Note: "Currently uses organization names as keys"
+  
+Ref: FACT_Asset_Inventory.Asset_Status > DIM_Status.Status_Key
+  Type: Many-to-One
+  Description: "Each asset has one current status"
+  
+Ref: DIM_AssetClass.Parent_Class_Key > DIM_AssetClass.Class_Key
+  Type: Many-to-One (Self-referencing)
+  Description: "Hierarchical asset classification structure"
+  
+Ref: DIM_Organisation.Parent_Organisation_Key > DIM_Organisation.Owner_Key
+  Type: Many-to-One (Self-referencing)
+  Description: "Organizational hierarchy structure"
+
+================================================================================
+DATA DICTIONARY
+================================================================================
+
+FACT_Asset_Inventory Fields:
+------------------------------------------------------------
+Asset_Key
+  Description: Unique identifier for each asset record
+  Type: String (VARCHAR 255)
+  Nullable: No
+  Example: "13002124", "13002289"
+  
+Owner_Key
+  Description: Reference to owning organization
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Example: "HS2", "BBV Joint Venture", "EK Joint Venture"
+  Note: Currently stores organization name rather than numeric ID
+  
+PHASEID
+  Description: Project phase identifier
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Example: Phase 1, Phase 2a
+  
+Asset_Status
+  Description: Current status of the asset record
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Values: "Published", "Client-shared", "Archived", "Work in progress"
+  
+Asset_Name
+  Description: Descriptive name of the asset
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  
+ASSETID
+  Description: Original asset identifier from source system
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  
+Class_Key
+  Description: Reference to asset classification
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Example: "13002124", "13002289"
+  
+Class_Name
+  Description: Denormalized asset class name for query performance
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Example: "Scoping Survey (ES-EC-SC)", "Bat Building Emergence Survey"
+  
+Route_Key
+  Description: Reference to route dimension
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Example: "H2ML", "H2BS", "H2HC"
+  
+Route_Name
+  Description: Denormalized route name for query performance
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Example: "Main Line (London Euston - Wigan WCML Connection)"
+  
+OSGBEASTING
+  Description: OSGB (Ordnance Survey Great Britain) Easting coordinate
+  Type: String (VARCHAR 255) - stores numeric values
+  Nullable: Yes
+  Unit: Meters
+  Valid Range: 0-700000 (UK bounds)
+  Example: "453120", "438702"
+  
+OSGBNORTHING
+  Description: OSGB Northing coordinate
+  Type: String (VARCHAR 255) - stores numeric values
+  Nullable: Yes
+  Unit: Meters
+  Valid Range: 0-1300000 (UK bounds)
+  Example: "250529", "262614"
+  
+STARTOSGBEASTING
+  Description: Start point Easting coordinate for linear assets
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Unit: Meters
+  
+STARTOSGBNORTHING
+  Description: Start point Northing coordinate for linear assets
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Unit: Meters
+  
+Chainage_Baseline
+  Description: Linear referencing chainage measurement along route baseline
+  Type: String (VARCHAR 255) - stores numeric values
+  Nullable: Yes
+  Unit: Meters
+  Note: Used for railway engineering linear referencing
+
+DIM_Route Fields:
+------------------------------------------------------------
+Route_Key
+  Description: Unique route identifier
+  Type: String (VARCHAR 255)
+  Nullable: No
+  Example: "H2ML", "H2BS", "H2HC", "H2EL", "H2NC"
+  
+Route_Code
+  Description: Short route code
+  Type: String (VARCHAR 255)
+  Nullable: No
+  Values: H2ML, H2BS, H2HC, H2EL, H2NC, H2WS, etc.
+  
+Route_Description
+  Description: Full descriptive name of the route
+  Type: Text
+  Nullable: Yes
+  Example: "Main Line (London Euston - Wigan WCML Connection)"
+
+DIM_AssetClass Fields:
+------------------------------------------------------------
+Class_Key
+  Description: Unique asset class identifier
+  Type: String (VARCHAR 255)
+  Nullable: No
+  Example: "13002122", "13002123", "13002124"
+  
+Class_Code
+  Description: Short classification code
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Example: "TC", "GR-EP-02", "EI-70-25-05"
+  
+Class_Name
+  Description: Full asset class name
+  Type: String (VARCHAR 255)
+  Nullable: No
+  Example: "Telecommunications", "EPS Phase", "CT - Cone penetration testing"
+  
+Parent_Class_Key
+  Description: Reference to parent class in hierarchy
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Note: Enables hierarchical asset classification
+  
+Class_Description
+  Description: Detailed description of asset class
+  Type: Text
+  Nullable: Yes
+
+DIM_Organisation Fields:
+------------------------------------------------------------
+Owner_Key
+  Description: Unique organization identifier
+  Type: String (VARCHAR 255)
+  Nullable: No
+  Example: "1", "158", "566"
+  
+Organisation_Name
+  Description: Organization name
+  Type: String (VARCHAR 255)
+  Nullable: No
+  Example: "HS2", "BBV Joint Venture", "EK Joint Venture"
+  
+Parent_Organisation_Key
+  Description: Reference to parent organization
+  Type: String (VARCHAR 255)
+  Nullable: Yes
+  Note: Enables organizational hierarchy
+
+DIM_Date Fields:
+------------------------------------------------------------
+Date_Key
+  Description: Integer date key in YYYYMMDD format
+  Type: Integer
+  Nullable: No
+  Example: 20250101, 20250815
+  
+Date
+  Description: Actual date value
+  Type: DateTime
+  Nullable: No
+  
+Year
+  Description: Year component
+  Type: Integer
+  Nullable: No
+  Range: Typically 2000-2099
+  
+Quarter
+  Description: Quarter of year
+  Type: Integer
+  Nullable: No
+  Range: 1-4
+  
+Month
+  Description: Month number
+  Type: Integer
+  Nullable: No
+  Range: 1-12
+  
+Month_Name
+  Description: Full month name
+  Type: String (VARCHAR 50)
+  Nullable: No
+  Values: "January", "February", ..., "December"
+  
+Week
+  Description: ISO week number
+  Type: Integer
+  Nullable: Yes
+  Range: 1-53
+  
+Day
+  Description: Day of month
+  Type: Integer
+  Nullable: No
+  Range: 1-31
+  
+Day_Name
+  Description: Full day name
+  Type: String (VARCHAR 50)
+  Nullable: No
+  Values: "Monday", "Tuesday", ..., "Sunday"
+  
+Is_Weekend
+  Description: Boolean flag for weekend days
+  Type: Boolean
+  Nullable: No
+  Values: True (Saturday/Sunday), False (Monday-Friday)
+
+DIM_Status Fields:
+------------------------------------------------------------
+Status_Key
+  Description: Unique status identifier
+  Type: String (VARCHAR 255)
+  Nullable: No
+  
+Status_Name
+  Description: Status name
+  Type: String (VARCHAR 255)
+  Nullable: No
+  Values: "Published", "Client-shared", "Archived", "Work in progress"
+  
+Status_Description
+  Description: Detailed status description
+  Type: Text
+  Nullable: Yes
+
+================================================================================
+DATA QUALITY METRICS
+================================================================================
+
+Overall Data Quality KPI: 82.9/100
+  Coverage Breadth: 57.1/100 (20 tables validated)
+  Validation Depth: 100.0/100 (85.1 avg rules/table)
+  Total Validation Rules: 1,702
+
+FACT_Asset_Inventory Completeness:
+  Total Assets: 100,057
+  Route Coverage: 99.7%
+  Class Coverage: 99.8%
+  Owner Coverage: 52.5%
+  
+Referential Integrity: PASSED
+  All foreign keys validated against dimension tables
+
+Geospatial Coverage: 72.9%
+  Valid UK coordinates: 57,040 assets
+  Spatial extent: 588.3 km (E-W) × 476.6 km (N-S)
+
+================================================================================
+USAGE GUIDELINES
+================================================================================
+
+QUERY PATTERNS:
+------------------------------------------------------------
+1. Asset Distribution by Route:
+   SELECT r.Route_Name, COUNT(*) as Asset_Count
+   FROM FACT_Asset_Inventory f
+   JOIN DIM_Route r ON f.Route_Key = r.Route_Key
+   GROUP BY r.Route_Name
+   
+2. Asset Classification Analysis:
+   SELECT c.Class_Name, COUNT(*) as Count
+   FROM FACT_Asset_Inventory f
+   JOIN DIM_AssetClass c ON f.Class_Key = c.Class_Key
+   GROUP BY c.Class_Name
+   ORDER BY Count DESC
+   
+3. Organizational Ownership:
+   SELECT o.Organisation_Name, COUNT(*) as Assets_Owned
+   FROM FACT_Asset_Inventory f
+   JOIN DIM_Organisation o ON f.Owner_Key = o.Owner_Key
+   GROUP BY o.Organisation_Name
+   
+4. Temporal Analysis (requires date field joins):
+   Use DIM_Date for time-based aggregations and trend analysis
+
+DENORMALIZATION STRATEGY:
+------------------------------------------------------------
+Class_Name and Route_Name are denormalized in FACT table to improve
+query performance for common reporting scenarios. This reduces join
+operations for frequently accessed descriptive attributes.
+
+COORDINATE SYSTEM:
+------------------------------------------------------------
+Coordinates use OSGB (Ordnance Survey Great Britain) projection:
+  - EPSG: 27700
+  - Unit: Meters
+  - Valid Range: Easting 0-700000, Northing 0-1300000
+  - Coverage: United Kingdom
+
+LINEAR REFERENCING:
+------------------------------------------------------------
+Chainage_Baseline provides linear referencing along route baselines.
+Use for railway engineering calculations and distance-based queries.
+
+================================================================================
+TRANSFORMATION RULES
+================================================================================
+
+1. SOURCE: Bronze Layer (aims_*.parquet files)
+2. VALIDATION: Only tables passing DQ validation included
+3. NORMALIZATION: Column names standardized (UPPER CASE)
+4. ENRICHMENT: Denormalized fields added for performance
+5. RELATIONSHIPS: Foreign keys established via merge operations
+6. CLEANSING: Invalid coordinates filtered (outside UK bounds)
+
+================================================================================
+MAINTENANCE NOTES
+================================================================================
+
+REFRESH SCHEDULE:
+  - Silver Layer updated after Bronze Layer ingestion
+  - Execute Notebook 07 (DQ Matrix and Modeling)
+  - Incremental updates not yet implemented
+
+DATA RETENTION:
+  - Historical snapshots maintained in Bronze Layer
+  - Silver Layer contains current state only
+  - Date dimension pre-generated for 232+ years
+
+KNOWN ISSUES:
+  1. Owner_Key uses organization names instead of numeric IDs
+     - Workaround: Direct matching on organization names
+  2. Coordinate data stored as VARCHAR instead of numeric types
+     - Workaround: Cast to FLOAT for spatial calculations
+  3. Some assets missing Owner_Key (47.5%)
+     - Investigation required on source data quality
+
+OPTIMIZATION RECOMMENDATIONS:
+  1. Convert coordinate fields to FLOAT/DOUBLE for spatial queries
+  2. Create spatial indexes on OSGBEASTING/OSGBNORTHING
+  3. Implement partitioning by Route_Key for large-scale queries
+  4. Add materialized views for common aggregations
+
+================================================================================
+CONTACT & SUPPORT
+================================================================================
+
+Data Owner: HS2 AIMS Data Platform Team
+Generated By: AIMS ETL Pipeline v1.1.0
+Documentation: /docs/CODING_STANDARDS_AND_PRINCIPLES.md
+Notebook: /notebooks/07_AIMS_DQ_Matrix_and_Modeling.ipynb
+
+For questions or issues, refer to project documentation or contact
+the data platform team.
+
+================================================================================
+END OF DOCUMENT
+================================================================================
