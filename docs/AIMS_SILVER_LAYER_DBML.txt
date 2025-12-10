@@ -1,0 +1,94 @@
+//////////////////////////////////////////////////////////////
+// SILVER LAYER STAR SCHEMA – ASSET INVENTORY
+//////////////////////////////////////////////////////////////
+
+Table FACT_Asset_Inventory {
+  Asset_Key           varchar(255) [pk, not null]
+  Owner_Key           varchar(255) [not null] // FK -> DIM_Organisation.Owner_Key
+  PHASEID             varchar(255)
+  Asset_Status        varchar(255) [not null] // FK -> DIM_Status.Status_Key
+  Asset_Name          varchar(255)
+  ASSETID             varchar(255)
+  Class_Key           varchar(255) [not null] // FK -> DIM_AssetClass.Class_Key
+  Class_Name          varchar(255) [note: 'Denormalized for query performance']
+  Route_Key           varchar(255) [not null] // FK -> DIM_Route.Route_Key
+  Route_Name          varchar(255) [note: 'Denormalized for query performance']
+  OSGBEASTING         varchar(255) [note: 'OSGB Easting coordinate (meters)']
+  OSGBNORTHING        varchar(255) [note: 'OSGB Northing coordinate (meters)']
+  STARTOSGBEASTING    varchar(255) [note: 'Start point Easting coordinate']
+  STARTOSGBNORTHING   varchar(255) [note: 'Start point Northing coordinate']
+  Chainage_Baseline   varchar(255) [note: 'Linear referencing chainage']
+
+  Note: 'Central fact table containing asset inventory with foreign keys to dimensions'
+}
+
+Table DIM_Route {
+  Route_Key        varchar(255) [pk, not null]
+  Route_Code       varchar(255) [unique, not null]
+  Route_Description text
+
+  Note: 'Route dimension containing HS2 route information (Main Line, Spurs, etc.)'
+}
+
+Table DIM_AssetClass {
+  Class_Key          varchar(255) [pk, not null]
+  Class_Code         varchar(255) [unique]
+  Class_Name         varchar(255) [not null]
+  Parent_Class_Key   varchar(255) // self-FK -> DIM_AssetClass.Class_Key
+  Class_Description  text
+
+  Note: 'Hierarchical asset classification dimension with self-referencing parent'
+}
+
+Table DIM_Organisation {
+  Owner_Key                 varchar(255) [pk, not null]
+  Organisation_Name         varchar(255) [unique, not null]
+  Parent_Organisation_Key   varchar(255) // self-FK -> DIM_Organisation.Owner_Key
+
+  Note: 'Organizational hierarchy dimension for asset ownership tracking'
+}
+
+Table DIM_Date {
+  Date_Key      int        [pk, not null, note: 'Format: YYYYMMDD']
+  Date          datetime   [unique, not null]
+  Year          int        [not null]
+  Quarter       int        [not null, note: '1-4']
+  Month         int        [not null, note: '1-12']
+  Month_Name    varchar(50) [not null]
+  Week          int        [note: 'ISO week number 1-53']
+  Day           int        [not null, note: '1-31']
+  Day_Name      varchar(50) [not null]
+  Is_Weekend    boolean    [not null, note: 'True for Saturday/Sunday']
+
+  Note: 'Time dimension for temporal analysis with pre-calculated date attributes'
+}
+
+Table DIM_Status {
+  Status_Key         varchar(255) [pk, not null]
+  Status_Name        varchar(255) [unique, not null]
+  Status_Description text
+
+  Note: 'Asset status dimension (Published, Client-shared, Archived, etc.)'
+}
+
+//////////////////////////////////////////////////////////////
+// RELATIONSHIPS
+//////////////////////////////////////////////////////////////
+
+// Each asset belongs to one route
+Ref: FACT_Asset_Inventory.Route_Key > DIM_Route.Route_Key
+
+// Each asset belongs to one asset class
+Ref: FACT_Asset_Inventory.Class_Key > DIM_AssetClass.Class_Key
+
+// Each asset is owned by one organization
+Ref: FACT_Asset_Inventory.Owner_Key > DIM_Organisation.Owner_Key
+
+// Each asset has one current status
+Ref: FACT_Asset_Inventory.Asset_Status > DIM_Status.Status_Key
+
+// Hierarchical asset classification structure
+Ref: DIM_AssetClass.Parent_Class_Key > DIM_AssetClass.Class_Key
+
+// Organizational hierarchy structure
+Ref: DIM_Organisation.Parent_Organisation_Key > DIM_Organisation.Owner_Key

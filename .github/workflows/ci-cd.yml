@@ -1,0 +1,398 @@
+# GitHub Actions CI/CD Workflow for AIMS Data Platform
+# ========================================================
+#
+# Comprehensive CI/CD pipeline with:
+# - Matrix testing across Python versions and OS
+# - Build and test for DQ library and AIMS platform
+# - Data quality validation
+# - Automated releases
+# - Code coverage reporting
+#
+# ========================================================
+
+name: AIMS Platform CI/CD
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - 'release/**'
+    paths:
+      - '1_AIMS_LOCAL_2026/**'
+      - '2_DATA_QUALITY_LIBRARY/**'
+      - '.github/workflows/**'
+  
+  pull_request:
+    branches:
+      - master
+      - develop
+    paths:
+      - '1_AIMS_LOCAL_2026/**'
+      - '2_DATA_QUALITY_LIBRARY/**'
+  
+  workflow_dispatch:  # Allow manual triggers
+    inputs:
+      run_dq_validation:
+        description: 'Run DQ validation'
+        required: false
+        default: 'true'
+
+env:
+  PYTHON_VERSION: '3.11'
+  AIMS_PROJECT_PATH: '1_AIMS_LOCAL_2026'
+  DQ_LIBRARY_PATH: '2_DATA_QUALITY_LIBRARY'
+
+jobs:
+  # ============================================
+  # JOB 1: Build and Test DQ Library
+  # ============================================
+  build-dq-library:
+    name: Build DQ Library
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.9', '3.10', '3.11']
+      fail-fast: false
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      
+      - name: Install Build Tools
+        run: |
+          python -m pip install --upgrade pip setuptools wheel build
+      
+      - name: Install DQ Library (Editable)
+        run: |
+          cd ${{ env.DQ_LIBRARY_PATH }}
+          pip install -e .[dev]
+      
+      - name: Run DQ Library Tests
+        run: |
+          cd ${{ env.DQ_LIBRARY_PATH }}
+          pytest tests/ --junitxml=test-results.xml --cov=dq_framework --cov-report=xml --cov-report=html --cov-report=term
+      
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dq-library-test-results-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: ${{ env.DQ_LIBRARY_PATH }}/test-results.xml
+      
+      - name: Upload Coverage Report
+        uses: codecov/codecov-action@v4
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        with:
+          file: ${{ env.DQ_LIBRARY_PATH }}/coverage.xml
+          flags: dq-library
+          name: dq-library-coverage
+      
+      - name: Build Wheel
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        run: |
+          cd ${{ env.DQ_LIBRARY_PATH }}
+          python -m build --wheel
+      
+      - name: Upload Wheel Artifact
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dq-library-wheel
+          path: ${{ env.DQ_LIBRARY_PATH }}/dist/*.whl
+          retention-days: 30
+  
+  # ============================================
+  # JOB 2: Build and Test AIMS Platform
+  # ============================================
+  build-aims-platform:
+    name: Build AIMS Platform
+    needs: build-dq-library
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.9', '3.10', '3.11']
+      fail-fast: false
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      
+      - name: Download DQ Library Wheel
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        uses: actions/download-artifact@v4
+        with:
+          name: dq-library-wheel
+          path: ./dq-wheel
+      
+      - name: Install DQ Library from Wheel (if available)
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        run: |
+          pip install ./dq-wheel/*.whl
+      
+      - name: Install DQ Library (Editable - Fallback)
+        if: matrix.os != 'ubuntu-latest' || matrix.python-version != '3.11'
+        run: |
+          cd ${{ env.DQ_LIBRARY_PATH }}
+          pip install -e .
+      
+      - name: Install AIMS Platform
+        run: |
+          cd ${{ env.AIMS_PROJECT_PATH }}
+          pip install -e .
+          pip install pytest pytest-cov
+      
+      - name: Run AIMS Platform Tests
+        run: |
+          cd ${{ env.AIMS_PROJECT_PATH }}
+          pytest tests/ --junitxml=test-results.xml --cov=aims_data_platform --cov-report=xml --cov-report=html --cov-report=term
+      
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aims-platform-test-results-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: ${{ env.AIMS_PROJECT_PATH }}/test-results.xml
+      
+      - name: Upload Coverage Report
+        uses: codecov/codecov-action@v4
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        with:
+          file: ${{ env.AIMS_PROJECT_PATH }}/coverage.xml
+          flags: aims-platform
+          name: aims-platform-coverage
+  
+  # ============================================
+  # JOB 3: Data Quality Validation
+  # ============================================
+  dq-validation:
+    name: Data Quality Validation
+    needs: build-aims-platform
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.inputs.run_dq_validation == 'true'
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      
+      - name: Download DQ Library Wheel
+        uses: actions/download-artifact@v4
+        with:
+          name: dq-library-wheel
+          path: ./dq-wheel
+      
+      - name: Install Dependencies
+        run: |
+          pip install ./dq-wheel/*.whl
+          cd ${{ env.AIMS_PROJECT_PATH }}
+          pip install -e .
+      
+      - name: Run DQ Validation
+        id: dq_validation
+        continue-on-error: true
+        run: |
+          cd ${{ env.AIMS_PROJECT_PATH }}
+          python scripts/run_validation_simple.py
+          exit_code=$?
+          echo "exit_code=$exit_code" >> $GITHUB_OUTPUT
+          if [ $exit_code -eq 1 ]; then
+            echo "::warning::Some files failed DQ validation"
+          elif [ $exit_code -eq 2 ]; then
+            echo "::error::DQ validation had errors"
+            exit 1
+          fi
+      
+      - name: Upload Validation Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dq-validation-results
+          path: ${{ env.AIMS_PROJECT_PATH }}/config/validation_results/
+          retention-days: 90
+      
+      - name: Extract DQ Metrics
+        if: always()
+        id: dq_metrics
+        run: |
+          cd ${{ env.AIMS_PROJECT_PATH }}
+          python -c "
+          import json
+          with open('config/validation_results/validation_results.json') as f:
+              data = json.load(f)
+          summary = data['summary']
+          print(f\"passed={summary['passed']}\")
+          print(f\"failed={summary['failed']}\")
+          print(f\"total={summary['total']}\")
+          print(f\"pass_rate={summary['passed']/summary['total']*100:.1f}\")
+          " >> $GITHUB_OUTPUT
+      
+      - name: Create DQ Report Comment (PR only)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const passed = '${{ steps.dq_metrics.outputs.passed }}';
+            const failed = '${{ steps.dq_metrics.outputs.failed }}';
+            const total = '${{ steps.dq_metrics.outputs.total }}';
+            const passRate = '${{ steps.dq_metrics.outputs.pass_rate }}';
+            
+            const body = `## 📊 Data Quality Validation Results
+            
+            | Metric | Value |
+            |--------|-------|
+            | ✅ Passed | ${passed}/${total} |
+            | ❌ Failed | ${failed}/${total} |
+            | 📈 Pass Rate | ${passRate}% |
+            
+            ${failed > 0 ? '⚠️ Some files failed validation. Check the artifacts for details.' : '✅ All files passed validation!'}
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+  
+  # ============================================
+  # JOB 4: Publish Test Results
+  # ============================================
+  publish-test-results:
+    name: Publish Test Results
+    needs: [build-dq-library, build-aims-platform]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Download All Test Results
+        uses: actions/download-artifact@v4
+        with:
+          path: ./test-results
+          pattern: '*-test-results-*'
+      
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: ./test-results/**/*.xml
+          check_name: 'Test Results'
+          comment_mode: 'always'
+  
+  # ============================================
+  # JOB 5: Create GitHub Release (on tag)
+  # ============================================
+  create-release:
+    name: Create GitHub Release
+    needs: [build-dq-library, build-aims-platform, dq-validation]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Download DQ Library Wheel
+        uses: actions/download-artifact@v4
+        with:
+          name: dq-library-wheel
+          path: ./release-artifacts
+      
+      - name: Download Validation Results
+        uses: actions/download-artifact@v4
+        with:
+          name: dq-validation-results
+          path: ./release-artifacts/validation-results
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./release-artifacts/**/*
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  # ============================================
+  # JOB 6: Deploy to Dev (develop branch)
+  # ============================================
+  deploy-dev:
+    name: Deploy to Development
+    needs: dq-validation
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    environment:
+      name: development
+      url: https://dev.aims-platform.example.com
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+      
+      - name: Deploy to Azure (Example)
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          echo "Deploying to Development environment..."
+          # Add Azure CLI deployment commands here
+          # az login --service-principal ...
+          # az deployment group create ...
+  
+  # ============================================
+  # JOB 7: Deploy to Prod (master branch + manual approval)
+  # ============================================
+  deploy-prod:
+    name: Deploy to Production
+    needs: dq-validation
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    environment:
+      name: production
+      url: https://aims-platform.example.com
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+      
+      - name: Deploy to Azure Production
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          echo "Deploying to Production environment..."
+          # Add production deployment commands
+
+# ============================================
+# Workflow Status Badge
+# ============================================
+# Add to README.md:
+# [![CI/CD](https://github.com/<owner>/<repo>/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/<owner>/<repo>/actions/workflows/ci-cd.yml)

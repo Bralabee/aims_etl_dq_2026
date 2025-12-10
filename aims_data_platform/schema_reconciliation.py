@@ -412,11 +412,11 @@ def reconcile(tables, parquet_dir):
     
     for _, row in df_comparison.iterrows():
         status = row['Status']
-        if status == "MATCH": status_icon = "✅ MATCH"
-        elif status == "MATCH (+EXTRA)": status_icon = "✅ MATCH"
-        elif status == "AUDIT MISSING": status_icon = "🟡 AUDIT MISSING"
-        elif status == "MISSING FILE": status_icon = "🔴 MISSING"
-        else: status_icon = "⚠️ MISMATCH"
+        if status == "MATCH": status_icon = "[MATCH] MATCH"
+        elif status == "MATCH (+EXTRA)": status_icon = "[MATCH] MATCH"
+        elif status == "AUDIT MISSING": status_icon = "[AUDIT MISSING] AUDIT MISSING"
+        elif status == "MISSING FILE": status_icon = "[MISSING] MISSING"
+        else: status_icon = "[MISMATCH] MISMATCH"
         
         print(f"{row['Table']:<30} | {row['Status']:<10} | {str(row['Rows']):<10} | {row['Size']:<10} | {row['Details']}")
         report_lines.append(f"| {row['Table']} | {status_icon} | {row['Rows']} | {row['Size']} | {row['Details']} |")

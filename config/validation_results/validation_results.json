@@ -1,0 +1,1935 @@
+{
+  "timestamp": "2025-12-10T13:27:17.899646",
+  "threshold": 85.0,
+  "files": [
+    {
+      "file": "aims_activitydates.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_activitydates_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:17.901708",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_assetattributes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_assetattributes_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:18.214126",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_assetclassattributes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_assetclassattributes_validation.yml",
+      "status": "PASSED",
+      "score": 98.36065573770492,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "EXPECTED",
+          "severity": "medium",
+          "details": {
+            "element_count": 100000,
+            "unexpected_count": 11961,
+            "unexpected_percent": 11.960999999999999,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 20
+              }
+            ],
+            "partial_unexpected_index_list": [
+              79785,
+              79786,
+              79787,
+              79788,
+              79789,
+              79790,
+              79791,
+              79792,
+              79793,
+              79794,
+              79795,
+              79796,
+              79797,
+              79798,
+              79799,
+              79800,
+              79801,
+              79802,
+              79803,
+              79804
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:28.200060",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_assetclasschangelogs.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_assetclasschangelogs_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:30.483967",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_assetclasses.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_assetclasses_validation.yml",
+      "status": "PASSED",
+      "score": 99.13793103448276,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "PARENTID",
+          "severity": "medium",
+          "details": {
+            "element_count": 5644,
+            "unexpected_count": 39,
+            "unexpected_percent": 0.6909992912827781,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 20
+              }
+            ],
+            "partial_unexpected_index_list": [
+              0,
+              9,
+              72,
+              105,
+              116,
+              149,
+              180,
+              228,
+              256,
+              259,
+              293,
+              401,
+              550,
+              623,
+              735,
+              927,
+              974,
+              1082,
+              2484,
+              2579
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:30.811277",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_assetclassrelationships.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_assetclassrelationships_validation.yml",
+      "status": "PASSED",
+      "score": 91.48936170212765,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "TARGETASSETCLASSID",
+          "severity": "medium",
+          "details": {
+            "element_count": 49515,
+            "unexpected_count": 7,
+            "unexpected_percent": 0.014137130162576996,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 7
+              }
+            ],
+            "partial_unexpected_index_list": [
+              413,
+              477,
+              3748,
+              8416,
+              17417,
+              17955,
+              22833
+            ]
+          }
+        },
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "RELATIONSHIPTYPEID",
+          "severity": "medium",
+          "details": {
+            "element_count": 49515,
+            "unexpected_count": 2,
+            "unexpected_percent": 0.004039180046450571,
+            "partial_unexpected_list": [
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 2
+              }
+            ],
+            "partial_unexpected_index_list": [
+              413,
+              477
+            ]
+          }
+        },
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "EXPECTED",
+          "severity": "medium",
+          "details": {
+            "element_count": 49515,
+            "unexpected_count": 541,
+            "unexpected_percent": 1.0925982025648793,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 20
+              }
+            ],
+            "partial_unexpected_index_list": [
+              38329,
+              38330,
+              38331,
+              38332,
+              38336,
+              38340,
+              38345,
+              38347,
+              38355,
+              38356,
+              38357,
+              38375,
+              38376,
+              38377,
+              38378,
+              38379,
+              38380,
+              38381,
+              38382,
+              38691
+            ]
+          }
+        },
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "REQUIREDATSTAGEID",
+          "severity": "medium",
+          "details": {
+            "element_count": 49515,
+            "unexpected_count": 22,
+            "unexpected_percent": 0.04443098051095628,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 20
+              }
+            ],
+            "partial_unexpected_index_list": [
+              603,
+              782,
+              907,
+              934,
+              953,
+              1321,
+              1345,
+              1654,
+              1657,
+              1734,
+              3672,
+              3748,
+              8416,
+              9437,
+              17233,
+              18120,
+              29325,
+              38869,
+              38870,
+              42549
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:34.082044",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_assetconsents.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_assetconsents_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:35.099719",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_assethierarchymap.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_assethierarchymap_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:35.431214",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_assetlocations.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_assetlocations_validation.yml",
+      "status": "PASSED",
+      "score": 98.55072463768117,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_be_unique",
+          "column": "ASSETID",
+          "severity": "critical",
+          "details": {
+            "element_count": 100000,
+            "unexpected_count": 103,
+            "unexpected_percent": 0.10300000000000001,
+            "partial_unexpected_list": [
+              "13261259",
+              "13261259",
+              "13262487",
+              "13262487",
+              "13260928",
+              "13260928",
+              "13262720",
+              "13262720",
+              "13251135",
+              "13251135",
+              "13252939",
+              "13252939",
+              "13255399",
+              "13255399",
+              "13250818",
+              "13250818",
+              "13250818",
+              "13250818",
+              "13261727",
+              "13261727"
+            ],
+            "missing_count": 0,
+            "missing_percent": 0.0,
+            "unexpected_percent_total": 0.10300000000000001,
+            "unexpected_percent_nonmissing": 0.10300000000000001,
+            "partial_unexpected_counts": [
+              {
+                "value": "13250818",
+                "count": 4
+              },
+              {
+                "value": "13251135",
+                "count": 2
+              },
+              {
+                "value": "13252939",
+                "count": 2
+              },
+              {
+                "value": "13255399",
+                "count": 2
+              },
+              {
+                "value": "13260928",
+                "count": 2
+              },
+              {
+                "value": "13261259",
+                "count": 2
+              },
+              {
+                "value": "13261727",
+                "count": 2
+              },
+              {
+                "value": "13262487",
+                "count": 2
+              },
+              {
+                "value": "13262720",
+                "count": 2
+              }
+            ],
+            "partial_unexpected_index_list": [
+              767,
+              768,
+              774,
+              775,
+              776,
+              777,
+              778,
+              779,
+              780,
+              781,
+              783,
+              784,
+              786,
+              787,
+              788,
+              789,
+              790,
+              791,
+              792,
+              793
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:35.972879",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_assets.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_assets_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:38.558010",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_attributedomains.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_attributedomains_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:41.184859",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_attributedomainvalues.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_attributedomainvalues_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:41.782317",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_attributegroups.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_attributegroups_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:42.252179",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_attributes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_attributes_validation.yml",
+      "status": "PASSED",
+      "score": 96.7032967032967,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "ATTRIBUTEGROUPID",
+          "severity": "medium",
+          "details": {
+            "element_count": 6533,
+            "unexpected_count": 238,
+            "unexpected_percent": 3.643043012398592,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 20
+              }
+            ],
+            "partial_unexpected_index_list": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              18,
+              64,
+              92,
+              93,
+              94
+            ]
+          }
+        },
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "CONTRACTORTOCOMPLETE",
+          "severity": "medium",
+          "details": {
+            "element_count": 6533,
+            "unexpected_count": 5,
+            "unexpected_percent": 0.0765345170671973,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 5
+              }
+            ],
+            "partial_unexpected_index_list": [
+              1549,
+              4848,
+              4849,
+              4850,
+              4851
+            ]
+          }
+        },
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "OWNERID",
+          "severity": "medium",
+          "details": {
+            "element_count": 6533,
+            "unexpected_count": 4,
+            "unexpected_percent": 0.06122761365375785,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 4
+              }
+            ],
+            "partial_unexpected_index_list": [
+              4848,
+              4849,
+              4850,
+              4851
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:42.814601",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_consentlinks.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_consentlinks_validation.yml",
+      "status": "FAILED",
+      "score": 95.45454545454545,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:44.486261",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 90.9%)"
+      ]
+    },
+    {
+      "file": "aims_consentmilestones.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_consentmilestones_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:44.716155",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_consentmilestonetypes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_consentmilestonetypes_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:45.237567",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_consents.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_consents_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:45.466806",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_consenttypemilestones.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_consenttypemilestones_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:46.595431",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_consenttypes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_consenttypes_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:47.025526",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_informationneedassetclass.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_informationneedassetclass_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:47.343120",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_informationneedattributes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_informationneedattributes_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:47.831276",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_informationneeddocs.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_informationneeddocs_validation.yml",
+      "status": "FAILED",
+      "score": 96.66666666666667,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:48.449293",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 93.3%)"
+      ]
+    },
+    {
+      "file": "aims_informationneedgeometries.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_informationneedgeometries_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:48.737843",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_informationneedlinks.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_informationneedlinks_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:49.680396",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_informationneedpropchngs.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_informationneedpropchngs_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:50.490511",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_informationneeds.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_informationneeds_validation.yml",
+      "status": "PASSED",
+      "score": 98.71794871794873,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "REVIEWEDBYID",
+          "severity": "medium",
+          "details": {
+            "element_count": 547,
+            "unexpected_count": 46,
+            "unexpected_percent": 8.409506398537477,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 20
+              }
+            ],
+            "partial_unexpected_index_list": [
+              24,
+              128,
+              129,
+              216,
+              217,
+              285,
+              290,
+              316,
+              319,
+              368,
+              370,
+              371,
+              372,
+              373,
+              374,
+              375,
+              377,
+              421,
+              428,
+              429
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:52.069250",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_informationneedsourcedocs.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_informationneedsourcedocs_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:27:53.122318",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_informationneedstatusupd.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_informationneedstatusupd_validation.yml",
+      "status": "FAILED",
+      "score": 95.45454545454545,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_be_unique",
+          "column": "INFORMATIONNEEDID",
+          "severity": "critical",
+          "details": {
+            "element_count": 49,
+            "unexpected_count": 5,
+            "unexpected_percent": 10.204081632653061,
+            "partial_unexpected_list": [
+              "1901",
+              "1901",
+              "1901",
+              "1901",
+              "1901"
+            ],
+            "missing_count": 0,
+            "missing_percent": 0.0,
+            "unexpected_percent_total": 10.204081632653061,
+            "unexpected_percent_nonmissing": 10.204081632653061,
+            "partial_unexpected_counts": [
+              {
+                "value": "1901",
+                "count": 5
+              }
+            ],
+            "partial_unexpected_index_list": [
+              43,
+              44,
+              46,
+              47,
+              48
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:53.595060",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 90.0%)"
+      ]
+    },
+    {
+      "file": "aims_informationpackages.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_informationpackages_validation.yml",
+      "status": "FAILED",
+      "score": 95.45454545454545,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:53.950272",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 90.9%)"
+      ]
+    },
+    {
+      "file": "aims_links.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_links_validation.yml",
+      "status": "PASSED",
+      "score": 97.61904761904762,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "LINKTYPEID",
+          "severity": "medium",
+          "details": {
+            "element_count": 28631,
+            "unexpected_count": 421,
+            "unexpected_percent": 1.4704341448080753,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 20
+              }
+            ],
+            "partial_unexpected_index_list": [
+              0,
+              57,
+              59,
+              128,
+              204,
+              216,
+              280,
+              283,
+              295,
+              371,
+              372,
+              457,
+              459,
+              543,
+              546,
+              551,
+              634,
+              687,
+              693,
+              762
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:54.174268",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_linktypes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_linktypes_validation.yml",
+      "status": "PASSED",
+      "score": 97.5,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "INCLUDEINWEBSERVICES",
+          "severity": "medium",
+          "details": {
+            "element_count": 52,
+            "unexpected_count": 4,
+            "unexpected_percent": 7.6923076923076925,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 4
+              }
+            ],
+            "partial_unexpected_index_list": [
+              47,
+              48,
+              49,
+              50
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:54.915435",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_noncompliances.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_noncompliances_validation.yml",
+      "status": "PASSED",
+      "score": 98.40255591054313,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "HS2COMPLIANCEDECISIONID",
+          "severity": "medium",
+          "details": {
+            "element_count": 310,
+            "unexpected_count": 5,
+            "unexpected_percent": 1.6129032258064515,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 5
+              }
+            ],
+            "partial_unexpected_index_list": [
+              259,
+              279,
+              280,
+              282,
+              284
+            ]
+          }
+        },
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "DECISIONENDORSEDBYCOMPLIANCEID",
+          "severity": "medium",
+          "details": {
+            "element_count": 310,
+            "unexpected_count": 25,
+            "unexpected_percent": 8.064516129032258,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 20
+              }
+            ],
+            "partial_unexpected_index_list": [
+              257,
+              259,
+              260,
+              261,
+              278,
+              279,
+              280,
+              281,
+              282,
+              284,
+              287,
+              288,
+              289,
+              290,
+              291,
+              292,
+              294,
+              295,
+              299,
+              300
+            ]
+          }
+        },
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "PREASSESSMENTOUTCOMEID",
+          "severity": "medium",
+          "details": {
+            "element_count": 310,
+            "unexpected_count": 5,
+            "unexpected_percent": 1.6129032258064515,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 5
+              }
+            ],
+            "partial_unexpected_index_list": [
+              269,
+              271,
+              282,
+              284,
+              292
+            ]
+          }
+        },
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "FULLINVESTIGATIONREQUIREDID",
+          "severity": "medium",
+          "details": {
+            "element_count": 310,
+            "unexpected_count": 9,
+            "unexpected_percent": 2.903225806451613,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 9
+              }
+            ],
+            "partial_unexpected_index_list": [
+              279,
+              280,
+              282,
+              284,
+              287,
+              292,
+              294,
+              295,
+              300
+            ]
+          }
+        },
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "REPORTEDBYID",
+          "severity": "medium",
+          "details": {
+            "element_count": 310,
+            "unexpected_count": 3,
+            "unexpected_percent": 0.967741935483871,
+            "partial_unexpected_list": [
+              null,
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 3
+              }
+            ],
+            "partial_unexpected_index_list": [
+              269,
+              282,
+              284
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:27:55.553652",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_organisations.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_organisations_validation.yml",
+      "status": "PASSED",
+      "score": 96.29629629629629,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "OWNERID",
+          "severity": "medium",
+          "details": {
+            "element_count": 28,
+            "unexpected_count": 1,
+            "unexpected_percent": 3.571428571428571,
+            "partial_unexpected_list": [
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 1
+              }
+            ],
+            "partial_unexpected_index_list": [
+              27
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:00.657631",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_owners.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_owners_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:01.180307",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_people.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_people_validation.yml",
+      "status": "FAILED",
+      "score": 97.61904761904762,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_be_unique",
+          "column": "USERID",
+          "severity": "critical",
+          "details": {
+            "element_count": 1898,
+            "unexpected_count": 12,
+            "unexpected_percent": 0.6322444678609063,
+            "partial_unexpected_list": [
+              "None",
+              "None",
+              "None",
+              "None",
+              "None",
+              "None",
+              "None",
+              "None",
+              "None",
+              "None",
+              "None",
+              "None"
+            ],
+            "missing_count": 0,
+            "missing_percent": 0.0,
+            "unexpected_percent_total": 0.6322444678609063,
+            "unexpected_percent_nonmissing": 0.6322444678609063,
+            "partial_unexpected_counts": [
+              {
+                "value": "None",
+                "count": 12
+              }
+            ],
+            "partial_unexpected_index_list": [
+              40,
+              54,
+              167,
+              178,
+              182,
+              205,
+              675,
+              778,
+              833,
+              1330,
+              1339,
+              1397
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:01.752095",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 94.1%)"
+      ]
+    },
+    {
+      "file": "aims_phases.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_phases_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:02.472872",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_productassetclasses.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_productassetclasses_validation.yml",
+      "status": "FAILED",
+      "score": 95.83333333333334,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:03.077465",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 91.7%)"
+      ]
+    },
+    {
+      "file": "aims_productcharacteristics.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_productcharacteristics_validation.yml",
+      "status": "PASSED",
+      "score": 97.61904761904762,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:03.516598",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_productlinks.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_productlinks_validation.yml",
+      "status": "FAILED",
+      "score": 95.0,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:04.047340",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 90.0%)"
+      ]
+    },
+    {
+      "file": "aims_products.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_products_validation.yml",
+      "status": "PASSED",
+      "score": 97.72727272727273,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:04.354198",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_projectitemactions.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_projectitemactions_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:04.905533",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_projectitemassignedroles.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_projectitemassignedroles_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:06.357516",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_projectitemattributes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_projectitemattributes_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:06.753562",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_projectitemlinks.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_projectitemlinks_validation.yml",
+      "status": "FAILED",
+      "score": 96.15384615384616,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:07.806354",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 92.3%)"
+      ]
+    },
+    {
+      "file": "aims_projectitems.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_projectitems_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:08.069975",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_relationships.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_relationships_validation.yml",
+      "status": "FAILED",
+      "score": 96.66666666666667,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_be_unique",
+          "column": "TARGETASSETID",
+          "severity": "critical",
+          "details": {
+            "element_count": 100000,
+            "unexpected_count": 34103,
+            "unexpected_percent": 34.103,
+            "partial_unexpected_list": [
+              "13254216",
+              "13254216",
+              "13254216",
+              "13254219",
+              "13254219",
+              "13254238",
+              "13254238",
+              "13254238",
+              "13254238",
+              "13254238",
+              "13254238",
+              "13254243",
+              "13254243",
+              "13254243",
+              "13254243",
+              "13254243",
+              "13254250",
+              "13254250",
+              "13254285",
+              "13254285"
+            ],
+            "missing_count": 0,
+            "missing_percent": 0.0,
+            "unexpected_percent_total": 34.103,
+            "unexpected_percent_nonmissing": 34.103,
+            "partial_unexpected_counts": [
+              {
+                "value": "13254238",
+                "count": 6
+              },
+              {
+                "value": "13254243",
+                "count": 5
+              },
+              {
+                "value": "13254216",
+                "count": 3
+              },
+              {
+                "value": "13254219",
+                "count": 2
+              },
+              {
+                "value": "13254250",
+                "count": 2
+              },
+              {
+                "value": "13254285",
+                "count": 2
+              }
+            ],
+            "partial_unexpected_index_list": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:08.639887",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 93.8%)"
+      ]
+    },
+    {
+      "file": "aims_relationshiptypes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_relationshiptypes_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:09.323610",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_routes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_routes_validation.yml",
+      "status": "PASSED",
+      "score": 95.1219512195122,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "MINIMUM",
+          "severity": "medium",
+          "details": {
+            "element_count": 33,
+            "unexpected_count": 2,
+            "unexpected_percent": 6.0606060606060606,
+            "partial_unexpected_list": [
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 2
+              }
+            ],
+            "partial_unexpected_index_list": [
+              30,
+              31
+            ]
+          }
+        },
+        {
+          "expectation": "expect_column_values_to_not_be_null",
+          "column": "MAXIMUM",
+          "severity": "medium",
+          "details": {
+            "element_count": 33,
+            "unexpected_count": 2,
+            "unexpected_percent": 6.0606060606060606,
+            "partial_unexpected_list": [
+              null,
+              null
+            ],
+            "partial_unexpected_counts": [
+              {
+                "value": null,
+                "count": 2
+              }
+            ],
+            "partial_unexpected_index_list": [
+              30,
+              31
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:10.139753",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_secondaryassetclasscodes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_secondaryassetclasscodes_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:10.852936",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_stages.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_stages_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:11.267733",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_taskdefinitions.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_taskdefinitions_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:11.788829",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_tracks.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_tracks_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:12.639168",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_ua_beneficiaries.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_ua_beneficiaries_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:12.841965",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_ua_comments.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_ua_comments_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:13.420961",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_ua_entities.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_ua_entities_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:13.817810",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_ua_meetingattendees.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_ua_meetingattendees_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:14.229665",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_ua_meetings.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_ua_meetings_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:14.614272",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_ua_noncompimppartytypes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_ua_noncompimppartytypes_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:15.049935",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_ua_noncomplianceimpacts.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_ua_noncomplianceimpacts_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:15.513218",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_ua_noncompotheruas.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_ua_noncompotheruas_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:15.948374",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_ua_optionvalues.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_ua_optionvalues_validation.yml",
+      "status": "PASSED",
+      "score": 100.0,
+      "failures": [],
+      "timestamp": "2025-12-10T13:28:16.497483",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_undertakings_assurances.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_undertakings_assurances_validation.yml",
+      "status": "PASSED",
+      "score": 98.87640449438202,
+      "failures": [
+        {
+          "expectation": "expect_column_values_to_be_unique",
+          "column": "REFERENCEID",
+          "severity": "critical",
+          "details": {
+            "element_count": 4952,
+            "unexpected_count": 132,
+            "unexpected_percent": 2.6655896607431337,
+            "partial_unexpected_list": [
+              "Deleted",
+              "Deleted",
+              "Deleted",
+              "Deleted",
+              "Deleted",
+              "Deleted",
+              "Deleted",
+              "Deleted",
+              "Deleted",
+              "DELETED",
+              "DELETED",
+              "DELETED",
+              "DELETED",
+              "DELETED",
+              "DELETED",
+              "DELETED",
+              "DELETED",
+              "1054",
+              "1054",
+              "DELETED"
+            ],
+            "missing_count": 0,
+            "missing_percent": 0.0,
+            "unexpected_percent_total": 2.6655896607431337,
+            "unexpected_percent_nonmissing": 2.6655896607431337,
+            "partial_unexpected_counts": [
+              {
+                "value": "DELETED",
+                "count": 9
+              },
+              {
+                "value": "Deleted",
+                "count": 9
+              },
+              {
+                "value": "1054",
+                "count": 2
+              }
+            ],
+            "partial_unexpected_index_list": [
+              98,
+              99,
+              100,
+              101,
+              110,
+              111,
+              114,
+              115,
+              116,
+              802,
+              803,
+              826,
+              827,
+              850,
+              851,
+              1213,
+              1227,
+              1239,
+              1249,
+              1361
+            ]
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:16.739130",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_workbanks.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_workbanks_validation.yml",
+      "status": "FAILED",
+      "score": 97.22222222222221,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:18.129320",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 94.4%)"
+      ]
+    },
+    {
+      "file": "aims_workbankworkorders.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_workbankworkorders_validation.yml",
+      "status": "FAILED",
+      "score": 95.45454545454545,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:18.468656",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 90.9%)"
+      ]
+    },
+    {
+      "file": "aims_workorderattributes.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_workorderattributes_validation.yml",
+      "status": "FAILED",
+      "score": 97.22222222222221,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:18.687928",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 94.4%)"
+      ]
+    },
+    {
+      "file": "aims_workorders.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_workorders_validation.yml",
+      "status": "PASSED",
+      "score": 97.91666666666666,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:19.028064",
+      "threshold_failures": []
+    },
+    {
+      "file": "aims_workorderstatustransition.parquet",
+      "config": "/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026/config/data_quality/aims_workorderstatustransition_validation.yml",
+      "status": "FAILED",
+      "score": 97.22222222222221,
+      "failures": [
+        {
+          "expectation": "expect_table_row_count_to_be_between",
+          "column": "N/A",
+          "severity": "critical",
+          "details": {
+            "observed_value": 0
+          }
+        }
+      ],
+      "timestamp": "2025-12-10T13:28:19.480323",
+      "threshold_failures": [
+        "Severity 'critical' threshold 95.0% failed (actual: 94.4%)"
+      ]
+    }
+  ],
+  "summary": {
+    "total": 68,
+    "passed": 55,
+    "failed": 13,
+    "skipped": 0,
+    "errors": 0
+  }
+}

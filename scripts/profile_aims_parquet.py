@@ -38,7 +38,7 @@ try:
     from dq_framework import DataProfiler
     from dq_framework.loader import DataLoader
 except ImportError:
-    print("❌ Error: The 'fabric_data_quality' package is not installed.")
+    print("ERROR: The 'fabric_data_quality' package is not installed.")
     print("\nPlease install the required dependency:")
     print("  cd ../fabric_data_quality")
     print("  pip install -e .")
@@ -51,10 +51,10 @@ def discover_parquet_files(data_dir: Path) -> List[Path]:
     parquet_files = list(data_dir.glob("*.parquet"))
     
     if not parquet_files:
-        print(f"⚠️  No parquet files found in {data_dir}")
+        print(f"WARNING: No parquet files found in {data_dir}")
         return []
     
-    print(f"📁 Found {len(parquet_files)} parquet file(s):")
+    print(f"Found {len(parquet_files)} parquet file(s):")
     for file in sorted(parquet_files):
         size_mb = file.stat().st_size / (1024 * 1024)
         print(f"   - {file.name} ({size_mb:.2f} MB)")
@@ -89,7 +89,7 @@ def profile_parquet_file(
     try:
         # Load the data
         df = DataLoader.load_data(file_path)
-        print(f"✅ Loaded {len(df):,} rows, {len(df.columns)} columns")
+        print(f"LOADED: {len(df):,} rows, {len(df.columns)} columns")
         
         # Initialize profiler
         profiler = DataProfiler(df)
@@ -114,7 +114,7 @@ def profile_parquet_file(
             )
             profiler.save_config(config, str(config_path))
             
-            print(f"\n✅ Configuration saved to: {config_path}")
+            print(f"\nConfiguration saved to: {config_path}")
             print("\n📝 Next steps:")
             print("   1. Review and customize the generated config")
             print("   2. Add business-specific validation rules")
@@ -129,7 +129,7 @@ def profile_parquet_file(
         }
         
     except Exception as e:
-        print(f"❌ Error profiling {file_path.name}: {str(e)}")
+        print(f"ERROR profiling {file_path.name}: {str(e)}")
         return {
             "file": file_path.name,
             "status": "error",

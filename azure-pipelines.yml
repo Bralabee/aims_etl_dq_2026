@@ -1,0 +1,315 @@
+# Azure DevOps CI/CD Pipeline for AIMS Data Platform
+# =======================================================
+# 
+# This pipeline provides comprehensive CI/CD for the AIMS Data Platform:
+# - Build and test both main project and DQ library
+# - Run data quality validation
+# - Deploy to Azure (optional)
+# - Publish artifacts and test results
+#
+# =======================================================
+
+trigger:
+  branches:
+    include:
+      - master
+      - develop
+      - release/*
+  paths:
+    include:
+      - '1_AIMS_LOCAL_2026/**'
+      - '2_DATA_QUALITY_LIBRARY/**'
+      - 'azure-pipelines.yml'
+
+pr:
+  branches:
+    include:
+      - master
+      - develop
+  paths:
+    include:
+      - '1_AIMS_LOCAL_2026/**'
+      - '2_DATA_QUALITY_LIBRARY/**'
+
+variables:
+  # Python version
+  pythonVersion: '3.11'
+  
+  # Project paths
+  aimsProjectPath: '1_AIMS_LOCAL_2026'
+  dqLibraryPath: '2_DATA_QUALITY_LIBRARY'
+  
+  # Build configuration
+  buildConfiguration: 'Release'
+  
+  # Artifacts
+  artifactName: 'aims-platform-$(Build.BuildId)'
+
+stages:
+  # ==============================================
+  # STAGE 1: BUILD & TEST
+  # ==============================================
+  - stage: Build
+    displayName: 'Build and Test'
+    jobs:
+      # ----------------------------------------
+      # Job 1: Build DQ Library
+      # ----------------------------------------
+      - job: BuildDQLibrary
+        displayName: 'Build Data Quality Library'
+        pool:
+          vmImage: 'ubuntu-latest'
+        
+        steps:
+          - task: UsePythonVersion@0
+            displayName: 'Use Python $(pythonVersion)'
+            inputs:
+              versionSpec: '$(pythonVersion)'
+              addToPath: true
+          
+          - script: |
+              python -m pip install --upgrade pip setuptools wheel build
+            displayName: 'Install build tools'
+          
+          - script: |
+              cd $(dqLibraryPath)
+              pip install -e .[dev]
+            displayName: 'Install DQ Library (editable)'
+          
+          - script: |
+              cd $(dqLibraryPath)
+              pytest tests/ --junitxml=$(Build.SourcesDirectory)/test-results/dq-library-tests.xml --cov=dq_framework --cov-report=xml --cov-report=html
+            displayName: 'Run DQ Library Tests'
+            continueOnError: false
+          
+          - task: PublishTestResults@2
+            displayName: 'Publish DQ Library Test Results'
+            inputs:
+              testResultsFiles: '$(Build.SourcesDirectory)/test-results/dq-library-tests.xml'
+              testRunTitle: 'DQ Library Tests'
+              failTaskOnFailedTests: true
+          
+          - task: PublishCodeCoverageResults@2
+            displayName: 'Publish Code Coverage'
+            inputs:
+              summaryFileLocation: '$(dqLibraryPath)/coverage.xml'
+              pathToSources: '$(dqLibraryPath)'
+          
+          - script: |
+              cd $(dqLibraryPath)
+              python -m build --wheel
+            displayName: 'Build DQ Library Wheel'
+          
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish DQ Library Wheel'
+            inputs:
+              PathtoPublish: '$(dqLibraryPath)/dist'
+              ArtifactName: 'dq-library-wheel'
+              publishLocation: 'Container'
+      
+      # ----------------------------------------
+      # Job 2: Build AIMS Platform
+      # ----------------------------------------
+      - job: BuildAIMSPlatform
+        displayName: 'Build AIMS Platform'
+        dependsOn: BuildDQLibrary
+        pool:
+          vmImage: 'ubuntu-latest'
+        
+        steps:
+          - task: UsePythonVersion@0
+            displayName: 'Use Python $(pythonVersion)'
+            inputs:
+              versionSpec: '$(pythonVersion)'
+              addToPath: true
+          
+          - task: DownloadBuildArtifacts@1
+            displayName: 'Download DQ Library Wheel'
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'dq-library-wheel'
+              downloadPath: '$(System.ArtifactsDirectory)'
+          
+          - script: |
+              python -m pip install --upgrade pip
+              pip install $(System.ArtifactsDirectory)/dq-library-wheel/*.whl
+            displayName: 'Install DQ Library from Wheel'
+          
+          - script: |
+              cd $(aimsProjectPath)
+              pip install -e .
+              pip install pytest pytest-cov
+            displayName: 'Install AIMS Platform'
+          
+          - script: |
+              cd $(aimsProjectPath)
+              pytest tests/ --junitxml=$(Build.SourcesDirectory)/test-results/aims-platform-tests.xml --cov=aims_data_platform --cov-report=xml --cov-report=html
+            displayName: 'Run AIMS Platform Tests'
+            continueOnError: false
+          
+          - task: PublishTestResults@2
+            displayName: 'Publish AIMS Platform Test Results'
+            inputs:
+              testResultsFiles: '$(Build.SourcesDirectory)/test-results/aims-platform-tests.xml'
+              testRunTitle: 'AIMS Platform Tests'
+              failTaskOnFailedTests: true
+          
+          - task: PublishCodeCoverageResults@2
+            displayName: 'Publish Code Coverage'
+            inputs:
+              summaryFileLocation: '$(aimsProjectPath)/coverage.xml'
+              pathToSources: '$(aimsProjectPath)'
+          
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish AIMS Platform Artifacts'
+            inputs:
+              PathtoPublish: '$(aimsProjectPath)'
+              ArtifactName: '$(artifactName)'
+              publishLocation: 'Container'
+  
+  # ==============================================
+  # STAGE 2: DATA QUALITY VALIDATION
+  # ==============================================
+  - stage: DataQualityValidation
+    displayName: 'Data Quality Validation'
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - job: RunDQValidation
+        displayName: 'Run DQ Validation Pipeline'
+        pool:
+          vmImage: 'ubuntu-latest'
+        
+        steps:
+          - task: UsePythonVersion@0
+            displayName: 'Use Python $(pythonVersion)'
+            inputs:
+              versionSpec: '$(pythonVersion)'
+              addToPath: true
+          
+          - task: DownloadBuildArtifacts@1
+            displayName: 'Download DQ Library Wheel'
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'dq-library-wheel'
+              downloadPath: '$(System.ArtifactsDirectory)'
+          
+          - script: |
+              python -m pip install --upgrade pip
+              pip install $(System.ArtifactsDirectory)/dq-library-wheel/*.whl
+            displayName: 'Install DQ Library'
+          
+          - script: |
+              cd $(aimsProjectPath)
+              pip install -e .
+            displayName: 'Install AIMS Platform'
+          
+          - script: |
+              cd $(aimsProjectPath)
+              python scripts/run_validation_simple.py || exit_code=$?
+              if [ $exit_code -eq 1 ]; then
+                echo "##vso[task.logissue type=warning]Some files failed DQ validation"
+                echo "##vso[task.complete result=SucceededWithIssues;]Validation completed with failures"
+              elif [ $exit_code -eq 2 ]; then
+                echo "##vso[task.logissue type=error]DQ validation had errors"
+                exit 2
+              fi
+            displayName: 'Run DQ Validation'
+            continueOnError: true
+          
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Validation Results'
+            inputs:
+              PathtoPublish: '$(aimsProjectPath)/config/validation_results'
+              ArtifactName: 'dq-validation-results'
+              publishLocation: 'Container'
+          
+          - script: |
+              cd $(aimsProjectPath)
+              python -c "
+              import json
+              with open('config/validation_results/validation_results.json') as f:
+                  data = json.load(f)
+              summary = data['summary']
+              print(f\"##vso[task.setvariable variable=DQ_PASSED]{summary['passed']}\")
+              print(f\"##vso[task.setvariable variable=DQ_FAILED]{summary['failed']}\")
+              print(f\"##vso[task.setvariable variable=DQ_TOTAL]{summary['total']}\")
+              "
+            displayName: 'Extract DQ Metrics'
+          
+          - task: PublishCustomBuildEvents@1
+            displayName: 'Publish DQ Metrics'
+            inputs:
+              properties: |
+                dq_passed=$(DQ_PASSED)
+                dq_failed=$(DQ_FAILED)
+                dq_total=$(DQ_TOTAL)
+  
+  # ==============================================
+  # STAGE 3: DEPLOY TO DEV (Optional)
+  # ==============================================
+  - stage: DeployDev
+    displayName: 'Deploy to Development'
+    dependsOn: DataQualityValidation
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+    jobs:
+      - deployment: DeployToDev
+        displayName: 'Deploy to Dev Environment'
+        pool:
+          vmImage: 'ubuntu-latest'
+        environment: 'AIMS-Dev'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadBuildArtifacts@1
+                  displayName: 'Download Artifacts'
+                  inputs:
+                    buildType: 'current'
+                    downloadType: 'single'
+                    artifactName: '$(artifactName)'
+                    downloadPath: '$(System.ArtifactsDirectory)'
+                
+                # Add deployment steps here (e.g., Azure CLI, ARM templates, etc.)
+                - script: |
+                    echo "Deploying to Dev environment..."
+                    # az login --service-principal ...
+                    # az deployment group create ...
+                  displayName: 'Deploy to Azure'
+  
+  # ==============================================
+  # STAGE 4: DEPLOY TO PROD (Manual Approval)
+  # ==============================================
+  - stage: DeployProd
+    displayName: 'Deploy to Production'
+    dependsOn: DataQualityValidation
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    jobs:
+      - deployment: DeployToProd
+        displayName: 'Deploy to Production Environment'
+        pool:
+          vmImage: 'ubuntu-latest'
+        environment: 'AIMS-Production'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadBuildArtifacts@1
+                  displayName: 'Download Artifacts'
+                  inputs:
+                    buildType: 'current'
+                    downloadType: 'single'
+                    artifactName: '$(artifactName)'
+                    downloadPath: '$(System.ArtifactsDirectory)'
+                
+                - script: |
+                    echo "Deploying to Production environment..."
+                    # Add production deployment steps
+                  displayName: 'Deploy to Azure Production'
+
+# ==============================================
+# NOTIFICATIONS (Optional - requires extension)
+# ==============================================
+# Add Slack/Teams notifications here if needed

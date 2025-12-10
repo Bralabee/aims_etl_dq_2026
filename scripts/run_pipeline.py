@@ -58,7 +58,7 @@ logger = logging.getLogger(__name__)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 BASE_DIR = Path(os.getenv("BASE_DIR", str(PROJECT_ROOT)))
 DATA_PATH = BASE_DIR / os.getenv("DATA_PATH", "data/Samples_LH_Bronze_Aims_26_parquet")
-CONFIG_DIR = BASE_DIR / os.getenv("CONFIG_DIR", "dq_great_expectations/generated_configs")
+CONFIG_DIR = BASE_DIR / os.getenv("CONFIG_DIR", "config/data_quality")
 STATE_DIR = BASE_DIR / os.getenv("STATE_DIR", "data/state")
 
 # Ensure state dir exists
@@ -166,9 +166,9 @@ def process_single_file(file_path_str, config_dir_str, threshold=None):
     Process a single file.
     Returns a dict with results.
     """
-    file_path = Path(file_path_str)
+    file_path = Path(file_path_str).resolve()  # Use absolute path
     file_name = file_path.name
-    config_dir = Path(config_dir_str)
+    config_dir = Path(config_dir_str).resolve()  # Use absolute path
     
     MAX_RETRIES = 3
     RETRY_DELAY = 5
@@ -269,9 +269,9 @@ def run_pipeline(force=False, dry_run=False, max_workers=4, threshold=None):
 
     # Process in parallel
     with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
-        # Submit all tasks
+        # Submit all tasks with absolute paths
         future_to_file = {
-            executor.submit(process_single_file, str(fp), str(CONFIG_DIR), threshold): fp 
+            executor.submit(process_single_file, str(fp.resolve()), str(CONFIG_DIR.resolve()), threshold): fp 
             for fp in files_to_process
         }
         

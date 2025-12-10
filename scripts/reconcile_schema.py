@@ -59,9 +59,9 @@ def main():
     
     print(f"\nSummary (Model vs Files):")
     print(f"Total Tables Defined in Model: {total_tables}")
-    print(f"✅ Fully Matched:              {matches}")
-    print(f"⚠️ Schema Mismatches:          {mismatches}")
-    print(f"❌ Missing Files:              {missing_files}")
+    print(f"[MATCHED] Fully Matched:              {matches}")
+    print(f"[WARNING] Schema Mismatches:          {mismatches}")
+    print(f"[ERROR] Missing Files:              {missing_files}")
     
     # 3. Extra Files
     df_extra = analyze_extra_files(modeled_files, args.data)
