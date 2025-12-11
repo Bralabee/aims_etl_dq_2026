@@ -6,7 +6,11 @@
 ![DQ Pass Rate](https://img.shields.io/badge/DQ%20validation-80.9%25-yellow)
 ![Production Ready](https://img.shields.io/badge/production%20ready-90%25-green)
 
-**Version:** 1.2.0 | **Status:** 🟢 Production Ready (90%) | **Last Updated:** 10 December 2025
+# AIMS Data Platform - Local Development Environment
+
+**Version:** 1.2.2
+**Status:** Stable - All Notebooks Validated
+**Last Updated:** 2025-02-24
 
 A comprehensive, governed data ingestion platform designed for incremental loading, data quality validation via Great Expectations, dual CLI/Notebook functionality, and seamless integration with Microsoft Fabric.
 
@@ -19,6 +23,7 @@ A comprehensive, governed data ingestion platform designed for incremental loadi
 | **Validation Pass Rate** | 80.9% (55/68) |
 | **Average Quality Score** | 97.3% |
 | **Test Suite** | 15/15 passing (100%) |
+| **Notebooks Validated** | 8/8 passing (100%) |
 | **Documentation** | 170+ pages |
 | **CI/CD Pipelines** | Azure DevOps + GitHub Actions |
 

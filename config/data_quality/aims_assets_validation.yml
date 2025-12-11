@@ -1,12 +1,12 @@
-validation_name: aims_aims_assets
-description: Data quality validation for aims_assets.parquet
-generated_at: '2025-12-10T13:23:21.135253'
+validation_name: validation_aims_assets
+description: Auto-generated validation for validation_aims_assets
+generated_at: '2025-12-11T00:14:17.477198'
 data_source:
   type: runtime_dataframe
-  profiled_rows: 2217599
+  profiled_rows: 100000
   profiled_columns: 26
 quality_thresholds:
-  critical: 95.0
+  critical: 100.0
   high: 95.0
   medium: 80.0
   low: 50.0
@@ -89,9 +89,6 @@ expectations:
     - '13000015'
     - '13000016'
     - '13000017'
-    - '13000068'
-    - '13000018'
-    - '13000118'
   meta:
     severity: medium
     description: Values should be one of the known categories
@@ -115,9 +112,6 @@ expectations:
     - Phase 1 - London to Birmingham & Handsacre
     - Phase 2a - Accelerated route to Crewe (Streethay Jn - Crewe)
     - Phase 2b - Crewe to Wigan/Manchester & Delta Jn to Ulleskelf Jn/Leeds
-    - Object Routewide
-    - Phase 2 (Direcorate Wide)
-    - Phase 3_Test_DO NOT USE
   meta:
     severity: medium
     description: Values should be one of the known categories
@@ -138,7 +132,7 @@ expectations:
   kwargs:
     column: NAME
     min_value: 1
-    max_value: 250
+    max_value: 248
   meta:
     severity: low
     description: String length should be within observed range
@@ -171,7 +165,7 @@ expectations:
 - expectation_type: expect_column_value_lengths_to_be_between
   kwargs:
     column: HYBRIDBILLCODE
-    min_value: 1
+    min_value: 3
     max_value: 35
   meta:
     severity: low
@@ -189,6 +183,14 @@ expectations:
     severity: medium
     description: Column REFERENCECHAINAGE should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: REFERENCECHAINAGE
+    min_value: 1
+    max_value: 6
+  meta:
+    severity: low
+    description: String length should be within observed range
 - expectation_type: expect_column_to_exist
   kwargs:
     column: VALIDFROM
@@ -236,6 +238,20 @@ expectations:
     severity: medium
     description: Column CREATEDBY should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CREATEDBY
+    value_set:
+    - None
+    - joshua.gripton@hs2.org.uk
+    - joao.barbeiro@fusion-jv.com
+    - Douglas.Young@hs2.org.uk
+    - Stewart.Harrison@eiffagekier-hs2.team
+    - asset.management@balfourbeattyvinci.com
+    - enablemyteam@scsrailways.co.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: WHENCREATED

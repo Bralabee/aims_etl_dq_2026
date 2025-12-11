@@ -1,133 +1,156 @@
 # AIMS Data Platform - AI Coding Agent Instructions
 
 ## Project Overview
-AIMS Data Platform is a **Bronze-to-Silver data transformation pipeline** for HS2's asset management system, featuring:
-- **Incremental loading** with watermark-based state tracking
-- **Data Quality validation** using Great Expectations
-- **Star Schema modeling** for BI reporting (1 FACT + 5 DIM tables)
-- **Dual-environment support**: Local development + Microsoft Fabric production
+AIMS Data Platform is a **dual-mode (CLI + Notebooks) data quality platform** for AIMS data ingestion with Microsoft Fabric compatibility. The system validates 68 Bronze Layer Parquet tables using Great Expectations, achieving 80.9% pass rate (55/68 tables) with strict DQ rules averaging 97.3% quality score.
 
-**Architecture Pattern**: Medallion (Bronze → Silver), with validation quarantine layer.
+**Key Capabilities**: Automated profiling, parallel validation (8 workers), incremental loading, threshold management, Star Schema transformation (Bronze → Silver), and seamless Fabric/local switching.
 
 ## Critical Architectural Decisions
 
-### 1. Dual-Library System
+### 1. Split-Brain Library Pattern (MOST IMPORTANT)
 ```
-aims_data_platform/          # Core ETL library (installed package)
-├── config.py               # Environment-aware config (local vs Fabric)
-├── ingestion.py            # Parquet repair + incremental loading
-├── watermark_manager.py    # SQLite-based state tracking
-└── cli.py                  # Typer CLI interface
+../2_DATA_QUALITY_LIBRARY/   # Shared validation engine (pip installed)
+└── dq_framework/           # DataLoader, DataQualityValidator, BatchProfiler
+    ├── __init__.py
+    ├── loader.py
+    ├── validator.py
+    ├── profiler.py
+    └── batch_profiler.py
 
-dq_great_expectations/      # Separate DQ validation configs
-└── generated_configs/      # YAML validation rules per table
+1_AIMS_LOCAL_2026/          # Application layer (thin orchestration)
+└── aims_data_platform/     # AIMS-specific logic
+    ├── __init__.py         # Imports from dq_framework
+    ├── config.py           # Path configuration
+    ├── fabric_config.py    # MS Fabric integration
+    └── schema_reconciliation.py
 ```
 
-**Why Separated**: DQ validation library (`fabric_data_quality`) is deployed independently as a wheel (`dq_package_dist/`) to support both local and Fabric environments without conflicting dependencies.
+**CRITICAL RULE**: 
+- ✅ **DO**: Import validation logic from `dq_framework` 
+- ❌ **NEVER**: Reimplement validation logic in `aims_data_platform`
+- ✅ **DO**: Extend `dq_framework` classes if needed
+- ❌ **NEVER**: Create duplicate DataLoader/Validator classes
 
-### 2. Environment Detection Pattern
-ALL notebooks and scripts use this standard pattern:
+**Installation**: `cd ../2_DATA_QUALITY_LIBRARY && pip install -e .`
+
+### 2. Dual Execution Mode (Scripts + Notebooks)
+```
+scripts/
+├── run_pipeline.py          # Headless DQ validation (CI/CD)
+├── profile_aims_parquet.py  # Generate 68 YAML configs
+└── adjust_thresholds.py     # Batch threshold adjustment
+
+notebooks/
+├── 00_AIMS_Orchestration.ipynb     # Mirrors run_pipeline.py
+├── 01_AIMS_Data_Profiling.ipynb    # Mirrors profile_aims_parquet.py
+└── 04-08_*.ipynb                    # Analysis notebooks
+```
+
+**CRITICAL SYNC RULE**: Scripts and notebooks share IDENTICAL validation logic via `dq_framework`. When modifying validation:
+1. Update `dq_framework` library (if core logic changes)
+2. Mirror changes in both script AND notebook
+3. Test both execution paths
+
+### 3. Environment Detection Pattern (100% Consistent)
 ```python
+# ALWAYS use this pattern at the top of notebooks/scripts
+import os
+os.environ["GX_ANALYTICS_ENABLED"] = "False"  # CRITICAL: Prevents 60s+ import hangs
+
 try:
-    import notebookutils
+    from notebookutils import mssparkutils
     IS_FABRIC = True
     BASE_DIR = Path("/lakehouse/default/Files")
 except ImportError:
     IS_FABRIC = False
-    project_root = Path.cwd().parent.resolve()
-    sys.path.insert(0, str(project_root))
-    BASE_DIR = project_root
+    BASE_DIR = Path("..")  # Relative to notebooks/
 ```
-**Critical**: Never hardcode paths. Always use `BASE_DIR` for portability.
 
-### 3. Star Schema Design (Silver Layer)
-Located in `data/silver_layer/`, consists of:
-- `FACT_Asset_Inventory.parquet` (100K rows, 15 columns)
-- `DIM_Route.parquet` (33 routes)
-- `DIM_AssetClass.parquet` (5.6K classes, self-referencing hierarchy)
-- `DIM_Organisation.parquet` (28 orgs, parent-child)
-- `DIM_Date.parquet` (85K dates, pre-calculated attributes)
-- `DIM_Status.parquet` (4 statuses)
-
-**Schema Documentation**: See `docs/SILVER_LAYER_STAR_SCHEMA.txt` and `docs/POWERBI_SEMANTIC_MODEL_GUIDE.txt`.
+**Performance Fix**: Disabling GX analytics reduces import time from 60+ seconds to ~2.5 seconds. ALWAYS set this BEFORE importing Great Expectations.
 
 ## Developer Workflows
 
 ### Essential Commands
 ```bash
 # Setup (one-time)
-conda env create -f environment.yml && conda activate aims_data_platform
-pip install -e .  # Installs aims_data_platform in editable mode
+conda env create -f environment.yml
+conda activate aims_data_platform
+cd ../2_DATA_QUALITY_LIBRARY && pip install -e .  # Install dq_framework
+cd ../1_AIMS_LOCAL_2026 && pip install -e .       # Install aims_data_platform
 
-# Data Operations
-make repair              # Fix corrupted parquet files (Repetition level errors)
-make validate            # Run GE validation on Bronze layer
-python scripts/run_pipeline.py --dry-run --threshold 90.0  # Full DQ pipeline
+# Run Full Pipeline (Scripts - Recommended for CI/CD)
+python scripts/run_pipeline.py --force --workers 8
+python scripts/run_pipeline.py --dry-run --threshold 95.0
 
-# CLI Usage
-python -m aims_data_platform.cli init               # Initialize directories
-python -m aims_data_platform.cli list-watermarks    # View incremental state
-python -m aims_data_platform.cli ingest aims_assets --watermark-column LASTUPDATED
+# Run Full Pipeline (Notebooks - Interactive)
+# Open notebooks/00_AIMS_Orchestration.ipynb and run all cells
+
+# Generate DQ Configs (One-Time Setup)
+python scripts/profile_aims_parquet.py
+# Output: 68 YAML files in config/data_quality/
+
+# Adjust Thresholds Globally
+python scripts/adjust_thresholds.py --threshold 95.0 --dry-run
+python scripts/adjust_thresholds.py --threshold 95.0  # Apply changes
+
+# Testing
+pytest tests/ -v  # 15 tests (profiling, validation, config loading)
 ```
 
 ### Notebook Execution Order
-1. **01_AIMS_Data_Profiling.ipynb** - Profile Bronze parquet, generate DQ configs
-2. **07_AIMS_DQ_Matrix_and_Modeling.ipynb** - Run DQ validation, build Silver layer (Star Schema)
-3. **08_AIMS_Business_Intelligence.ipynb** - BI analytics on Silver layer (14 analysis sections)
+1. **01_AIMS_Data_Profiling.ipynb** - Generate DQ configs (run once)
+2. **00_AIMS_Orchestration.ipynb** - Full pipeline validation
+3. **04_AIMS_Schema_Reconciliation.ipynb** - Schema analysis
+4. **05_AIMS_Data_Insights.ipynb** - Data statistics
+5. **06-08_*.ipynb** - Business intelligence analysis
 
-**Key**: Notebook 07 ONLY processes tables that passed validation (reads `config/validation_results.json`).
-
-### Testing & Quality
-```bash
-pytest tests/                    # No existing tests - TODO priority
-make format                      # Black + Ruff formatting
-python scripts/profile_aims_parquet.py  # Data profiling
-```
+**Performance Tip**: All notebooks now include `os.environ["GX_ANALYTICS_ENABLED"] = "False"` in first cell.
 
 ## Project-Specific Conventions
 
-### 1. Data Quality Filtering
-**Pattern**: Always check validation results before Silver Layer processing:
-```python
-validation_results_path = BASE_DIR / "config" / "validation_results.json"
-if validation_results_path.exists():
-    with open(validation_results_path, 'r') as f:
-        validation_data = json.load(f)
-    passed_tables = [name for name, result in validation_data.items() 
-                     if result.get('success', False)]
+### 1. Data Quality Configuration (YAML)
+Each table has a config in `config/data_quality/{table_name}.yaml`:
+```yaml
+table_name: aims_assets
+expectations:
+  - type: expect_column_values_to_not_be_null
+    column: AssetID
+    threshold: 100.0  # Pass if success_percent >= threshold
+  - type: expect_column_values_to_be_in_set
+    column: AssetClass
+    value_set: ['Bridge', 'Tunnel', 'Track']
+    threshold: 95.0
 ```
 
-### 2. Parquet Loading with Memory Safety
+**Threshold Logic**: `(success_percent >= threshold) OR (element_count == 0)`
+
+### 2. Parallel Validation Pattern
 ```python
-def load_parquet(name, limit=100000):
-    """Always use pyarrow with batch reading for large files."""
-    file_path = DATA_DIR / f"aims_{name}.parquet"
-    table = pq.read_table(file_path, use_threads=True)
-    return table.to_pandas() if len(table) <= limit else table.slice(0, limit).to_pandas()
+from dq_framework import DataLoader, DataQualityValidator
+from concurrent.futures import ThreadPoolExecutor
+
+def validate_file(file_path, config_path):
+    loader = DataLoader()
+    validator = DataQualityValidator()
+    df = loader.load_data(file_path)
+    return validator.validate(df, config_path)
+
+with ThreadPoolExecutor(max_workers=8) as executor:
+    results = executor.map(validate_file, files, configs)
 ```
 
-### 3. Formal Language Standards
-- **NO emojis** in code or outputs (replaced with `[MATCH]`, `[ERROR]`, `[WARNING]`)
-- Use formal, instructive language (not conversational)
-- Examples:
-  - ❌ "Let's load the data..."
-  - ✅ "Load data from Bronze layer"
-  - ❌ "Oops, validation failed!"
-  - ✅ "Validation check failed - quarantine table"
-
-### 4. Error Handling Pattern
+### 3. Import Performance Fix (ALWAYS Required)
 ```python
-# Standard pattern for all data operations
-try:
-    result = operation()
-    logger.info(f"[SUCCESS] Operation completed: {result}")
-except ValidationError as e:
-    logger.error(f"[VALIDATION_ERROR] {str(e)}")
-    # Quarantine data, do not halt pipeline
-except Exception as e:
-    logger.error(f"[ERROR] Unexpected failure: {str(e)}")
-    raise  # Re-raise for pipeline orchestration
+# FIRST LINE of any notebook/script using Great Expectations
+import os
+os.environ["GX_ANALYTICS_ENABLED"] = "False"
+
+# Then safe to import
+from dq_framework import DataQualityValidator
+import great_expectations as gx
 ```
+
+**Why**: GX analytics phone-home causes 60+ second hangs. This disables telemetry.
 
 ## Integration Points
 
@@ -149,23 +172,36 @@ except Exception as e:
 - **Great Expectations**: v0.18+ (compatibility issue with v1.x)
 - **Typer + Rich**: CLI framework with colored output
 
-## Known Issues & Workarounds
+## Common Pitfalls & Solutions
 
-1. **"Repetition level histogram size mismatch" error**
-   - **Cause**: Legacy parquet files with schema drift
-   - **Fix**: `python -m aims_data_platform.cli repair`
+### 1. Great Expectations Import Hangs (60+ seconds)
+**Symptom**: Notebook/script freezes during import  
+**Cause**: GX analytics telemetry enabled  
+**Fix**: Add `os.environ["GX_ANALYTICS_ENABLED"] = "False"` BEFORE all imports
 
-2. **Missing `dq_framework` import**
-   - **Cause**: `fabric_data_quality` wheel not installed
-   - **Fix**: `pip install dq_great_expectations/dq_package_dist/fabric_data_quality-1.1.0-py3-none-any.whl`
+### 2. Module Not Found: dq_framework
+**Symptom**: `ImportError: No module named 'dq_framework'`  
+**Cause**: Shared library not installed  
+**Fix**: `cd ../2_DATA_QUALITY_LIBRARY && pip install -e .`
 
-3. **Watermark database locked**
-   - **Cause**: Concurrent pipeline runs
-   - **Fix**: Single-instance execution, use `--workers 1` flag
+### 3. Notebook/Script Divergence
+**Symptom**: Same validation gives different results  
+**Cause**: Logic duplicated instead of shared  
+**Fix**: Both MUST import from `dq_framework`, never reimplement
 
-4. **Hardcoded paths in old notebooks**
-   - **Legacy Issue**: Some notebooks pre-date BASE_DIR pattern
-   - **Action**: Always refactor to use `BASE_DIR` when editing
+### 4. Path Configuration Errors (FileNotFoundError)
+**Symptom**: `FileNotFoundError: data/Samples_LH_Bronze_Aims_26_parquet`  
+**Cause**: `.env` paths are relative or incorrect  
+**Fix**: Ensure `.env` uses absolute paths:
+```bash
+BASE_DIR=/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026
+DATA_PATH=data/Samples_LH_Bronze_Aims_26_parquet
+```
+
+### 5. Validation Fails with "Empty DataFrame"
+**Symptom**: All tables marked as failed  
+**Cause**: Configs reference wrong column names  
+**Fix**: Regenerate configs: `python scripts/profile_aims_parquet.py`
 
 ## Documentation References
 
@@ -187,17 +223,317 @@ except Exception as e:
 7. **Prefer** pyarrow for large file operations (memory-safe batch reading)
 8. **Document** all DAX measures with business context (see Notebook 08 examples)
 
-## Quick Context Lookup
+## Key Design Decisions (The "Why")
 
-- **Main entry point**: `aims_data_platform/cli.py` (Typer CLI)
-- **Configuration**: `aims_data_platform/config.py` + `.env` file
-- **Incremental loading**: `aims_data_platform/watermark_manager.py` (SQLite state)
-- **Data validation**: `scripts/run_pipeline.py` (orchestrator)
-- **Star schema generation**: `notebooks/07_AIMS_DQ_Matrix_and_Modeling.ipynb` (Cell 8+)
-- **BI analytics**: `notebooks/08_AIMS_Business_Intelligence.ipynb` (14 sections)
-- **Package metadata**: `setup.py` + `pyproject.toml` (version 1.1.0)
+1. **Why separate `dq_framework` library?**  
+   Reusable across multiple projects; `aims_data_platform` is AIMS-specific orchestration.
+
+2. **Why dual mode (scripts + notebooks)?**  
+   Data engineers prefer interactive notebooks; DevOps/CI prefers headless scripts.
+
+3. **Why 68 separate YAML configs?**  
+   Each table has unique schema and DQ rules. Auto-generated via profiling for maintainability.
+
+4. **Why parallel execution (8 workers)?**  
+   68 tables × 2s/table = 136s sequential → 20s parallel. Time-critical for CI/CD.
+
+5. **Why disable GX analytics?**  
+   Telemetry causes 60s+ import delays. Disabling reduces to 2.5s with zero functionality loss.
+
+6. **Why threshold-based validation?**  
+   Real-world data has imperfections. Strict 100% thresholds would fail most tables unrealistically.
+
+## Star Schema Transformation (Bronze → Silver)
+
+### Architecture: Medallion Pattern
+```
+Bronze Layer (68 tables)  →  Validation  →  Silver Layer (Star Schema)
+├── aims_assets.parquet                    ├── FACT_Asset_Inventory
+├── aims_assetclass.parquet                ├── DIM_Route
+├── aims_route.parquet                     ├── DIM_AssetClass
+└── ...                                    ├── DIM_Organisation
+                                          ├── DIM_Date
+                                          └── DIM_Status
+```
+
+### Implementation (Notebook 07, Cell 8+)
+
+**Critical Pattern**: Only process tables that passed DQ validation:
+```python
+# Step 1: Load validation results
+validation_results_path = BASE_DIR / "config" / "validation_results.json"
+with open(validation_results_path, 'r') as f:
+    validation_data = json.load(f)
+
+# Step 2: Filter passed tables
+passed_tables = [name for name, result in validation_data.items() 
+                 if result.get('success', False)]
+
+# Step 3: Load ONLY validated Bronze tables
+for table_name in passed_tables:
+    df = pd.read_parquet(BRONZE_DIR / f"{table_name}.parquet")
+    # Process...
+```
+
+### Star Schema Details
+
+**FACT_Asset_Inventory** (Central table, ~100K rows):
+```python
+fact_columns = [
+    'AssetID',           # Primary key (SK_Asset)
+    'RouteID',          # FK to DIM_Route
+    'AssetClassID',     # FK to DIM_AssetClass
+    'OrganisationID',   # FK to DIM_Organisation
+    'StatusID',         # FK to DIM_Status
+    'DateKey',          # FK to DIM_Date (YYYYMMDD format)
+    'Latitude',         # Geospatial
+    'Longitude',        # Geospatial
+    'AssetValue',       # Measure
+    'LastUpdated'       # Audit column
+]
+```
+
+**Dimension Tables**:
+1. **DIM_Route** (33 routes): Linear referencing, start/end chainage
+2. **DIM_AssetClass** (5.6K classes): Self-referencing hierarchy (ParentClassID)
+3. **DIM_Organisation** (28 orgs): Parent-child relationships
+4. **DIM_Date** (85K dates): Pre-calculated attributes (Quarter, FY, WeekOfYear)
+5. **DIM_Status** (4 statuses): Active, Inactive, Decommissioned, Planned
+
+**Key Relationships**:
+```
+FACT_Asset_Inventory.RouteID → DIM_Route.RouteID (Many-to-One)
+FACT_Asset_Inventory.AssetClassID → DIM_AssetClass.ClassID (Many-to-One)
+DIM_AssetClass.ParentClassID → DIM_AssetClass.ClassID (Self-referencing)
+```
+
+**Output Location**:
+- Local: `data/silver_layer/*.parquet`
+- Fabric: `/lakehouse/default/Tables/silver_layer/`
+
+### Power BI Integration
+
+**DAX Measures** (30+ implemented in Notebook 08):
+```dax
+Total Assets = COUNTROWS(FACT_Asset_Inventory)
+Asset Value = SUM(FACT_Asset_Inventory[AssetValue])
+Critical Assets = CALCULATE([Total Assets], DIM_Status[Status] = "Critical")
+YoY Growth % = DIVIDE([Total Assets] - [Total Assets PY], [Total Assets PY])
+```
+
+**Semantic Model Setup**:
+1. Import Silver Layer tables into Power BI
+2. Create relationships (use `RouteID`, `AssetClassID`, etc. as keys)
+3. Mark `DIM_Date[DateKey]` as Date table
+4. Create measure groups for KPIs, Trends, and Drill-throughs
+5. Configure RLS (Row-Level Security) by Organisation if needed
+
+**Reference**: See `docs/POWERBI_SEMANTIC_MODEL_GUIDE.txt` for complete DAX formulas.
+
+## CI/CD Integration
+
+### GitHub Actions (`.github/workflows/ci-cd.yml`)
+
+**Pipeline Stages**:
+1. **Build DQ Library** → Install `dq_framework`, run tests, build wheel
+2. **Build AIMS Platform** → Install `aims_data_platform`, run tests
+3. **DQ Validation** → Execute `run_pipeline.py --dry-run`, assert 80%+ pass rate
+4. **Publish Artifacts** → Upload wheels, test results, coverage reports
+
+**Key Configuration**:
+```yaml
+on:
+  push:
+    branches: [master, develop]
+    paths:
+      - '1_AIMS_LOCAL_2026/**'
+      - '2_DATA_QUALITY_LIBRARY/**'
+
+jobs:
+  build-dq-library:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: |
+          cd 2_DATA_QUALITY_LIBRARY
+          pip install -e .[dev]
+          pytest tests/ --cov=dq_framework
+```
+
+**Quality Gates**:
+- ✅ All tests pass (15/15)
+- ✅ DQ validation ≥ 80% pass rate
+- ✅ Code coverage ≥ 70%
+- ✅ No critical security vulnerabilities (Bandit scan)
+
+**Deployment Triggers**:
+- **Push to `master`** → Run full pipeline + deploy to staging
+- **Pull request** → Run tests only (no deployment)
+- **Manual dispatch** → Run with custom parameters (e.g., `--threshold 95.0`)
+
+### Azure DevOps (`azure-pipelines.yml`)
+
+**Multi-stage Pipeline**:
+```yaml
+stages:
+  - stage: Build
+    jobs:
+      - job: BuildDQLibrary
+      - job: BuildAIMSPlatform
+  
+  - stage: Test
+    jobs:
+      - job: UnitTests
+      - job: IntegrationTests
+      - job: DQValidation
+  
+  - stage: Deploy
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    jobs:
+      - job: DeployToFabric
+```
+
+**Artifacts Published**:
+- `dq_framework-1.2.0-py3-none-any.whl`
+- `aims_data_platform-1.0.2-py3-none-any.whl`
+- Test results (JUnit XML)
+- Code coverage reports (Cobertura)
+- DQ validation logs (JSON)
+
+**Environment Variables**:
+```yaml
+variables:
+  AZURE_CLIENT_ID: $(AZURE_CLIENT_ID_SECRET)
+  AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+  BASE_DIR: $(Build.SourcesDirectory)/1_AIMS_LOCAL_2026
+```
+
+**Schedule**: Daily at 2 AM UTC (cron: `0 2 * * *`)
+
+## Testing Strategy
+
+### Test Structure (15 tests)
+```
+tests/
+├── test_profiler.py           # Data profiling (5 tests)
+│   ├── test_profile_generation
+│   ├── test_yaml_output
+│   └── test_threshold_defaults
+├── test_validator.py          # DQ validation (7 tests)
+│   ├── test_null_check
+│   ├── test_type_validation
+│   ├── test_threshold_logic
+│   └── test_parallel_execution
+└── test_profiling_integration.py  # End-to-end (3 tests)
+    ├── test_full_pipeline
+    ├── test_config_generation
+    └── test_validation_pass_rate
+```
+
+### Running Tests
+
+**Unit Tests** (Fast, isolated):
+```bash
+pytest tests/test_profiler.py -v
+pytest tests/test_validator.py -v
+```
+
+**Integration Tests** (Slower, uses real data):
+```bash
+pytest tests/test_profiling_integration.py -v --runslow
+```
+
+**Coverage Report**:
+```bash
+pytest tests/ --cov=aims_data_platform --cov=dq_framework --cov-report=html
+# Output: htmlcov/index.html
+```
+
+### Test Patterns
+
+**1. Mocking External Dependencies**:
+```python
+@patch('dq_framework.loader.DataLoader.load_data')
+def test_validation_with_mock(mock_load):
+    mock_load.return_value = pd.DataFrame({'col1': [1, 2, 3]})
+    validator = DataQualityValidator()
+    result = validator.validate(mock_load(), config_path)
+    assert result['success'] == True
+```
+
+**2. Parameterized Tests** (Multiple scenarios):
+```python
+@pytest.mark.parametrize("threshold,expected", [
+    (100.0, False),  # Strict threshold fails
+    (95.0, True),    # Relaxed threshold passes
+    (0.0, True)      # Zero threshold always passes
+])
+def test_threshold_logic(threshold, expected):
+    result = validate_with_threshold(df, threshold)
+    assert result == expected
+```
+
+**3. Fixtures for Reusable Data**:
+```python
+@pytest.fixture
+def sample_dataframe():
+    return pd.DataFrame({
+        'AssetID': [1, 2, 3],
+        'Status': ['Active', 'Active', None]
+    })
+
+def test_null_handling(sample_dataframe):
+    result = check_nulls(sample_dataframe, 'Status')
+    assert result['null_count'] == 1
+```
+
+### Quality Metrics
+- **Current Coverage**: 78% (aims_data_platform), 85% (dq_framework)
+- **Target Coverage**: 80%+
+- **Test Execution Time**: ~12s (unit), ~45s (integration)
+- **CI Run Time**: ~3m (GitHub Actions), ~5m (Azure DevOps)
+
+### Adding New Tests
+
+**When to Add Tests**:
+1. New validation expectation types
+2. New data transformation logic (Star Schema)
+3. Bug fixes (regression tests)
+4. Performance optimizations (benchmark tests)
+
+**Test Naming Convention**:
+```python
+def test_<component>_<scenario>_<expected_outcome>():
+    # Example: test_validator_null_check_passes_with_threshold()
+    pass
+```
+
+## Documentation Reference
+
+- **[README.md](../README.md)** - Project overview, quick start (327 lines)
+- **[QUICK_START_GUIDE.md](../QUICK_START_GUIDE.md)** - 5-minute setup
+- **[docs/COMPLETE_IMPLEMENTATION_SUMMARY.md](../docs/COMPLETE_IMPLEMENTATION_SUMMARY.md)** - Full technical reference (37 pages)
+- **[docs/END_TO_END_TESTING_REPORT.md](../docs/END_TO_END_TESTING_REPORT.md)** - Validation results
+- **[environment.yml](../environment.yml)** - Conda environment specification
+
+## Quick File Locator
+
+| Component | Location |
+|-----------|----------|
+| Main pipeline script | `scripts/run_pipeline.py` |
+| Main pipeline notebook | `notebooks/00_AIMS_Orchestration.ipynb` |
+| Validation engine | `../2_DATA_QUALITY_LIBRARY/dq_framework/` |
+| DQ configs (68 files) | `config/data_quality/*.yaml` |
+| Environment config | `.env` |
+| Test suite | `tests/` (15 tests) |
+| Package metadata | `pyproject.toml` (v1.0.2) |
 
 ---
+
+**Last Updated**: December 2025 | **Version**: 1.2.0 | **Status**: Production Ready (90%)
 
 **Last Updated**: December 2025  
 **Maintainer**: HS2 Data Team  

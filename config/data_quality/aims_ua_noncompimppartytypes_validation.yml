@@ -1,12 +1,12 @@
-validation_name: aims_aims_ua_noncompimppartytypes
-description: Data quality validation for aims_ua_noncompimppartytypes.parquet
-generated_at: '2025-12-10T13:21:38.521996'
+validation_name: validation_aims_ua_noncompimppartytypes
+description: Auto-generated validation for validation_aims_ua_noncompimppartytypes
+generated_at: '2025-12-11T00:14:14.264243'
 data_source:
   type: runtime_dataframe
   profiled_rows: 40
   profiled_columns: 9
 quality_thresholds:
-  critical: 95.0
+  critical: 100.0
   high: 95.0
   medium: 80.0
   low: 50.0

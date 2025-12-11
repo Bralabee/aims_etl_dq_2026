@@ -1,0 +1,48 @@
+{
+  "start_time": "2025-12-11T00:01:04.661808",
+  "environment": "Local",
+  "storage_format": "parquet",
+  "config": {
+    "run_profiling": true,
+    "run_ingestion": true,
+    "run_monitoring": true,
+    "run_dq_modeling": false,
+    "run_bi_analytics": false,
+    "force_reprocess": false,
+    "dq_threshold": 85.0,
+    "max_workers": 4,
+    "continue_on_error": false
+  },
+  "phases": [
+    {
+      "phase": "profiling",
+      "status": "success",
+      "duration_seconds": 7.86875,
+      "files_profiled": 68,
+      "configs_generated": 68,
+      "errors": 0
+    },
+    {
+      "phase": "validation_ingestion",
+      "status": "success",
+      "duration_seconds": 65.63847,
+      "validation_summary": {
+        "total": 68,
+        "passed": 50,
+        "failed": 18,
+        "skipped": 0,
+        "errors": 0
+      }
+    },
+    {
+      "phase": "monitoring",
+      "status": "success",
+      "duration_seconds": 0.008776,
+      "metrics": {
+        "avg_quality_score": 98.77526703963905,
+        "pass_rate": 73.52941176470588,
+        "tables_monitored": 68
+      }
+    }
+  ]
+}

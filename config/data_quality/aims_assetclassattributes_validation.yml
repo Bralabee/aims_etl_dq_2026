@@ -1,12 +1,12 @@
-validation_name: aims_aims_assetclassattributes
-description: Data quality validation for aims_assetclassattributes.parquet
-generated_at: '2025-12-10T13:24:34.878553'
+validation_name: validation_aims_assetclassattributes
+description: Auto-generated validation for validation_aims_assetclassattributes
+generated_at: '2025-12-11T00:14:18.161261'
 data_source:
   type: runtime_dataframe
-  profiled_rows: 131311
+  profiled_rows: 100000
   profiled_columns: 25
 quality_thresholds:
-  critical: 95.0
+  critical: 100.0
   high: 95.0
   medium: 80.0
   low: 50.0
@@ -82,6 +82,14 @@ expectations:
     severity: medium
     description: Column ATTRIBUTEID should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ATTRIBUTEID
+    min_value: 8
+    max_value: 8
+  meta:
+    severity: low
+    description: String length should be within observed range
 - expectation_type: expect_column_to_exist
   kwargs:
     column: ATTRIBUTE
@@ -127,13 +135,6 @@ expectations:
   meta:
     severity: critical
     description: Column EXPECTED must exist in the data
-- expectation_type: expect_column_values_to_not_be_null
-  kwargs:
-    column: EXPECTED
-  meta:
-    severity: medium
-    description: Column EXPECTED should have minimal nulls (currently 9.2%)
-    observed_null_percent: 9.209434091584102
 - expectation_type: expect_column_values_to_be_in_set
   kwargs:
     column: EXPECTED
@@ -169,6 +170,22 @@ expectations:
     severity: medium
     description: Column CREATEDBY should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CREATEDBY
+    value_set:
+    - None
+    - joshua.gripton@hs2.org.uk
+    - neil.hinson@dito
+    - Douglas.Young@hs2.org.uk
+    - Katarina.Hrinikova@hs2.org.uk
+    - Juliet.Miah@hs2.org.uk
+    - Nazerah.Choudhury@hs2.org.uk
+    - Venkat.Vennam@hs2.org.uk
+    - Ken.Lee@hs2.org.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: WHENCREATED
@@ -388,10 +405,6 @@ expectations:
     - Nazerah.Choudhury@hs2.org.uk
     - Neil.Blackett@hs2.org.uk
     - Ken.Lee@hs2.org.uk
-    - Muneebah.Quyyam@hs2.org.uk
-    - Alex.Bradley@hs2.org.uk
-    - neil.hinson@dito
-    - Davies.Mukonoweshuro@hs2.org.uk
   meta:
     severity: medium
     description: Values should be one of the known categories
@@ -414,14 +427,18 @@ expectations:
   meta:
     severity: critical
     description: Column ATTRIBUTEDOMAINID must exist in the data
-- expectation_type: expect_column_value_lengths_to_be_between
+- expectation_type: expect_column_values_to_be_in_set
   kwargs:
     column: ATTRIBUTEDOMAINID
-    min_value: 10
-    max_value: 10
+    value_set:
+    - '13028827.0'
+    - '13027811.0'
+    - '13029429.0'
+    - '13029377.0'
+    - '13028532.0'
   meta:
-    severity: low
-    description: String length should be within observed range
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: ATTRIBUTEDOMAIN
@@ -435,6 +452,19 @@ expectations:
     severity: medium
     description: Column ATTRIBUTEDOMAIN should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ATTRIBUTEDOMAIN
+    value_set:
+    - None
+    - TBC
+    - Future owner
+    - Canteen/Messroom Equipment
+    - Asset Status
+    - HERProtection Stage
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: PHASEAPPLICABILITY

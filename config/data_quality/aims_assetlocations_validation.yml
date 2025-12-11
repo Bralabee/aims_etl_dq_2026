@@ -1,12 +1,12 @@
-validation_name: aims_aims_assetlocations
-description: Data quality validation for aims_assetlocations.parquet
-generated_at: '2025-12-10T13:24:31.308426'
+validation_name: validation_aims_assetlocations
+description: Auto-generated validation for validation_aims_assetlocations
+generated_at: '2025-12-11T00:14:18.347054'
 data_source:
   type: runtime_dataframe
-  profiled_rows: 2235262
+  profiled_rows: 100000
   profiled_columns: 36
 quality_thresholds:
-  critical: 95.0
+  critical: 100.0
   high: 95.0
   medium: 80.0
   low: 50.0
@@ -94,8 +94,8 @@ expectations:
     column: ROUTEID
   meta:
     severity: medium
-    description: Column ROUTEID should have minimal nulls (currently 0.9%)
-    observed_null_percent: 0.8741257177011017
+    description: Column ROUTEID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
 - expectation_type: expect_column_to_exist
   kwargs:
     column: ROUTE
@@ -121,7 +121,7 @@ expectations:
   meta:
     severity: medium
     description: Column ASSETCLASSID should have minimal nulls (currently 0.0%)
-    observed_null_percent: 0.020937142938948546
+    observed_null_percent: 0.0
 - expectation_type: expect_column_to_exist
   kwargs:
     column: ASSETCLASS
@@ -148,6 +148,16 @@ expectations:
     severity: medium
     description: Column CREATEDBY should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: CREATEDBY
+    value_set:
+    - None
+    - joshua.gripton@hs2.org.uk
+    - Douglas.Young@hs2.org.uk
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: WHENCREATED
@@ -234,6 +244,18 @@ expectations:
     severity: medium
     description: Column LOCATIONID should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: LOCATIONID
+    value_set:
+    - '1'
+    - '2'
+    - '4'
+    - '5'
+    - '3'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: REMOVEDBY
@@ -253,12 +275,6 @@ expectations:
     value_set:
     - ' '
     - Joshua Gripton
-    - Nazerah Choudhury
-    - Katarina Hrinikova
-    - Neil Hinson
-    - David Gudmundsson
-    - Ken Lee
-    - "Peter O\u2019Brien"
   meta:
     severity: medium
     description: Values should be one of the known categories
@@ -275,6 +291,17 @@ expectations:
     severity: medium
     description: Column REMOVEDREASON should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: REMOVEDREASON
+    value_set:
+    - None
+    - No Longer required due to PCR change 2041.6
+    - Error
+    - No Loner required for location
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: CHAINAGEUNITS
@@ -294,7 +321,6 @@ expectations:
     value_set:
     - Kilometres
     - None
-    - Miles / yards
   meta:
     severity: medium
     description: Values should be one of the known categories
@@ -310,11 +336,18 @@ expectations:
   meta:
     severity: critical
     description: Column OSGBEASTING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OSGBEASTING
+  meta:
+    severity: medium
+    description: Column OSGBEASTING should have minimal nulls (currently 3.9%)
+    observed_null_percent: 3.9079999999999995
 - expectation_type: expect_column_value_lengths_to_be_between
   kwargs:
     column: OSGBEASTING
     min_value: 3
-    max_value: 12
+    max_value: 10
   meta:
     severity: low
     description: String length should be within observed range
@@ -324,11 +357,18 @@ expectations:
   meta:
     severity: critical
     description: Column OSGBNORTHING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OSGBNORTHING
+  meta:
+    severity: medium
+    description: Column OSGBNORTHING should have minimal nulls (currently 3.9%)
+    observed_null_percent: 3.9079999999999995
 - expectation_type: expect_column_value_lengths_to_be_between
   kwargs:
     column: OSGBNORTHING
     min_value: 3
-    max_value: 12
+    max_value: 10
   meta:
     severity: low
     description: String length should be within observed range
@@ -354,9 +394,6 @@ expectations:
     - AP1
     - AP2
     - None
-    - Snake Grid (HS2P1_14)
-    - Absolute Reference Chainage
-    - Design
   meta:
     severity: medium
     description: Values should be one of the known categories
@@ -366,6 +403,13 @@ expectations:
   meta:
     severity: critical
     description: Column OFFSET must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: OFFSET
+  meta:
+    severity: medium
+    description: Column OFFSET should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
 - expectation_type: expect_column_value_lengths_to_be_between
   kwargs:
     column: OFFSET
@@ -380,43 +424,126 @@ expectations:
   meta:
     severity: critical
     description: Column ENDOFFSET must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ENDOFFSET
+  meta:
+    severity: medium
+    description: Column ENDOFFSET should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ENDOFFSET
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: SNAKEGRIDSTARTEASTING
   meta:
     severity: critical
     description: Column SNAKEGRIDSTARTEASTING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SNAKEGRIDSTARTEASTING
+  meta:
+    severity: medium
+    description: Column SNAKEGRIDSTARTEASTING should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SNAKEGRIDSTARTEASTING
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: SNAKEGRIDSTARTNORTHING
   meta:
     severity: critical
     description: Column SNAKEGRIDSTARTNORTHING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SNAKEGRIDSTARTNORTHING
+  meta:
+    severity: medium
+    description: Column SNAKEGRIDSTARTNORTHING should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SNAKEGRIDSTARTNORTHING
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: SNAKEGRIDENDEASTING
   meta:
     severity: critical
     description: Column SNAKEGRIDENDEASTING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SNAKEGRIDENDEASTING
+  meta:
+    severity: medium
+    description: Column SNAKEGRIDENDEASTING should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SNAKEGRIDENDEASTING
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: SNAKEGRIDENDNORTHING
   meta:
     severity: critical
     description: Column SNAKEGRIDENDNORTHING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SNAKEGRIDENDNORTHING
+  meta:
+    severity: medium
+    description: Column SNAKEGRIDENDNORTHING should have minimal nulls (currently
+      0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SNAKEGRIDENDNORTHING
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: TRACKID
   meta:
     severity: critical
     description: Column TRACKID must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: TRACKID
+  meta:
+    severity: medium
+    description: Column TRACKID should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
 - expectation_type: expect_column_values_to_be_in_set
   kwargs:
     column: TRACKID
     value_set:
     - None
-    - '25.0'
-    - '26.0'
   meta:
     severity: medium
     description: Values should be one of the known categories
@@ -438,8 +565,6 @@ expectations:
     column: TRACK
     value_set:
     - None
-    - H2ML-01
-    - H2ML-02
   meta:
     severity: medium
     description: Values should be one of the known categories
@@ -449,39 +574,144 @@ expectations:
   meta:
     severity: critical
     description: Column STARTOFFSET must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: STARTOFFSET
+  meta:
+    severity: medium
+    description: Column STARTOFFSET should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: STARTOFFSET
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: SNAKEGRIDEASTING
   meta:
     severity: critical
     description: Column SNAKEGRIDEASTING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SNAKEGRIDEASTING
+  meta:
+    severity: medium
+    description: Column SNAKEGRIDEASTING should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SNAKEGRIDEASTING
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: SNAKEGRIDNORTHING
   meta:
     severity: critical
     description: Column SNAKEGRIDNORTHING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: SNAKEGRIDNORTHING
+  meta:
+    severity: medium
+    description: Column SNAKEGRIDNORTHING should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: SNAKEGRIDNORTHING
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: STARTOSGBEASTING
   meta:
     severity: critical
     description: Column STARTOSGBEASTING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: STARTOSGBEASTING
+  meta:
+    severity: medium
+    description: Column STARTOSGBEASTING should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: STARTOSGBEASTING
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: STARTOSGBNORTHING
   meta:
     severity: critical
     description: Column STARTOSGBNORTHING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: STARTOSGBNORTHING
+  meta:
+    severity: medium
+    description: Column STARTOSGBNORTHING should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: STARTOSGBNORTHING
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: ENDOSGBEASTING
   meta:
     severity: critical
     description: Column ENDOSGBEASTING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ENDOSGBEASTING
+  meta:
+    severity: medium
+    description: Column ENDOSGBEASTING should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ENDOSGBEASTING
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories
 - expectation_type: expect_column_to_exist
   kwargs:
     column: ENDOSGBNORTHING
   meta:
     severity: critical
     description: Column ENDOSGBNORTHING must exist in the data
+- expectation_type: expect_column_values_to_not_be_null
+  kwargs:
+    column: ENDOSGBNORTHING
+  meta:
+    severity: medium
+    description: Column ENDOSGBNORTHING should have minimal nulls (currently 0.0%)
+    observed_null_percent: 0.0
+- expectation_type: expect_column_values_to_be_in_set
+  kwargs:
+    column: ENDOSGBNORTHING
+    value_set:
+    - '0.0'
+  meta:
+    severity: medium
+    description: Values should be one of the known categories

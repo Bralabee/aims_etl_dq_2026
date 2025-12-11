@@ -1,0 +1,38 @@
+{
+  "start_time": "2025-12-10T14:45:05.897375",
+  "environment": "Local",
+  "storage_format": "parquet",
+  "config": {
+    "run_profiling": true,
+    "run_ingestion": true,
+    "run_monitoring": true,
+    "run_dq_modeling": false,
+    "run_bi_analytics": false,
+    "force_reprocess": false,
+    "dq_threshold": 85.0,
+    "max_workers": 4,
+    "continue_on_error": false
+  },
+  "phases": [
+    {
+      "phase": "profiling",
+      "status": "partial",
+      "duration_seconds": 0.001622,
+      "files_profiled": 0,
+      "configs_generated": 68,
+      "errors": 68
+    },
+    {
+      "phase": "validation_ingestion",
+      "status": "success",
+      "duration_seconds": 0.00159,
+      "validation_summary": {
+        "total": 68,
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "errors": 68
+      }
+    }
+  ]
+}

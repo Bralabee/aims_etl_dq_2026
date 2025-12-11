@@ -2,8 +2,6 @@
 from .config import config, Config
 from .fabric_config import FabricConfig
 from .watermark_manager import WatermarkManager
-from .ingestion import DataIngester
-from .data_quality import DataQualityValidator
 from .schema_reconciliation import (
     parse_data_model,
     get_parquet_metadata,
@@ -16,6 +14,15 @@ from .schema_reconciliation import (
     reconcile
 )
 
+# Import core functionality from the shared library
+from dq_framework import (
+    DataQualityValidator,
+    BatchProfiler,
+    DataProfiler,
+    DataLoader,
+    ConfigLoader
+)
+
 __version__ = "1.0.2"
 __all__ = [
     "config",
@@ -24,6 +31,11 @@ __all__ = [
     "WatermarkManager",
     "DataIngester",
     "DataQualityValidator",
+    "BatchProfiler",
+    "DataProfiler",
+    "DataLoader",
+    "ConfigLoader",
+    "FileSystemHandler",
     "parse_data_model",
     "get_parquet_metadata",
     "format_size",

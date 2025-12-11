@@ -1,12 +1,12 @@
-validation_name: aims_aims_projectitemactions
-description: Data quality validation for aims_projectitemactions.parquet
-generated_at: '2025-12-10T13:24:32.390685'
+validation_name: validation_aims_projectitemactions
+description: Auto-generated validation for validation_aims_projectitemactions
+generated_at: '2025-12-11T00:14:16.146518'
 data_source:
   type: runtime_dataframe
   profiled_rows: 5
   profiled_columns: 24
 quality_thresholds:
-  critical: 95.0
+  critical: 100.0
   high: 95.0
   medium: 80.0
   low: 50.0
