@@ -28,8 +28,8 @@ jobs:
         # Ensure testing libraries are installed even if commented out in requirements
         pip install pytest pytest-cov
         
-        # Find the latest wheel file
-        WHEEL_PATH=$(find dq_great_expectations/dq_package_dist -name "fabric_data_quality-*.whl" | sort -V | tail -n 1)
+        # Find the newest wheel file (by version in filename)
+        WHEEL_PATH=$(find dq_great_expectations/dq_package_dist -name "fabric_data_quality-*.whl" -print | awk -F/ '{print $NF "\t" $0}' | sort -V | tail -n 1 | cut -f2-)
         echo "Found wheel: $WHEEL_PATH"
         pip install "$WHEEL_PATH"
 

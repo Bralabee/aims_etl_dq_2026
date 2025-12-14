@@ -27,19 +27,18 @@ if [ -f "requirements.txt" ]; then
     pip install -r requirements.txt
 fi
 
-# Install fabric_data_quality from local wheel
-# Find the latest wheel in the project's distribution folder
-WHEEL_PATH=$(find dq_great_expectations/dq_package_dist -name "fabric_data_quality-*.whl" | sort -V | tail -n 1)
+# Install fabric_data_quality from the newest available wheel
+# - Prefer the highest version found across:
+#   1) dq_great_expectations/dq_package_dist (bundled wheels)
+#   2) ../2_DATA_QUALITY_LIBRARY/dist (freshly built wheel from shared library)
+WHEEL_CANDIDATES=()
+while IFS= read -r f; do WHEEL_CANDIDATES+=("$f"); done < <(find dq_great_expectations/dq_package_dist -name "fabric_data_quality-*.whl" -print 2>/dev/null || true)
+while IFS= read -r f; do WHEEL_CANDIDATES+=("$f"); done < <(find ../2_DATA_QUALITY_LIBRARY/dist -name "fabric_data_quality-*.whl" -print 2>/dev/null || true)
 
-if [ -z "$WHEEL_PATH" ]; then
-    echo "Warning: fabric_data_quality wheel not found in dq_great_expectations/dq_package_dist."
-    echo "Checking parent directory..."
-    WHEEL_PATH=$(find ../2_DATA_QUALITY_LIBRARY/dist -name "fabric_data_quality-*.whl" | sort -V | tail -n 1)
-fi
-
-if [ -z "$WHEEL_PATH" ]; then
-    echo "Error: fabric_data_quality wheel not found. Please build it in 2_DATA_QUALITY_LIBRARY."
+if [ ${#WHEEL_CANDIDATES[@]} -eq 0 ]; then
+    echo "Error: fabric_data_quality wheel not found. Build it in ../2_DATA_QUALITY_LIBRARY or place it in dq_great_expectations/dq_package_dist."
 else
+    WHEEL_PATH=$(printf '%s\n' "${WHEEL_CANDIDATES[@]}" | awk -F/ '{print $NF "\t" $0}' | sort -V | tail -n 1 | cut -f2-)
     echo "Installing fabric_data_quality from $WHEEL_PATH..."
     pip install --force-reinstall "$WHEEL_PATH"
 fi

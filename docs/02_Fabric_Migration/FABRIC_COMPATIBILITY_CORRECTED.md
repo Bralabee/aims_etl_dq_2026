@@ -33,7 +33,7 @@ if IS_FABRIC:
     try:
         import dq_framework
     except ImportError:
-        wheel_path = BASE_DIR / "libs/fabric_data_quality-1.2.0-py3-none-any.whl"
+        wheel_path = BASE_DIR / "libs/fabric_data_quality-*.whl"
         %pip install {wheel_path} --quiet
 ```
 
@@ -130,7 +130,7 @@ if IS_FABRIC:
         print(f"✅ dq_framework installed")
     except ImportError:
         print("Installing dq_framework...")
-        wheel_path = BASE_DIR / "libs/fabric_data_quality-1.2.0-py3-none-any.whl"
+        wheel_path = BASE_DIR / "libs/fabric_data_quality-*.whl"
         if wheel_path.exists():
             %pip install {wheel_path} --quiet
         else:

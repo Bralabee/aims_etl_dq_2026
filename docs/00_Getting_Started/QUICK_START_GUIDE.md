@@ -62,7 +62,7 @@ cat config/validation_results/validation_results.json | jq '.summary'
 ```bash
 cd ../2_DATA_QUALITY_LIBRARY
 conda run -n aims_data_platform python -m build --wheel
-ls -lh dist/fabric_data_quality-1.2.0-py3-none-any.whl
+ls -lh dist/fabric_data_quality-*.whl
 ```
 
 ---

@@ -20,7 +20,7 @@ A complete, production-ready data quality pipeline for AIMS parquet files featur
 
 ### Libraries
 - **dq_framework** - Custom DQ library built on Great Expectations
-- Pre-built wheel: `dq_great_expectations/dq_package_dist/fabric_data_quality-1.1.3-py3-none-any.whl`
+- Pre-built wheel: `dq_great_expectations/dq_package_dist/fabric_data_quality-*.whl`
 
 ### State Management
 - `data/state/watermarks.json` - Tracks processed files (idempotency)
@@ -271,7 +271,7 @@ AIMS_LOCAL/
 ├── dq_great_expectations/
 │   ├── generated_configs/                # YAML validation rules (68 files)
 │   └── dq_package_dist/
-│       └── fabric_data_quality-1.0.0-py3-none-any.whl
+│       └── fabric_data_quality-*.whl
 │
 ├── data/
 │   ├── Samples_LH_Bronze_Aims_26_parquet/  # Source data (68 files)
@@ -351,7 +351,7 @@ AIMS_LOCAL/
 **Fix:**
 ```bash
 conda activate fabric-dq
-pip install dq_great_expectations/dq_package_dist/fabric_data_quality-1.0.0-py3-none-any.whl
+pip install dq_great_expectations/dq_package_dist/fabric_data_quality-*.whl
 ```
 
 ### Issue: "No validation config found for file X"

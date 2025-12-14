@@ -98,13 +98,13 @@ Examples:
 **Objective:** Build updated wheel package with bug fixes and improvements
 
 **Actions:**
-1. Updated version in `setup.py` and `pyproject.toml`: `1.1.3` → `1.2.0`
+1. Updated version metadata in packaging files (`setup.py` / `pyproject.toml`)
 2. Cleaned build artifacts
 3. Built wheel package using `python -m build --wheel`
 4. Verified package created successfully
 
 **Results:**
-- ✅ `fabric_data_quality-1.2.0-py3-none-any.whl` (24 KB)
+- ✅ `fabric_data_quality-*.whl`
 - ✅ Located in `2_DATA_QUALITY_LIBRARY/dist/`
 - ✅ Ready for distribution and CI/CD deployment
 
@@ -228,7 +228,7 @@ Examples:
 4. ✅ **This Summary** (`docs/COMPLETE_IMPLEMENTATION_SUMMARY.md`)
 
 ### Artifacts
-1. ✅ **DQ Library Wheel** (`fabric_data_quality-1.2.0-py3-none-any.whl`)
+1. ✅ **DQ Library Wheel** (`fabric_data_quality-*.whl`)
 2. ✅ **Validation Results JSON** (56 KB, 68 files validated)
 3. ✅ **Test Results** (15/15 tests passing)
 

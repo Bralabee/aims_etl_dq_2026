@@ -43,8 +43,8 @@ pyarrow                     14.0.2
 1. **`dq_framework` Module Import Path Issue**
    - **Expected:** `from dq_framework import DataProfiler`
    - **Actual:** `ModuleNotFoundError: No module named 'dq_framework'`
-   - **Root Cause:** The `fabric-data-quality` package (v1.1.3) is installed but doesn't expose `dq_framework` as a module
-   - **Location:** External library at `/home/sanmi/Documents/HS2/HS2_PROJECTS_2025/2_DATA_QUALITY_LIBRARY/dq_framework/`
+   - **Root Cause:** The DQ wheel providing `dq_framework` is not installed in the active Python environment (or the wrong env is active)
+   - **Location:** Expected to come from the installed `fabric_data_quality` wheel (built from `2_DATA_QUALITY_LIBRARY`)
    - **Impact:** Breaks profiling notebooks and test suite
 
 **Verification Command:**

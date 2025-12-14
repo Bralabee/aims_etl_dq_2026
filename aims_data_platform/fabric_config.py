@@ -47,7 +47,9 @@ class FabricConfig:
         else:
             # Local paths
             base_dir = Path(__file__).parent.parent
-            self.source_path = source_path or self._get_fabric_source_path() or str(base_dir / "data" / "source")
+            # In local mode, default to a local folder unless explicitly overridden.
+            # This avoids accidental ABFSS defaults which require Fabric utilities.
+            self.source_path = source_path or os.getenv("SOURCE_DATA_PATH") or str(base_dir / "data" / "source")
             self.target_path = target_path or os.getenv("TARGET_DATA_PATH", str(base_dir / "data" / "processed"))
             self.watermark_db_path = watermark_db_path or os.getenv("WATERMARK_DB_PATH", str(base_dir / "watermarks.db"))
             self.gx_context_root = kwargs.get("gx_context_root", os.getenv("GE_ROOT_DIR", str(base_dir / "data" / "gx")))

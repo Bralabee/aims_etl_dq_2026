@@ -80,7 +80,7 @@ else:
 **Change:** Added environment-aware package installation
 ```python
 if IS_FABRIC:
-    wheel_path = BASE_DIR / "libs/fabric_data_quality-1.2.0-py3-none-any.whl"
+    wheel_path = BASE_DIR / "libs/fabric_data_quality-*.whl"
     %pip install {str(wheel_path)} --quiet
 else:
     %pip install -e {str(BASE_DIR)} --quiet
@@ -149,7 +149,7 @@ conda run -n aims_data_platform jupyter nbconvert --execute notebooks/00_AIMS_Or
 **Prerequisites:**
 1. Create Lakehouse in Fabric workspace
 2. Upload files to `Files/data/Samples_LH_Bronze_Aims_26_parquet/`
-3. Upload wheel to `Files/libs/fabric_data_quality-1.2.0-py3-none-any.whl`
+3. Upload wheel to `Files/libs/fabric_data_quality-*.whl`
 4. Attach Lakehouse to notebook
 
 **Expected:** Same pandas + multiprocessing approach will work
@@ -176,7 +176,7 @@ conda run -n aims_data_platform jupyter nbconvert --execute notebooks/00_AIMS_Or
 
 #### 1. Prepare Files
 - [ ] Build wheel: `make build-package`
-- [ ] Verify wheel exists: `dist/fabric_data_quality-1.2.0-py3-none-any.whl`
+- [ ] Verify wheel exists: `dist/fabric_data_quality-*.whl`
 
 #### 2. Create Lakehouse
 - [ ] Open Fabric workspace
@@ -190,7 +190,7 @@ conda run -n aims_data_platform jupyter nbconvert --execute notebooks/00_AIMS_Or
 
 #### 4. Upload Package
 - [ ] Create folder: `Files/libs/`
-- [ ] Upload `fabric_data_quality-1.2.0-py3-none-any.whl` to `Files/libs/`
+- [ ] Upload `fabric_data_quality-*.whl` to `Files/libs/`
 - [ ] Verify wheel file accessible
 
 #### 5. Create Notebook

@@ -49,7 +49,7 @@ if IS_FABRIC:
     try:
         import dq_framework
     except ImportError:
-        wheel_path = BASE_DIR / "libs/fabric_data_quality-1.2.0-py3-none-any.whl"
+        wheel_path = BASE_DIR / "libs/fabric_data_quality-*.whl"
         if wheel_path.exists():
             %pip install {wheel_path} --quiet
         else:
@@ -110,7 +110,7 @@ Parquet files work in Fabric. Delta Lake is optional enhancement, not required.
 
 ```bash
 # Files to upload:
-1. dist/fabric_data_quality-1.2.0-py3-none-any.whl
+1. dist/fabric_data_quality-*.whl
    → Upload to: Files/libs/
 
 2. data/Samples_LH_Bronze_Aims_26_parquet/*.parquet (68 files)

@@ -274,7 +274,7 @@ AZURE_CLIENT_SECRET=yyyy
 
 1. **Install `dq_framework` package**
    ```bash
-   pip install /path/to/fabric_data_quality/dist/fabric_data_quality-1.0.0-py3-none-any.whl
+   pip install /path/to/fabric_data_quality/dist/fabric_data_quality-*.whl
    ```
 
 2. **Create pytest test suite**

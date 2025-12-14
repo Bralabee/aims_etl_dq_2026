@@ -52,7 +52,7 @@ df = spark.read.parquet(str(parquet_file))
 ```python
 # In notebooks/01_AIMS_Data_Profiling.ipynb:
 if not IS_FABRIC:
-    %pip install ../dq_great_expectations/dq_package_dist/fabric_data_quality-1.1.2-py3-none-any.whl
+    %pip install ../dq_great_expectations/dq_package_dist/fabric_data_quality-*.whl
 else:
     # Fabric: We assume the library is installed via Workspace Settings
     pass
@@ -67,7 +67,7 @@ else:
 ```python
 # Option 1: Install from Lakehouse Files
 if IS_FABRIC:
-    %pip install /lakehouse/default/Files/libs/fabric_data_quality-1.2.0-py3-none-any.whl --quiet
+    %pip install /lakehouse/default/Files/libs/fabric_data_quality-*.whl --quiet
     
 # Option 2: Pre-install in Fabric Environment (recommended)
 # 1. Upload wheel to Fabric Files
@@ -317,14 +317,14 @@ if IS_FABRIC:
         print(f"✅ dq_framework v{dq_framework.__version__} installed")
     except ImportError:
         print("⚠️ Installing dq_framework...")
-        wheel_path = BASE_DIR / "libs/fabric_data_quality-1.2.0-py3-none-any.whl"
+        wheel_path = BASE_DIR / "libs/fabric_data_quality-*.whl"
         if wheel_path.exists():
             %pip install {wheel_path} --quiet
             print("✅ Package installed")
         else:
             raise FileNotFoundError(
                 f"❌ Wheel file not found at {wheel_path}\n"
-                f"Please upload fabric_data_quality-1.2.0-py3-none-any.whl to Lakehouse Files/libs/"
+                f"Please upload fabric_data_quality-*.whl to Lakehouse Files/libs/"
             )
 ```
 
@@ -388,7 +388,7 @@ else:
 
 ### Pre-Deployment
 
-- [ ] Upload `fabric_data_quality-1.2.0-py3-none-any.whl` to Lakehouse `Files/libs/`
+- [ ] Upload `fabric_data_quality-*.whl` to Lakehouse `Files/libs/`
 - [ ] Upload Bronze parquet files to Lakehouse `Files/data/Samples_LH_Bronze_Aims_26_parquet/`
 - [ ] Create Silver, Gold, and config directories in Lakehouse Files
 - [ ] Attach Lakehouse to notebook
@@ -574,7 +574,7 @@ PIPELINE EXECUTION SUMMARY
 **Solution:**
 ```python
 # Install wheel from Lakehouse
-%pip install /lakehouse/default/Files/libs/fabric_data_quality-1.2.0-py3-none-any.whl --quiet
+%pip install /lakehouse/default/Files/libs/fabric_data_quality-*.whl --quiet
 ```
 
 ### Issue: "Lakehouse not attached"
