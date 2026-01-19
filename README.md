@@ -3,14 +3,14 @@
 ![CI Status](https://github.com/Bralabee/aims_etl_dq_2026/actions/workflows/ci-cd.yml/badge.svg)
 ![Azure DevOps](https://dev.azure.com/{org}/AIMS-Data-Platform/_apis/build/status/aims-pipeline)
 ![Test Coverage](https://img.shields.io/badge/tests-15%2F15%20passing-brightgreen)
-![DQ Pass Rate](https://img.shields.io/badge/DQ%20validation-80.9%25-yellow)
-![Production Ready](https://img.shields.io/badge/production%20ready-90%25-green)
+![DQ Pass Rate](https://img.shields.io/badge/DQ%20validation-73.5%25-yellow)
+![Production Ready](https://img.shields.io/badge/production%20ready-70%25-yellow)
 
 # AIMS Data Platform - Local Development Environment
 
-**Version:** 1.2.2
+**Version:** 1.2.0
 **Status:** Stable - All Notebooks Validated
-**Last Updated:** 2025-02-24
+**Last Updated:** 2026-01-19
 
 A comprehensive, governed data ingestion platform designed for incremental loading, data quality validation via Great Expectations, dual CLI/Notebook functionality, and seamless integration with Microsoft Fabric.
 
@@ -20,7 +20,7 @@ A comprehensive, governed data ingestion platform designed for incremental loadi
 |--------|-------|
 | **Bronze Tables** | 68 |
 | **DQ Configs Generated** | 68 |
-| **Validation Pass Rate** | 80.9% (55/68) |
+| **Validation Pass Rate** | 73.5% (50/68) |
 | **Average Quality Score** | 97.3% |
 | **Test Suite** | 15/15 passing (100%) |
 | **Notebooks Validated** | 8/8 passing (100%) |
@@ -40,7 +40,7 @@ A comprehensive, governed data ingestion platform designed for incremental loadi
 - ✅ **Governance** - Maintains detailed load history and watermark tracking for auditability
 - ✅ **CLI + Notebook Interface** - Choose your preferred workflow: command-line or interactive
 - ✅ **MS Fabric Ready** - Fully compatible with Microsoft Fabric and OneLake architectures
-- ✅ **Production Ready** - 90% ready for deployment with comprehensive testing and documentation
+- ✅ **Production Ready** - 70% ready for deployment with comprehensive testing and documentation
 
 ## Data Profiling Capabilities
 
@@ -89,7 +89,7 @@ conda activate aims_data_platform
 # 3. Run validation
 python scripts/run_validation_simple.py
 
-# Expected: ✅ 55/68 passing (80.9%)
+# Expected: ✅ 50/68 passing (73.5%)
 ```
 
 **See [QUICK_START_GUIDE.md](QUICK_START_GUIDE.md) for detailed instructions.**
@@ -142,59 +142,59 @@ nano .env
 
 ```bash
 # Initialize the platform
-python -m src.cli init
+python -m aims_data_platform.cli init
 ```
 
 ### 4. Repair Corrupted Files (if needed)
 
 ```bash
 # Repair parquet files
-python -m src.cli repair
+python -m aims_data_platform.cli repair
 
 # Or specify custom paths
-python -m src.cli repair --source-dir /path/to/source --output-dir /path/to/output
+python -m aims_data_platform.cli repair --source-dir /path/to/source --output-dir /path/to/output
 ```
 
 ### 5. Validate Source Files
 
 ```bash
 # Validate source files
-python -m src.cli validate-source
+python -m aims_data_platform.cli validate-source
 
 # Or with custom path
-python -m src.cli validate-source --source-dir /path/to/data
+python -m aims_data_platform.cli validate-source --source-dir /path/to/data
 ```
 
 ### 6. Ingest Data
 
 ```bash
 # Ingest aims_assets data
-python -m src.cli ingest aims_assets --watermark-column LASTUPDATED
+python -m aims_data_platform.cli ingest aims_assets --watermark-column LASTUPDATED
 
 # Ingest aims_attributes data
-python -m src.cli ingest aims_attributes --watermark-column LASTUPDATED
+python -m aims_data_platform.cli ingest aims_attributes --watermark-column LASTUPDATED
 
 # Skip validation
-python -m src.cli ingest aims_assets --no-validate
+python -m aims_data_platform.cli ingest aims_assets --no-validate
 ```
 
 ### 7. Monitor
 
 ```bash
 # View watermarks
-python -m src.cli list-watermarks
+python -m aims_data_platform.cli list-watermarks
 
 # View load history
-python -m src.cli load-history
+python -m aims_data_platform.cli load-history
 
 # View history for specific source
-python -m src.cli load-history --source-name aims_assets --limit 20
+python -m aims_data_platform.cli load-history --source-name aims_assets --limit 20
 ```
 
 ## Python API Usage
 
 ```python
-from src import config, WatermarkManager, DataIngester, DataQualityValidator
+from aims_data_platform import config, WatermarkManager, DataIngester, DataQualityValidator
 from pathlib import Path
 
 # Initialize
@@ -228,7 +228,7 @@ validation_results = validator.validate_dataframe(df, suite_name="aims_assets")
 
 ```
 AIMS_LOCAL/
-├── src/
+├── aims_data_platform/
 │   ├── __init__.py
 │   ├── config.py              # Configuration management
 │   ├── watermark_manager.py   # Watermark tracking
@@ -289,7 +289,7 @@ To sync with Microsoft Fabric:
 If you encounter "Repetition level histogram size mismatch" errors:
 
 ```bash
-python -m src.cli repair
+python -m aims_data_platform.cli repair
 ```
 
 ### Import Errors
@@ -318,8 +318,8 @@ pytest tests/
 ### Code Formatting
 
 ```bash
-black src/
-ruff check src/
+black aims_data_platform/
+ruff check aims_data_platform/
 ```
 
 ## License
