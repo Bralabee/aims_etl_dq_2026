@@ -250,7 +250,169 @@ ingester = DataIngester(watermark_mgr)
 
 ---
 
-**Total Files Created**: 11
-**Lines of Code**: ~2,000+
+## Notebook Architecture Layer
+
+**Version 1.3.0** introduces a unified notebook utilities layer that provides consistent behavior across local and Fabric environments.
+
+### Notebook Utilities (`notebooks/lib/`)
+
+```
+notebooks/lib/
+├── __init__.py                  # Package initialization
+├── platform_utils.py            # Platform detection & cross-platform I/O
+├── storage.py                   # StorageManager (Bronze/Silver/Gold)
+├── settings.py                  # Settings singleton with YAML config
+├── logging_utils.py             # Logging setup & progress tracking
+└── config.py                    # Additional config helpers
+```
+
+#### Module Descriptions
+
+**platform_utils.py** (Platform Detection)
+```python
+- IS_FABRIC constant (bool)
+- _detect_fabric_environment()
+- safe_import_mssparkutils()
+- get_data_paths() → Dict[str, Path]
+- copy_file(src, dst) - platform-aware copy
+- list_files(path) → List[Path]
+- Cross-platform path resolution
+```
+
+**storage.py** (Storage Abstraction)
+```python
+- StorageManager class
+- read_from_bronze(table, sample_size) → DataFrame
+- read_from_silver(table) → DataFrame
+- write_to_silver(df, table, partition_cols) → Path
+- write_to_gold(df, table) → Path
+- write_validated_data(df, table, validation_result) → Path
+- quarantine_data(df, table, reason) → Path
+- get_storage_format() → "parquet" | "delta"
+- Schema evolution support
+- Partition inference
+```
+
+**settings.py** (Configuration Management)
+```python
+- Settings dataclass (singleton)
+- Settings.load(environment) → Settings
+- Auto-detection: local | fabric_dev | fabric_prod
+- YAML config loading from notebook_settings.yaml
+- Environment variable overrides
+- Type-safe path accessors:
+  - bronze_dir, silver_dir, gold_dir
+  - config_dir, state_dir, reports_dir
+- Data quality accessors:
+  - dq_threshold, null_tolerance
+  - get_dq_threshold(severity) → float
+```
+
+**logging_utils.py** (Logging & Progress)
+```python
+- setup_notebook_logger(name, level) → Logger
+- @log_phase_start(phase_name) decorator
+- ProgressTracker context manager
+- Consistent JSON/text formatting
+- File rotation support
+```
+
+### Notebook Configuration (`notebooks/config/`)
+
+```
+notebooks/config/
+├── notebook_settings.yaml       # Main configuration file
+├── data_quality/                # Per-table DQ configs
+└── validation_results/          # Validation output storage
+```
+
+**notebook_settings.yaml** Structure:
+```yaml
+environments:           # Environment-specific settings
+  local: {...}
+  fabric_dev: {...}
+  fabric_prod: {...}
+
+data_quality:           # DQ thresholds and tolerances
+  threshold: 85.0
+  severity_levels: {...}
+
+paths:                  # Medallion architecture paths
+  bronze: data/...
+  silver: data/Silver
+  gold: data/Gold
+
+pipeline:               # Pipeline behavior settings
+  phases: {...}
+  continue_on_error: false
+
+storage:                # Storage format settings
+  parquet_engine: pyarrow
+  compression: snappy
+
+table_overrides: {}     # Per-table customization
+```
+
+### Configuration Priority
+
+```
+┌─────────────────────────────────────┐
+│ 1. Environment Variables (highest)  │
+│    AIMS_DQ_THRESHOLD=90.0           │
+├─────────────────────────────────────┤
+│ 2. .env File Values                 │
+│    LOCAL_OVERRIDE=value             │
+├─────────────────────────────────────┤
+│ 3. YAML Configuration               │
+│    notebook_settings.yaml           │
+├─────────────────────────────────────┤
+│ 4. Built-in Defaults (lowest)       │
+│    Hardcoded fallbacks              │
+└─────────────────────────────────────┘
+```
+
+### Data Flow with Notebook Utilities
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                     Notebook Layer                                │
+├──────────────────────────────────────────────────────────────────┤
+│  00_Orchestration → 01_Profiling → 02_Ingestion → 03_Monitoring  │
+│                           ↓                                       │
+│  04_Schema_Recon → 05_Insights → 06_BI → 07_DQ_Matrix → 08_BI    │
+└──────────────────────────────────────────────────────────────────┘
+                              │
+                    ┌─────────▼─────────┐
+                    │   lib/ Utilities   │
+                    ├───────────────────┤
+                    │ • platform_utils  │ ← Platform Detection
+                    │ • storage         │ ← StorageManager
+                    │ • settings        │ ← Settings Singleton
+                    │ • logging_utils   │ ← Logging Setup
+                    └─────────┬─────────┘
+                              │
+                    ┌─────────▼─────────┐
+                    │  config/ Settings  │
+                    ├───────────────────┤
+                    │ notebook_settings │
+                    │      .yaml        │
+                    └─────────┬─────────┘
+                              │
+           ┌──────────────────┼──────────────────┐
+           ▼                  ▼                  ▼
+     ┌──────────┐      ┌──────────┐       ┌──────────┐
+     │  Local   │      │  Fabric  │       │  Fabric  │
+     │   Dev    │      │   Dev    │       │   Prod   │
+     ├──────────┤      ├──────────┤       ├──────────┤
+     │ Parquet  │      │  Delta   │       │  Delta   │
+     │ 4 workers│      │ 8 workers│       │16 workers│
+     │  DEBUG   │      │   INFO   │       │ WARNING  │
+     └──────────┘      └──────────┘       └──────────┘
+```
+
+---
+
+**Total Files Created**: 11 + 5 (notebook utilities)
+**Lines of Code**: ~4,500+
 **Test Coverage**: Ready for pytest integration
 **Production Ready**: Yes (with proper .env configuration)

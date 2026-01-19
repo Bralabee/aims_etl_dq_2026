@@ -8,7 +8,7 @@
 
 # AIMS Data Platform - Local Development Environment
 
-**Version:** 1.2.0
+**Version:** 1.3.0
 **Status:** Stable - All Notebooks Validated
 **Last Updated:** 2026-01-19
 
@@ -235,9 +235,19 @@ AIMS_LOCAL/
 │   ├── ingestion.py           # Data ingestion logic
 │   ├── data_quality.py        # Great Expectations integration
 │   └── cli.py                 # Command-line interface
+├── notebooks/                 # Interactive Jupyter notebooks
+│   ├── 00-08_*.ipynb          # Pipeline notebooks (see Notebook Index)
+│   ├── lib/                   # Shared notebook utilities
+│   │   ├── platform_utils.py  # Platform detection (local vs Fabric)
+│   │   ├── storage.py         # StorageManager for I/O operations
+│   │   ├── settings.py        # Centralized configuration
+│   │   └── logging_utils.py   # Consistent logging setup
+│   └── config/                # Notebook configuration
+│       └── notebook_settings.yaml  # Environment-specific settings
 ├── data/                      # Target data directory
 │   └── repaired/              # Repaired parquet files
 ├── great_expectations/        # GE configuration
+├── dq_great_expectations/     # Generated DQ configs
 ├── environment.yml            # Conda environment
 ├── requirements.txt           # Python dependencies
 ├── .env.example               # Example environment variables
@@ -247,12 +257,92 @@ AIMS_LOCAL/
 
 ## Configuration
 
-Edit `.env` file to configure:
+### Environment Variables (`.env`)
+
+Edit `.env` file to configure core settings:
 
 - **SOURCE_DATA_PATH**: Source parquet files location
 - **TARGET_DATA_PATH**: Target directory for processed data
 - **DEFAULT_WATERMARK_COLUMN**: Default column for incremental loading
 - **PARQUET_ENGINE**: Engine to use (fastparquet or pyarrow)
+- **AIMS_ENVIRONMENT**: Environment selection (`local`, `fabric_dev`, `fabric_prod`)
+- **AIMS_DQ_THRESHOLD**: Data quality pass threshold (default: 85%)
+- **AIMS_MAX_WORKERS**: Parallel processing workers
+
+### Notebook Configuration (`notebooks/config/notebook_settings.yaml`)
+
+Centralized YAML configuration for all notebooks with:
+- **Environment-specific settings**: Automatic detection or explicit override
+- **Data quality thresholds**: Customizable per environment and severity level
+- **Path templates**: Medallion architecture paths (Bronze/Silver/Gold)
+- **Pipeline configuration**: Phase enable/disable and behavior settings
+- **Table-specific overrides**: Per-table DQ threshold customization
+
+```yaml
+# Example: Access settings in notebooks
+from notebooks.lib.settings import Settings
+settings = Settings.load()
+print(f"Environment: {settings.environment}")
+print(f"DQ Threshold: {settings.dq_threshold}")
+```
+
+## Environment Configuration
+
+### Local Development
+
+```bash
+# 1. Set up environment
+conda activate aims_data_platform
+
+# 2. Configure paths (optional - defaults work for most cases)
+cp .env.example .env
+nano .env  # Edit paths if needed
+
+# 3. Run notebooks
+jupyter lab notebooks/
+```
+
+### Microsoft Fabric
+
+1. Upload notebooks to Fabric workspace
+2. Configuration auto-detects Fabric environment (`/lakehouse/default/Files`)
+3. Override settings via Fabric environment variables if needed:
+   - `AIMS_ENVIRONMENT=fabric_prod`
+   - `AIMS_IS_PRODUCTION=true`
+
+See [Fabric Migration Guide](docs/02_Fabric_Migration/) for detailed instructions.
+
+## Notebook Utilities
+
+The `notebooks/lib/` directory provides shared utilities for consistent notebook behavior:
+
+| Module | Purpose |
+|--------|---------|
+| `platform_utils` | Platform detection (local vs Fabric), path management, cross-platform file operations |
+| `storage` | StorageManager for reading/writing Bronze/Silver/Gold layers (Parquet/Delta) |
+| `settings` | Singleton settings manager with YAML config and environment override support |
+| `logging_utils` | Consistent logging setup with progress tracking and phase decorators |
+
+### Usage Example
+
+```python
+# In any notebook
+from notebooks.lib.platform_utils import IS_FABRIC, get_data_paths
+from notebooks.lib.storage import StorageManager
+from notebooks.lib.settings import Settings
+from notebooks.lib.logging_utils import setup_notebook_logger
+
+# Auto-detect environment
+settings = Settings.load()
+logger = setup_notebook_logger(__name__)
+storage = StorageManager()
+
+# Platform-aware operations
+logger.info(f"Running in {'Fabric' if IS_FABRIC else 'Local'} environment")
+df = storage.read_from_bronze("aims_assets")
+```
+
+See [notebooks/README.md](notebooks/README.md) for complete notebook documentation.
 
 ## Data Quality Validation
 

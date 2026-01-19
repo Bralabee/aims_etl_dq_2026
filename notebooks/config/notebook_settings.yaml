@@ -1,0 +1,216 @@
+# =============================================================================
+# AIMS Data Platform - Notebook Configuration
+# =============================================================================
+# Centralized configuration for all AIMS notebooks.
+# Environment-specific settings are selected automatically based on detection
+# or can be overridden via AIMS_ENVIRONMENT environment variable.
+#
+# Priority Order:
+#   1. Environment variables (highest priority)
+#   2. .env file values
+#   3. This YAML configuration
+#   4. Default values (lowest priority)
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Environment-Specific Settings
+# -----------------------------------------------------------------------------
+# Each environment defines its own base directory, storage format, and 
+# processing parameters. The environment is auto-detected or can be set
+# via AIMS_ENVIRONMENT={local|fabric_dev|fabric_prod}
+environments:
+  local:
+    base_dir: null  # Auto-detected from project root
+    storage_format: parquet
+    max_workers: 4
+    sample_size: 100000
+    enable_profiling: true
+    cache_enabled: true
+    log_level: DEBUG
+  
+  fabric_dev:
+    base_dir: /lakehouse/default/Files
+    storage_format: delta
+    max_workers: 8
+    sample_size: 500000
+    enable_profiling: true
+    cache_enabled: true
+    log_level: INFO
+  
+  fabric_prod:
+    base_dir: /lakehouse/default/Files
+    storage_format: delta
+    max_workers: 16
+    sample_size: null  # Full data - no sampling
+    enable_profiling: false
+    cache_enabled: false
+    log_level: WARNING
+
+# -----------------------------------------------------------------------------
+# Data Quality Settings
+# -----------------------------------------------------------------------------
+# Thresholds and tolerances for data quality validation.
+# Severity levels define minimum quality scores for each classification.
+data_quality:
+  # Default pass threshold (percentage)
+  threshold: 85.0
+  
+  # Maximum allowed null percentage per column
+  null_tolerance: 5.0
+  
+  # Duplicate tolerance (percentage)
+  duplicate_tolerance: 1.0
+  
+  # Severity levels - minimum quality score required
+  severity_levels:
+    critical: 100.0    # Must be perfect
+    high: 95.0         # Minor issues allowed
+    medium: 85.0       # Moderate issues allowed
+    low: 70.0          # Significant issues allowed
+    
+  # Column criticality defaults
+  column_criticality:
+    primary_key: critical
+    foreign_key: high
+    business_key: high
+    default: medium
+
+# -----------------------------------------------------------------------------
+# Path Templates
+# -----------------------------------------------------------------------------
+# Directory paths relative to base_dir.
+# Use forward slashes (/) - will be converted to Path objects automatically.
+paths:
+  # Data layers (medallion architecture)
+  bronze: data/Samples_LH_Bronze_Aims_26_parquet
+  silver: data/Silver
+  silver_layer: data/silver_layer
+  gold: data/Gold
+  
+  # Configuration and metadata
+  config: config/data_quality
+  state: data/state
+  quarantine: data/quarantine
+  
+  # Great Expectations integration
+  ge_root: great_expectations
+  ge_configs: dq_great_expectations/generated_configs
+  
+  # Output directories
+  reports: data/reports
+  validation_results: notebooks/config/validation_results
+  logs: logs
+
+# -----------------------------------------------------------------------------
+# Pipeline Configuration
+# -----------------------------------------------------------------------------
+# Control which phases are enabled and pipeline behavior.
+pipeline:
+  # Enable/disable individual phases
+  phases:
+    profiling: true
+    validation: true
+    ingestion: true
+    monitoring: true
+    schema_reconciliation: true
+    modeling: false
+    bi_analytics: false
+  
+  # Continue processing if a non-critical phase fails
+  continue_on_error: false
+  
+  # Force reprocessing even if data hasn't changed
+  force_reprocess: false
+  
+  # Checkpoint strategy: none, phase, table
+  checkpoint_strategy: phase
+  
+  # Parallel table processing within phases
+  parallel_tables: true
+
+# -----------------------------------------------------------------------------
+# Storage Configuration
+# -----------------------------------------------------------------------------
+# Settings for data storage and file formats.
+storage:
+  # Parquet engine: pyarrow or fastparquet
+  parquet_engine: pyarrow
+  
+  # Compression codec: snappy, gzip, zstd, lz4, none
+  compression: snappy
+  
+  # Row group size for parquet files
+  row_group_size: 100000
+  
+  # Batch size for incremental processing
+  batch_size: 10000
+  
+  # Default watermark column for incremental loads
+  watermark_column: LASTUPDATED
+
+# -----------------------------------------------------------------------------
+# Incremental Load Settings
+# -----------------------------------------------------------------------------
+# Configuration for change data capture and incremental processing.
+incremental:
+  # Enable incremental loading
+  enabled: true
+  
+  # Watermark database path (relative to base_dir)
+  watermark_db: watermarks.db
+  
+  # Default watermark column if not specified per table
+  default_watermark_column: LASTUPDATED
+  
+  # Batch size for incremental reads
+  batch_size: 10000
+  
+  # Track schema changes
+  track_schema_changes: true
+
+# -----------------------------------------------------------------------------
+# Logging Configuration
+# -----------------------------------------------------------------------------
+logging:
+  # Log format: json or text
+  format: json
+  
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: INFO
+  
+  # Log to file
+  file_logging: true
+  
+  # Log file rotation
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+# -----------------------------------------------------------------------------
+# Alerting Configuration
+# -----------------------------------------------------------------------------
+alerting:
+  # Enable alerting
+  enabled: false
+  
+  # Alert on severity levels
+  alert_on_severity:
+    - critical
+    - high
+  
+  # Webhook URLs (override via environment variables)
+  slack_webhook: null
+  teams_webhook: null
+
+# -----------------------------------------------------------------------------
+# Table-Specific Overrides
+# -----------------------------------------------------------------------------
+# Per-table configuration that overrides global settings.
+# table_overrides:
+#   AIMS_ASSETS:
+#     dq_threshold: 95.0
+#     primary_key: AssetID
+#     watermark_column: LastModified
+#   AIMS_CONTRACTS:
+#     dq_threshold: 90.0
+#     null_tolerance: 10.0
+table_overrides: {}

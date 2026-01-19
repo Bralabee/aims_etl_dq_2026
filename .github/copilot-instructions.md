@@ -1,6 +1,6 @@
 # AIMS Data Platform - AI Coding Instructions
 
-> **Version:** 1.2.0 | **Updated:** January 2026
+> **Version:** 1.3.0 | **Updated:** January 2026
 
 ## 🧠 Architecture & Core Patterns
 
@@ -143,6 +143,70 @@ ingester = DataIngester(watermark_manager=wm)
 # Watermarks stored in:
 # - watermarks.db (SQLite, primary)
 # - data/state/watermarks.json (JSON backup)
+```
+
+## 📓 Notebook Utilities (NEW in v1.3.0)
+
+When working with notebooks, ALWAYS use the shared utilities:
+
+### Configuration
+```python
+# ✅ CORRECT - Use centralized settings
+from notebooks.config import settings
+BASE_DIR = settings.base_dir
+BRONZE_DIR = settings.bronze_dir
+
+# ❌ INCORRECT - Don't hardcode paths
+BASE_DIR = Path("/home/sanmi/...")  # NO!
+```
+
+### Storage Operations
+```python
+# ✅ CORRECT - Use StorageManager
+from notebooks.lib.storage import StorageManager
+sm = StorageManager()
+sm.write_to_silver(df, "table_name")
+
+# ❌ INCORRECT - Don't use shutil directly
+import shutil
+shutil.copy2(src, dest)  # NO! Won't work in Fabric
+```
+
+### Platform Detection
+```python
+# ✅ CORRECT - Use platform_utils
+from notebooks.lib import platform_utils
+if platform_utils.IS_FABRIC:
+    ...
+
+# ❌ INCORRECT - Don't reinvent detection
+IS_FABRIC = Path("/lakehouse/...").exists()  # NO! Use platform_utils
+```
+
+### Data Loading
+```python
+# ✅ CORRECT - Use data_loaders
+from notebooks.lib.data_loaders import load_bronze_table
+df = load_bronze_table("assets")
+
+# ❌ INCORRECT - Don't manually build paths
+df = pd.read_parquet(f"{base}/Bronze/assets")  # NO!
+```
+
+## 📁 File Structure (Updated v1.3.0)
+
+```
+notebooks/
+├── config/                     # Notebook configuration (NEW)
+│   ├── __init__.py            # Settings loader
+│   └── notebook_settings.yaml # Centralized paths & params
+├── lib/                       # Shared utilities (NEW)
+│   ├── __init__.py
+│   ├── data_loaders.py        # Bronze/Silver loading
+│   ├── platform_utils.py      # Platform detection
+│   └── storage.py             # StorageManager class
+├── 00_AIMS_Orchestration.ipynb
+└── ...
 ```
 
 ## 🧪 Pre-Commit Checklist
