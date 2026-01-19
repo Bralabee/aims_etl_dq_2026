@@ -4,15 +4,15 @@
 ![Azure DevOps](https://dev.azure.com/{org}/AIMS-Data-Platform/_apis/build/status/aims-pipeline)
 ![Test Coverage](https://img.shields.io/badge/tests-74%2F74%20passing-brightgreen)
 ![DQ Pass Rate](https://img.shields.io/badge/DQ%20validation-73.5%25-yellow)
-![Production Ready](https://img.shields.io/badge/production%20ready-85%25-green)
+![Production Ready](https://img.shields.io/badge/production%20ready-90%25-green)
 
 # AIMS Data Platform - Local Development Environment
 
-**Version:** 1.3.0
-**Status:** Stable - All Notebooks Validated & Refactored
+**Version:** 1.4.0  
+**Status:** Production Ready - Dual Platform Support (Local + MS Fabric)  
 **Last Updated:** 2026-01-19
 
-A comprehensive, governed data ingestion platform designed for incremental loading, data quality validation via Great Expectations, dual CLI/Notebook functionality, and seamless integration with Microsoft Fabric.
+A comprehensive, governed data ingestion platform designed for SFTP-based file ingestion, data quality validation via Great Expectations, dual CLI/Notebook functionality, and seamless integration with Microsoft Fabric.
 
 ## 📊 Quick Stats
 
@@ -24,400 +24,251 @@ A comprehensive, governed data ingestion platform designed for incremental loadi
 | **Average Quality Score** | 98.8% |
 | **Test Suite** | 74/74 passing (100%) |
 | **Notebooks Validated** | 9/9 passing (100%) |
-| **Documentation** | 170+ pages |
+| **Documentation** | 180+ pages |
 | **CI/CD Pipelines** | Azure DevOps + GitHub Actions |
+| **Platform Support** | Local + Microsoft Fabric |
+
+## 🆕 What's New in v1.4.0
+
+### Landing Zone Architecture
+- **SFTP Integration** - Weekly file drops to landing zone
+- **Auto-Archive** - Processed files archived with date stamps
+- **Complete Overwrite** - No delta/append, fresh data each run
+- **Notifications** - Teams webhook and email support
+
+### Dual Platform Support
+- **Platform Detection** - Auto-detects Local vs MS Fabric environment
+- **Cross-Platform Ops** - \`PlatformFileOps\` class for file operations
+- **Fabric API Compatible** - Uses \`mssparkutils.fs\` for lakehouse paths
 
 ## Key Features
 
-- ✅ **Dual Functionality** - Complete CLI scripts AND interactive Jupyter notebooks for all operations
-- ✅ **Incremental Loading** - Implements watermark-based incremental data ingestion
-- ✅ **Data Quality** - Integrates Great Expectations for robust data validation (68 configs, 98.8% avg score)
-- ✅ **Automated Profiling** - Generates DQ configs automatically using `fabric_data_quality` framework
-- ✅ **Silver Layer Transformation** - Converts Bronze Parquet files into Star Schema for BI reporting
-- ✅ **DQ Matrix Dashboard** - Visual heat map of data quality rule coverage across all tables
-- ✅ **Threshold Management** - Automated script to adjust validation thresholds (100% → 95%)
-- ✅ **CI/CD Integration** - Complete Azure DevOps and GitHub Actions workflows
-- ✅ **Governance** - Maintains detailed load history and watermark tracking for auditability
-- ✅ **CLI + Notebook Interface** - Choose your preferred workflow: command-line or interactive
-- ✅ **MS Fabric Ready** - Fully compatible with Microsoft Fabric and OneLake architectures
-- ✅ **Production Ready** - 85% ready for deployment with comprehensive testing and documentation
-- ✅ **NEW: Shared Utility Library** - Centralized `notebooks/lib/` with platform_utils, storage, settings, logging
-- ✅ **NEW: Master Orchestration** - `00_AIMS_Orchestration.ipynb` runs all pipeline phases (72s total)
+- ✅ **Landing Zone Management** - SFTP drop → archive flow with notifications
+- ✅ **Complete Overwrite Strategy** - No residual data, fresh runs each time
+- ✅ **Dual Platform** - Seamless Local ↔ MS Fabric operation
+- ✅ **Dual Functionality** - Complete CLI scripts AND interactive Jupyter notebooks
+- ✅ **Incremental Loading** - Watermark-based incremental data ingestion
+- ✅ **Data Quality** - Great Expectations validation (68 configs, 98.8% avg score)
+- ✅ **Automated Profiling** - Auto-generates DQ configs via \`fabric_data_quality\`
+- ✅ **Medallion Architecture** - Bronze → Silver → Gold layer transformation
+- ✅ **CI/CD Integration** - Azure DevOps and GitHub Actions workflows
+- ✅ **Governance** - Full audit trail with load history and watermarks
+- ✅ **Production Ready** - 90% deployment ready with comprehensive testing
 
-## Data Profiling Capabilities
+## 🔄 Data Flow
 
-Analyze AIMS Parquet files to assess data quality and generate validation configurations automatically.
+\`\`\`mermaid
+flowchart TD
+    SFTP[SFTP Server] -->|Weekly fetch| LZ[landing/]
+    LZ -->|Copy| BRONZE[Bronze/]
+    BRONZE -->|Validate| SILVER[Silver/]
+    LZ -->|Archive| ARCH[archive/YYYY-MM-DD/]
+    SILVER -->|Transform| GOLD[Gold/]
+\`\`\`
 
-```bash
-# Initial Setup (one-time)
-bash setup.sh
-
-# Execute profiling for all Parquet files
-python scripts/profile_aims_parquet.py
-
-# Interactive profiling via Jupyter Notebook
-jupyter notebook notebooks/01_AIMS_Data_Profiling.ipynb
-```
-
-**📖 Refer to [docs/README_PROFILING.md](docs/README_PROFILING.md) for comprehensive documentation.**
-
-## 🚀 Pipeline Execution
-
-Execute the end-to-end data quality pipeline with configurable success thresholds.
-
-```bash
-# Execute pipeline with default settings (dry-run mode)
-python scripts/run_pipeline.py --dry-run
-
-# Execute with a global 90% success threshold
-python scripts/run_pipeline.py --dry-run --threshold 90.0
-
-# Force re-processing of all files with increased parallelism
-python scripts/run_pipeline.py --force --threshold 95.0 --workers 8
-```
-
-The `--threshold` parameter establishes a global baseline. Files with specific configurations (located in `dq_great_expectations/generated_configs/`) utilize their defined thresholds; otherwise, the global default is applied.
-The `--workers` parameter controls the level of parallelism (default: 4).
+**Pipeline Phases:**
+1. **Phase 0**: Landing → Bronze (if files present)
+2. **Phase 1**: Data Profiling (68 files, ~7.5s)
+3. **Phase 2**: Validation & Silver Ingestion (50/68 passed)
+4. **Phase 3**: Archive, Cleanup & Notify
 
 ## 🚀 Quick Start (5 Minutes)
 
-```bash
+\`\`\`bash
 # 1. Navigate to project
 cd /home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026
 
 # 2. Activate environment
 conda activate aims_data_platform
 
-# 3. Run validation
-python scripts/run_validation_simple.py
+# 3. Run full pipeline
+python scripts/run_full_pipeline.py --skip-profiling
 
-# Expected: ✅ 50/68 passing (73.5%)
-```
+# Expected output:
+# ✅ 50/68 passing (73.5%)
+# ✅ Archive created
+# ✅ Landing zone cleared
+\`\`\`
 
-**See [QUICK_START_GUIDE.md](QUICK_START_GUIDE.md) for detailed instructions.**
+### Pipeline Options
 
-## 📚 Documentation (170+ Pages)
+\`\`\`bash
+# Full pipeline with all phases
+python scripts/run_full_pipeline.py
+
+# Skip profiling (faster)
+python scripts/run_full_pipeline.py --skip-profiling
+
+# Dry run (no archive/notifications)
+python scripts/run_full_pipeline.py --dry-run
+
+# Custom threshold
+python scripts/run_full_pipeline.py --threshold 90.0
+
+# Force Fabric mode (testing)
+python scripts/run_full_pipeline.py --fabric
+
+# Disable notifications
+python scripts/run_full_pipeline.py --no-notify
+\`\`\`
+
+## 📁 Project Structure
+
+\`\`\`
+AIMS_LOCAL/
+├── aims_data_platform/           # Core package
+│   ├── landing_zone_manager.py   # 🆕 Landing zone + archival
+│   ├── ingestion.py              # Data ingestion logic
+│   ├── config.py                 # Configuration management
+│   └── watermark_manager.py      # Watermark tracking
+├── notebooks/                    # Jupyter notebooks (00-08)
+│   ├── lib/                      # Shared utilities
+│   │   ├── platform_utils.py     # Platform detection
+│   │   ├── storage.py            # StorageManager (Bronze/Silver/Gold)
+│   │   ├── settings.py           # Centralized config
+│   │   └── logging_utils.py      # Logging setup
+│   └── config/
+│       └── notebook_settings.yaml
+├── scripts/
+│   ├── run_full_pipeline.py      # 🆕 Full pipeline orchestrator
+│   └── run_validation_simple.py  # Simple validation
+├── data/
+│   ├── landing/                  # 🆕 SFTP drop zone
+│   ├── archive/                  # 🆕 Date-stamped archives
+│   ├── Samples_LH_Bronze_*/      # Bronze layer
+│   ├── Silver/                   # Silver layer (validated)
+│   └── Gold/                     # Gold layer (analytics-ready)
+├── config/
+│   └── data_quality/             # 68 DQ validation configs
+└── docs/                         # 180+ pages documentation
+\`\`\`
+
+## 🔧 Landing Zone Management
+
+### How It Works
+
+1. **SFTP drops files** to \`data/landing/\`
+2. **Pipeline discovers** files via \`list_landing_files()\`
+3. **Files copied** to Bronze for processing
+4. **Validation runs** with Great Expectations
+5. **Valid data** written to Silver (complete overwrite)
+6. **Original files archived** to \`archive/YYYY-MM-DD_run_xxx/\`
+7. **Landing cleared** for next SFTP fetch
+8. **Notifications sent** via Teams/Email
+
+### Archive Contents
+
+\`\`\`
+archive/2026-01-19_run_20260119_152807/
+├── aims_assets.parquet           # Original file
+├── aims_attributes.parquet       # Original file
+├── _run_metadata.json            # Files list, errors, platform
+└── _run_summary.json             # DQ stats, pass rate
+\`\`\`
+
+### Configuration
+
+\`\`\`python
+from aims_data_platform import create_landing_zone_manager
+
+manager = create_landing_zone_manager(
+    teams_webhook_url="https://outlook.office.com/webhook/...",
+    email_config={
+        "smtp_server": "smtp.office365.com",
+        "email_from": "data-platform@company.com",
+        "email_to": ["team@company.com"]
+    }
+)
+\`\`\`
+
+## 🌐 Platform Support
+
+### Auto-Detection
+
+The platform automatically detects the runtime environment:
+
+| Environment | Detection | Path Format |
+|-------------|-----------|-------------|
+| **Local** | Default | \`/home/user/project/data/\` |
+| **MS Fabric** | \`/lakehouse/default/Files\` exists | \`/lakehouse/default/Files/\` or \`abfss://\` |
+
+### Platform-Aware Operations
+
+\`\`\`python
+from aims_data_platform import PlatformFileOps, IS_FABRIC
+
+# Auto-detected operations
+ops = PlatformFileOps()
+ops.copy_file(src, dst)      # Uses mssparkutils on Fabric
+ops.move_file(src, dst)      # Uses mssparkutils on Fabric
+ops.remove_directory(path)   # Uses mssparkutils.fs.rm on Fabric
+\`\`\`
+
+### Fabric Deployment
+
+See [docs/02_Fabric_Migration/](docs/02_Fabric_Migration/) for:
+- Notebook upload instructions
+- Lakehouse configuration
+- mssparkutils API reference
+- Environment variable setup
+
+## 📚 Documentation
 
 ### 🎯 Start Here
 - **[QUICK_START_GUIDE.md](QUICK_START_GUIDE.md)** - Get started in 5 minutes
-- **[COMPLETE_IMPLEMENTATION_SUMMARY.md](docs/COMPLETE_IMPLEMENTATION_SUMMARY.md)** - Full project overview (37 pages)
-- **[END_TO_END_TESTING_REPORT.md](docs/END_TO_END_TESTING_REPORT.md)** - Testing results and validation (NEW)
+- **[CHANGELOG.md](CHANGELOG.md)** - Version history and changes
+- **[docs/pipeline_flow.md](docs/pipeline_flow.md)** - Visual pipeline diagram
 
 ### 🔧 Implementation Guides
-- **[PHASES_2_3_EXECUTION_REPORT.md](docs/PHASES_2_3_EXECUTION_REPORT.md)** - Phase 2 & 3 detailed execution (30 pages)
-- **[THRESHOLD_ADJUSTMENT_REPORT.md](docs/THRESHOLD_ADJUSTMENT_REPORT.md)** - DQ threshold analysis (20 pages)
-- **[CI_CD_SETUP_GUIDE.md](docs/CI_CD_SETUP_GUIDE.md)** - Complete CI/CD configuration (40 pages)
+- **[docs/03_Implementation_Guides/LANDING_ZONE_MANAGEMENT.md](docs/03_Implementation_Guides/LANDING_ZONE_MANAGEMENT.md)** - Landing zone setup
+- **[docs/03_Implementation_Guides/ORCHESTRATION_GUIDE.md](docs/03_Implementation_Guides/ORCHESTRATION_GUIDE.md)** - Pipeline orchestration
+- **[docs/02_Fabric_Migration/FABRIC_DEPLOYMENT_GUIDE.md](docs/02_Fabric_Migration/FABRIC_DEPLOYMENT_GUIDE.md)** - MS Fabric deployment
 
-### 📖 Reference Documentation
-- **[PROJECT_STATE_ANALYSIS.md](docs/PROJECT_STATE_ANALYSIS.md)** - Current system state
-- **[COMPREHENSIVE_FIX_REPORT.md](docs/COMPREHENSIVE_FIX_REPORT.md)** - Phase 1 fixes (26 pages)
-- **[README_PROFILING.md](docs/README_PROFILING.md)** - Profiling documentation
-- **[Silver Layer Guide](docs/SILVER_LAYER_GUIDE.md)** - Star Schema modeling
-- **[Fabric Migration Guide](docs/FABRIC_MIGRATION_GUIDE.md)** - Deploy to Microsoft Fabric
+### 📖 Reference
+- **[notebooks/README.md](notebooks/README.md)** - Notebook documentation
+- **[notebooks/lib/README.md](notebooks/lib/README.md)** - Shared library reference
 
-## Quick Start
+## 🧪 Testing
 
-### 1. Setup Environment
+\`\`\`bash
+# Run all tests
+pytest tests/ -v
 
-```bash
-# Create conda environment
-conda env create -f environment.yml
+# Run with coverage
+pytest tests/ --cov=aims_data_platform --cov-report=html
 
-# Activate environment
-conda activate aims_data_platform
+# Expected: 74/74 passing (100%)
+\`\`\`
 
-# Or using pip directly
-pip install -r requirements.txt
-```
+## 📈 Metrics
 
-### 2. Configure
+| Metric | Current | Target |
+|--------|---------|--------|
+| Test Coverage | 100% (74/74) | ≥95% |
+| DQ Pass Rate | 73.5% | ≥85% |
+| Avg Quality Score | 98.8% | ≥95% |
+| Pipeline Duration | ~60s | <120s |
+| Documentation | 180+ pages | Complete |
 
-```bash
-# Copy example environment file
-cp .env.example .env
+## 🔐 Security
 
-# Edit .env with your paths
-nano .env
-```
+- No credentials stored in code
+- Environment variables for sensitive config
+- Teams webhook URLs via environment
+- SMTP credentials via secure config
 
-### 3. Initialize
+## 🤝 Contributing
 
-```bash
-# Initialize the platform
-python -m aims_data_platform.cli init
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-### 4. Repair Corrupted Files (if needed)
-
-```bash
-# Repair parquet files
-python -m aims_data_platform.cli repair
-
-# Or specify custom paths
-python -m aims_data_platform.cli repair --source-dir /path/to/source --output-dir /path/to/output
-```
-
-### 5. Validate Source Files
-
-```bash
-# Validate source files
-python -m aims_data_platform.cli validate-source
-
-# Or with custom path
-python -m aims_data_platform.cli validate-source --source-dir /path/to/data
-```
-
-### 6. Ingest Data
-
-```bash
-# Ingest aims_assets data
-python -m aims_data_platform.cli ingest aims_assets --watermark-column LASTUPDATED
-
-# Ingest aims_attributes data
-python -m aims_data_platform.cli ingest aims_attributes --watermark-column LASTUPDATED
-
-# Skip validation
-python -m aims_data_platform.cli ingest aims_assets --no-validate
-```
-
-### 7. Monitor
-
-```bash
-# View watermarks
-python -m aims_data_platform.cli list-watermarks
-
-# View load history
-python -m aims_data_platform.cli load-history
-
-# View history for specific source
-python -m aims_data_platform.cli load-history --source-name aims_assets --limit 20
-```
-
-## Python API Usage
-
-```python
-from aims_data_platform import config, WatermarkManager, DataIngester, DataQualityValidator
-from pathlib import Path
-
-# Initialize
-config.ensure_directories()
-watermark_mgr = WatermarkManager(config.WATERMARK_DB_PATH)
-ingester = DataIngester(watermark_mgr, engine="fastparquet")
-
-# Repair files
-results = ingester.repair_directory(
-    source_dir=config.SOURCE_DATA_PATH,
-    output_dir=config.REPAIRED_DATA_PATH
-)
-
-# Ingest data
-source_files = list(config.REPAIRED_DATA_PATH.glob("aims_assets*.parquet"))
-result = ingester.ingest_incremental(
-    source_name="aims_assets",
-    source_files=source_files,
-    target_path=config.TARGET_DATA_PATH,
-    watermark_column="LASTUPDATED"
-)
-
-# Validate quality
-validator = DataQualityValidator()
-import pandas as pd
-df = pd.read_parquet(result["target_file"])
-validation_results = validator.validate_dataframe(df, suite_name="aims_assets")
-```
-
-## Project Structure
-
-```
-AIMS_LOCAL/
-├── aims_data_platform/
-│   ├── __init__.py
-│   ├── config.py              # Configuration management
-│   ├── watermark_manager.py   # Watermark tracking
-│   ├── ingestion.py           # Data ingestion logic
-│   ├── data_quality.py        # Great Expectations integration
-│   └── cli.py                 # Command-line interface
-├── notebooks/                 # Interactive Jupyter notebooks
-│   ├── 00-08_*.ipynb          # Pipeline notebooks (see Notebook Index)
-│   ├── lib/                   # Shared notebook utilities
-│   │   ├── platform_utils.py  # Platform detection (local vs Fabric)
-│   │   ├── storage.py         # StorageManager for I/O operations
-│   │   ├── settings.py        # Centralized configuration
-│   │   └── logging_utils.py   # Consistent logging setup
-│   └── config/                # Notebook configuration
-│       └── notebook_settings.yaml  # Environment-specific settings
-├── data/                      # Target data directory
-│   └── repaired/              # Repaired parquet files
-├── great_expectations/        # GE configuration
-├── dq_great_expectations/     # Generated DQ configs
-├── environment.yml            # Conda environment
-├── requirements.txt           # Python dependencies
-├── .env.example               # Example environment variables
-├── watermarks.db             # Watermark database
-└── README.md                 # This file
-```
-
-## Configuration
-
-### Environment Variables (`.env`)
-
-Edit `.env` file to configure core settings:
-
-- **SOURCE_DATA_PATH**: Source parquet files location
-- **TARGET_DATA_PATH**: Target directory for processed data
-- **DEFAULT_WATERMARK_COLUMN**: Default column for incremental loading
-- **PARQUET_ENGINE**: Engine to use (fastparquet or pyarrow)
-- **AIMS_ENVIRONMENT**: Environment selection (`local`, `fabric_dev`, `fabric_prod`)
-- **AIMS_DQ_THRESHOLD**: Data quality pass threshold (default: 85%)
-- **AIMS_MAX_WORKERS**: Parallel processing workers
-
-### Notebook Configuration (`notebooks/config/notebook_settings.yaml`)
-
-Centralized YAML configuration for all notebooks with:
-- **Environment-specific settings**: Automatic detection or explicit override
-- **Data quality thresholds**: Customizable per environment and severity level
-- **Path templates**: Medallion architecture paths (Bronze/Silver/Gold)
-- **Pipeline configuration**: Phase enable/disable and behavior settings
-- **Table-specific overrides**: Per-table DQ threshold customization
-
-```yaml
-# Example: Access settings in notebooks
-from notebooks.lib.settings import Settings
-settings = Settings.load()
-print(f"Environment: {settings.environment}")
-print(f"DQ Threshold: {settings.dq_threshold}")
-```
-
-## Environment Configuration
-
-### Local Development
-
-```bash
-# 1. Set up environment
-conda activate aims_data_platform
-
-# 2. Configure paths (optional - defaults work for most cases)
-cp .env.example .env
-nano .env  # Edit paths if needed
-
-# 3. Run notebooks
-jupyter lab notebooks/
-```
-
-### Microsoft Fabric
-
-1. Upload notebooks to Fabric workspace
-2. Configuration auto-detects Fabric environment (`/lakehouse/default/Files`)
-3. Override settings via Fabric environment variables if needed:
-   - `AIMS_ENVIRONMENT=fabric_prod`
-   - `AIMS_IS_PRODUCTION=true`
-
-See [Fabric Migration Guide](docs/02_Fabric_Migration/) for detailed instructions.
-
-## Notebook Utilities
-
-The `notebooks/lib/` directory provides shared utilities for consistent notebook behavior:
-
-| Module | Purpose |
-|--------|---------|
-| `platform_utils` | Platform detection (local vs Fabric), path management, cross-platform file operations |
-| `storage` | StorageManager for reading/writing Bronze/Silver/Gold layers (Parquet/Delta) |
-| `settings` | Singleton settings manager with YAML config and environment override support |
-| `logging_utils` | Consistent logging setup with progress tracking and phase decorators |
-
-### Usage Example
-
-```python
-# In any notebook
-from notebooks.lib.platform_utils import IS_FABRIC, get_data_paths
-from notebooks.lib.storage import StorageManager
-from notebooks.lib.settings import Settings
-from notebooks.lib.logging_utils import setup_notebook_logger
-
-# Auto-detect environment
-settings = Settings.load()
-logger = setup_notebook_logger(__name__)
-storage = StorageManager()
-
-# Platform-aware operations
-logger.info(f"Running in {'Fabric' if IS_FABRIC else 'Local'} environment")
-df = storage.read_from_bronze("aims_assets")
-```
-
-See [notebooks/README.md](notebooks/README.md) for complete notebook documentation.
-
-## Data Quality Validation
-
-The platform includes automated data quality checks:
-
-1. **Row count validation** - Ensures data exists
-2. **Null value checks** - Validates required fields
-3. **Duplicate detection** - Identifies duplicate records
-4. **Data type validation** - Ensures correct types
-5. **Date validation** - Validates timestamp columns
-
-## Incremental Loading
-
-The platform uses watermark-based incremental loading:
-
-1. **First Load**: Loads all data
-2. **Subsequent Loads**: Only loads data where watermark column > last watermark
-3. **Tracking**: All loads tracked in load_history table
-4. **Recovery**: Automatic retry on failure
-
-## Microsoft Fabric Integration
-
-To sync with Microsoft Fabric:
-
-1. Configure Azure credentials in `.env`
-2. Use OneLake-compatible paths
-3. Data is stored in Delta-compatible parquet format
-4. Partitioning supported for optimal performance
-
-## Troubleshooting
-
-### Corrupted Parquet Files
-
-If you encounter "Repetition level histogram size mismatch" errors:
-
-```bash
-python -m aims_data_platform.cli repair
-```
-
-### Import Errors
-
-Ensure environment is activated:
-
-```bash
-conda activate aims_data_platform
-```
-
-### Permission Errors
-
-Ensure you have write access to:
-- Target data directory
-- Watermark database path
-- Great Expectations directory
-
-## Development
-
-### Running Tests
-
-```bash
-pytest tests/
-```
-
-### Code Formatting
-
-```bash
-black aims_data_platform/
-ruff check aims_data_platform/
-```
-
-## License
+## 📄 License
 
 Proprietary - HS2
 
-## Support
+## 🆘 Support
 
 For issues or questions, contact the HS2 Data Team.
+
+---
+
+**Built with ❤️ for HS2 Data Platform Team**

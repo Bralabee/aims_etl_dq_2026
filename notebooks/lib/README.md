@@ -1,16 +1,31 @@
 # Notebook Shared Utilities Library
 
+**Version:** 1.4.0  
+**Last Updated:** 2026-01-19
+
 This directory contains shared utility modules for all AIMS Data Platform notebooks, providing centralized configuration, platform detection, storage abstraction, and logging.
 
 ## 📦 Module Overview
 
-| Module | Purpose |
-|--------|---------|
-| `platform_utils.py` | Platform detection (local vs Fabric) and base directory resolution |
-| `storage.py` | StorageManager class for medallion architecture writes |
-| `settings.py` | Singleton Settings class for centralized configuration |
-| `logging_utils.py` | Structured logging with timed operations |
-| `config.py` | Configuration loading and environment management |
+| Module | Purpose | v1.4.0 Updates |
+|--------|---------|----------------|
+| `platform_utils.py` | Platform detection (local vs Fabric) and base directory resolution | Cross-platform file ops |
+| `storage.py` | StorageManager class for medallion architecture writes | `clear_layer()` method added |
+| `settings.py` | Singleton Settings class for centralized configuration | Landing zone paths |
+| `logging_utils.py` | Structured logging with timed operations | - |
+| `config.py` | Configuration loading and environment management | Archive config |
+
+## 🆕 v1.4.0 Features
+
+### Complete Overwrite Strategy
+- `StorageManager.clear_layer()` clears existing data before writes
+- `_write_parquet()` removes existing table directories
+- No delta/append behavior - fresh data each pipeline run
+
+### Platform-Aware Operations
+- `PlatformFileOps` class for cross-platform file operations
+- Uses `mssparkutils.fs.rm()` on Fabric, `shutil.rmtree()` locally
+- Auto-detects platform via `IS_FABRIC` flag
 
 ## 🚀 Quick Start
 
@@ -70,6 +85,27 @@ storage.write_to_silver(df, "table_name")
 
 # Access storage format
 print(storage.storage_format)  # 'parquet' or 'delta'
+
+# 🆕 v1.4.0: Clear a layer before writing
+storage.clear_layer("Silver")  # Platform-aware clearing
+```
+
+#### Clear Layer Method (v1.4.0)
+
+The `clear_layer()` method provides platform-aware directory clearing:
+
+```python
+def clear_layer(self, layer: str) -> None:
+    """
+    Clear all data from a medallion layer.
+    
+    Platform-aware:
+    - Fabric: Uses mssparkutils.fs.rm(path, recurse=True)
+    - Local: Uses shutil.rmtree()
+    
+    Args:
+        layer: One of 'bronze', 'silver', 'gold'
+    """
 ```
 
 ### `settings.py`
@@ -85,6 +121,10 @@ silver_dir = settings.silver_dir
 gold_dir = settings.gold_dir
 config_dir = settings.config_dir
 validation_results_dir = settings.validation_results_dir
+
+# 🆕 v1.4.0: Landing zone paths
+landing_dir = settings.landing_dir
+archive_dir = settings.archive_dir
 
 # Access settings
 max_workers = settings.max_workers
@@ -102,110 +142,58 @@ if settings.pipeline_phases.get("profiling", True):
 
 ### `logging_utils.py`
 
-Structured logging with timing utilities.
+Structured logging with timing support.
 
 ```python
-from notebooks.lib.logging_utils import setup_notebook_logger, timed_operation, log_phase
+from notebooks.lib.logging_utils import get_logger, timed_operation
 
-# Setup logger for a notebook
-logger = setup_notebook_logger("my_notebook")
-logger.info("Starting process...")
+logger = get_logger(__name__)
 
-# Use timed operations
-with timed_operation("Data Loading", logger):
-    df = pd.read_parquet("file.parquet")
-# Outputs: "⏱️ Data Loading completed in 1.23s"
-
-# Log phase boundaries
-log_phase(logger, "Phase 1", "Profiling", "Starting data profiling...")
+# Timed operation context manager
+with timed_operation(logger, "Processing files"):
+    # Your code here
+    pass
+# Outputs: "Processing files completed in 1.23s"
 ```
 
-## ⚙️ Configuration
+## 🌐 Platform Support
 
-Settings are loaded from `notebooks/config/notebook_settings.yaml`:
+### Auto-Detection
 
-```yaml
-# Environment detection
-environment: auto  # auto, local, or fabric
+| Environment | Detection | API Used |
+|-------------|-----------|----------|
+| **Local** | Default | `pathlib`, `shutil` |
+| **MS Fabric** | `/lakehouse/default/Files` exists | `mssparkutils.fs.*` |
 
-# Data paths (relative to base_dir)
-paths:
-  bronze: data/Samples_LH_Bronze_Aims_26_parquet
-  silver: data/Silver
-  gold: data/Gold
-  config: config/data_quality
-  validation_results: notebooks/config/validation_results
-
-# Performance settings
-performance:
-  max_workers: 4
-  sample_size: 100000
-  batch_size: 10
-
-# DQ thresholds
-dq_thresholds:
-  critical: 100.0
-  high: 95.0
-  medium: 80.0
-  low: 50.0
-
-# Pipeline phases
-pipeline_phases:
-  profiling: true
-  ingestion: true
-  monitoring: true
-```
-
-## 🔄 Fallback Behavior
-
-All modules include fallback mechanisms for when imports fail:
+### Fabric API Compatibility (v1.4.0)
 
 ```python
-try:
-    from notebooks.config import settings
-    BRONZE_DIR = settings.bronze_dir
-except ImportError:
-    # Fallback to inline configuration
-    IS_FABRIC = Path("/lakehouse/default/Files").exists()
-    if IS_FABRIC:
-        BRONZE_DIR = Path("/lakehouse/default/Files/Bronze")
-    else:
-        BRONZE_DIR = Path.cwd().parent / "data/Bronze"
+# File operations are automatically platform-aware
+from aims_data_platform import PlatformFileOps
+
+ops = PlatformFileOps()
+ops.copy_file(src, dst)        # fs.cp() on Fabric
+ops.move_file(src, dst)        # fs.mv() on Fabric (no recurse param)
+ops.remove_directory(path)     # fs.rm(path, recurse=True) on Fabric
+ops.list_files(path)           # fs.ls() with isDir handling on Fabric
 ```
 
-## 🧪 Testing Utilities
-
-```python
-# Verify all modules are working
-from notebooks.lib.platform_utils import IS_FABRIC
-from notebooks.lib.storage import StorageManager
-from notebooks.config import settings
-from notebooks.lib.logging_utils import get_logger
-
-print(f"Platform: {'Fabric' if IS_FABRIC else 'Local'}")
-print(f"Environment: {settings.environment}")
-print(f"Storage format: {settings.storage_format}")
-print(f"Bronze dir exists: {settings.bronze_dir.exists()}")
-```
-
-## 📁 File Structure
+## 📁 Directory Structure
 
 ```
-notebooks/
-├── lib/
-│   ├── __init__.py
-│   ├── platform_utils.py    # IS_FABRIC, get_base_dir(), read_parquet_safe()
-│   ├── storage.py           # StorageManager class
-│   ├── settings.py          # Settings singleton
-│   ├── logging_utils.py     # Logger, timed_operation(), log_phase()
-│   └── config.py            # Configuration utilities
-├── config/
-│   ├── notebook_settings.yaml
-│   └── validation_results/
-└── 00_AIMS_Orchestration.ipynb  # Master orchestration notebook
+notebooks/lib/
+├── __init__.py           # Package exports
+├── platform_utils.py     # Platform detection + file ops
+├── storage.py            # StorageManager + medallion writes
+├── settings.py           # Singleton config
+├── logging_utils.py      # Logging utilities
+├── config.py             # Config loading
+└── README.md             # This file
 ```
 
-## 📝 Version History
+## 🔗 Related Documentation
 
-- **v1.3.0** (2026-01-19): Initial release with all modules
-- Platform detection, storage abstraction, settings management, logging utilities
+- [Main README](../../README.md)
+- [Landing Zone Guide](../../docs/03_Implementation_Guides/LANDING_ZONE_MANAGEMENT.md)
+- [Fabric Deployment](../../docs/02_Fabric_Migration/FABRIC_DEPLOYMENT_GUIDE.md)
+- [Pipeline Flow](../../docs/pipeline_flow.md)

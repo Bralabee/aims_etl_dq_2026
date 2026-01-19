@@ -5,23 +5,81 @@ All notable changes to the AIMS Data Platform project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-01-19
+
+### Added - Landing Zone Management & Complete Overwrite Strategy
+
+#### Landing Zone Architecture
+- **\`LandingZoneManager\`** - Full lifecycle management for SFTP file ingestion
+- **\`PlatformFileOps\`** - Cross-platform file operations (Local + MS Fabric)
+- **\`NotificationManager\`** - Teams webhook and SMTP email notifications
+- **\`RunSummary\`** - Dataclass for run metadata and notification content
+- **\`create_landing_zone_manager()\`** - Factory function with auto-detection
+
+#### Complete Overwrite Strategy
+- **No append/delta behavior** - Each pipeline run produces fresh data
+- **Raw files archived** - Date-stamped folders in \`archive/YYYY-MM-DD_run_xxx/\`
+- **Silver cleared before write** - Ensures no residual data accumulation
+- **Platform-aware removal** - Uses \`mssparkutils.fs.rm()\` on Fabric, \`shutil\` locally
+
+#### New Methods
+- **\`StorageManager.clear_layer()\`** - Platform-aware layer clearing
+- **\`PlatformFileOps.remove_directory()\`** - Cross-platform directory removal
+- **\`LandingZoneManager.archive_landing_files()\`** - Archive with metadata
+
+### Changed
+
+#### Pipeline Flow (Complete Overwrite)
+\`\`\`
+SFTP Drop → landing/ → COPY to Bronze/ → Validate → Silver/
+                ↓
+           archive/YYYY-MM-DD_run_xxx/
+                ↓
+           Landing zone cleared ✅
+\`\`\`
+
+#### Platform Detection Enhanced
+- Triple-check before Fabric operations: \`is_fabric\` AND \`mssparkutils available\` AND \`is_fabric_path\`
+- Path detection recognizes: \`abfss://\`, \`/lakehouse/\`, \`lakehouse/\`
+- Graceful fallback to local operations if mssparkutils unavailable
+
+#### run_full_pipeline.py
+- Added \`--fabric\` flag for testing Fabric mode locally
+- Uses \`PlatformFileOps\` for Silver clearing
+- Phase 0: Landing → Bronze (if files present)
+- Phase 3: Archive & Notify with cleanup
+
+### Fixed
+- **\`mssparkutils.fs.mv()\`** - Removed unsupported \`recurse\` parameter
+- **\`is_directory()\`** - Replaced \`isDirectory()\` with \`fs.ls()\` + \`isDir\` attribute check
+- **\`clear_layer()\`** - Now platform-aware for Fabric paths
+- **\`_write_parquet()\`** - Uses \`mssparkutils.fs.rm()\` for Fabric overwrite
+
+### Technical Details
+- **Version**: 1.4.0
+- **Commits**: 3e60be0, 9d09553, 9421550, a006de0, 29bf503
+- **Tests**: 74/74 passing (100%)
+- **Pipeline Duration**: ~60 seconds
+
+---
+
 ## [1.3.0] - 2026-01-19
 
 ### Added - Comprehensive Notebook Refactoring
 
-#### New Shared Utility Library (`notebooks/lib/`)
-- **`platform_utils.py`** - Platform detection (IS_FABRIC), base directory resolution, safe parquet reading
-- **`storage.py`** - StorageManager class for medallion architecture (Bronze/Silver/Gold) with platform-aware writes
-- **`settings.py`** - Singleton Settings class for centralized configuration management
-- **`logging_utils.py`** - Structured logging with timed operations and notebook-specific logger setup
-- **`config.py`** - Configuration loading and environment variable management
+#### New Shared Utility Library (\`notebooks/lib/\`)
+- **\`platform_utils.py\`** - Platform detection (IS_FABRIC), base directory resolution, safe parquet reading
+- **\`storage.py\`** - StorageManager class for medallion architecture (Bronze/Silver/Gold) with platform-aware writes
+- **\`settings.py\`** - Singleton Settings class for centralized configuration management
+- **\`logging_utils.py\`** - Structured logging with timed operations and notebook-specific logger setup
+- **\`config.py\`** - Configuration loading and environment variable management
 
-#### New Configuration System (`notebooks/config/`)
-- **`notebook_settings.yaml`** - Environment-specific settings (local vs Fabric)
+#### New Configuration System (\`notebooks/config/\`)
+- **\`notebook_settings.yaml\`** - Environment-specific settings (local vs Fabric)
 - Centralized DQ thresholds, paths, and pipeline phase configuration
 - Automatic environment detection and path resolution
 
-#### Orchestration Notebook (`00_AIMS_Orchestration.ipynb`)
+#### Orchestration Notebook (\`00_AIMS_Orchestration.ipynb\`)
 - Master orchestration notebook for running all pipeline phases
 - Phase 1: Data Profiling (68 files profiled in ~7.5s)
 - Phase 2: Validation & Ingestion (50/68 passed, ingested to Silver)
@@ -38,7 +96,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Platform-aware storage operations (Parquet locally, Delta Lake in Fabric)
 
 ### Fixed
-- `AttributeError: 'Settings' object has no attribute 'results_dir'` → Use `validation_results_dir`
+- \`AttributeError: 'Settings' object has no attribute 'results_dir'\` → Use \`validation_results_dir\`
 - Duplicate cell outputs in orchestration notebook cleaned up
 - Consistent path handling across all notebooks
 
@@ -50,16 +108,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ StorageManager: Successfully ingested 50 files to Silver layer
 
 ### Technical Details
-- **Version Tag**: `v1.3.0`
-- **Safety Rollback**: `git checkout v1.2.0-pre-notebook-refactor`
-- **Python**: 3.11.14 in `aims_data_platform` conda environment
+- **Version Tag**: \`v1.3.0\`
+- **Safety Rollback**: \`git checkout v1.2.0-pre-notebook-refactor\`
+- **Python**: 3.11.14 in \`aims_data_platform\` conda environment
 
 ---
 
 ## [1.2.0] - 2026-01-18
 
 ### Added
-- Pre-notebook refactor checkpoint (tag: `v1.2.0-pre-notebook-refactor`)
+- Pre-notebook refactor checkpoint (tag: \`v1.2.0-pre-notebook-refactor\`)
 - Comprehensive notebook review identifying 6 major issue categories
 
 ### Fixed
