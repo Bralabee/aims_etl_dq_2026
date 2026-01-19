@@ -267,6 +267,20 @@ class Settings:
         phases = self.pipeline.get("phases", {})
         return [name for name, enabled in phases.items() if enabled]
     
+    @property
+    def pipeline_phases(self) -> Dict[str, bool]:
+        """
+        Get pipeline phases configuration dictionary.
+        
+        Returns:
+            Dictionary mapping phase names to enabled status.
+            
+        Example:
+            >>> settings.pipeline_phases.get("profiling", True)
+            True
+        """
+        return self.pipeline.get("phases", {})
+    
     # -------------------------------------------------------------------------
     # Path Helper Methods
     # -------------------------------------------------------------------------
