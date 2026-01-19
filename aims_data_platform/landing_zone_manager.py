@@ -119,7 +119,8 @@ class PlatformFileOps:
         
         try:
             if self.is_fabric and self._mssparkutils and self._is_fabric_path(src_str):
-                self._mssparkutils.fs.mv(src_str, dst_str, recurse=False)
+                # Note: mssparkutils.fs.mv() doesn't have recurse parameter for single files
+                self._mssparkutils.fs.mv(src_str, dst_str)
             else:
                 shutil.move(src_str, dst_str)
             return True
@@ -219,7 +220,24 @@ class PlatformFileOps:
         
         try:
             if self.is_fabric and self._mssparkutils and self._is_fabric_path(path_str):
-                return self._mssparkutils.fs.isDirectory(path_str)
+                # Use fs.ls on parent and check isDir attribute (more reliable than isDirectory)
+                try:
+                    # Try listing the path - if it succeeds and returns items, it's a directory
+                    items = self._mssparkutils.fs.ls(path_str)
+                    return True  # If we can list it, it's a directory
+                except Exception:
+                    # If ls fails, it might be a file or doesn't exist
+                    # Try checking parent directory
+                    parent = str(Path(path_str).parent)
+                    name = Path(path_str).name
+                    try:
+                        items = self._mssparkutils.fs.ls(parent)
+                        for item in items:
+                            if item.name == name:
+                                return item.isDir
+                    except Exception:
+                        pass
+                    return False
             else:
                 return Path(path).is_dir()
         except Exception:
