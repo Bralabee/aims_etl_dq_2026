@@ -523,6 +523,65 @@ class StorageManager:
             mode=mode
         )
     
+    def clear_layer(
+        self,
+        layer: MedallionLayer,
+        table_name: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        Clear all data from a medallion layer or a specific table.
+        
+        Use this before pipeline runs to ensure complete overwrite behavior.
+        Raw data is preserved in the archived landing zone with date stamps.
+        
+        Args:
+            layer: The layer to clear ("bronze", "silver", or "gold")
+            table_name: Optional specific table to clear. If None, clears all tables.
+        
+        Returns:
+            Dict with cleared file count and paths
+        
+        Example:
+            >>> sm = StorageManager()
+            >>> sm.clear_layer("silver")  # Clear entire Silver layer
+            >>> sm.clear_layer("gold", "customers")  # Clear specific table
+        """
+        import shutil
+        
+        layer_path = self._get_layer_path(layer)
+        cleared = {"layer": layer, "files_cleared": 0, "tables_cleared": [], "errors": []}
+        
+        if not layer_path.exists():
+            return cleared
+        
+        if table_name:
+            # Clear specific table
+            table_path = layer_path / table_name
+            if table_path.exists():
+                try:
+                    if table_path.is_dir():
+                        shutil.rmtree(table_path)
+                    else:
+                        table_path.unlink()
+                    cleared["tables_cleared"].append(table_name)
+                    cleared["files_cleared"] += 1
+                except Exception as e:
+                    cleared["errors"].append(f"{table_name}: {e}")
+        else:
+            # Clear all tables/files in layer
+            for item in layer_path.iterdir():
+                try:
+                    if item.is_dir():
+                        shutil.rmtree(item)
+                    else:
+                        item.unlink()
+                    cleared["tables_cleared"].append(item.name)
+                    cleared["files_cleared"] += 1
+                except Exception as e:
+                    cleared["errors"].append(f"{item.name}: {e}")
+        
+        return cleared
+    
     def read_from_bronze(
         self,
         table_name: str,
@@ -928,11 +987,22 @@ class StorageManager:
         partition_cols: Optional[List[str]] = None,
         mode: str = "overwrite"
     ) -> Path:
-        """Write DataFrame as Parquet."""
+        """Write DataFrame as Parquet.
+        
+        Note: In overwrite mode, completely removes existing table data first.
+        This ensures no residual data from previous runs (no append/delta behavior).
+        """
         if not PYARROW_AVAILABLE:
             raise ImportError("PyArrow is required for Parquet operations")
         
         table_path = layer_path / table_name
+        
+        # For overwrite mode: clear existing table directory first
+        # This ensures complete overwrite with no residual data
+        if mode == "overwrite" and table_path.exists():
+            import shutil
+            shutil.rmtree(table_path)
+        
         ensure_directory(table_path)
         
         # Convert to PyArrow table

@@ -149,12 +149,25 @@ def run_validation_and_ingestion(
     threshold: float = 85.0,
     workers: int = 4
 ) -> dict:
-    """Run validation and ingestion phase."""
+    """Run validation and ingestion phase.
+    
+    Note: This function performs a COMPLETE OVERWRITE of the Silver layer.
+    Raw data is archived in the landing zone, so no deltas are needed.
+    """
     logger.info("=" * 60)
     logger.info("PHASE 2: VALIDATION & INGESTION")
     logger.info("=" * 60)
     
     start_time = datetime.now()
+    
+    # Clear Silver directory for complete overwrite (no append/delta needed)
+    # Raw files are archived in landing zone with date stamps
+    if silver_dir.exists():
+        import shutil
+        for existing_file in silver_dir.glob("*.parquet"):
+            existing_file.unlink()
+            logger.debug(f"Cleared existing: {existing_file.name}")
+        logger.info(f"Cleared Silver directory for fresh write")
     
     parquet_files = list(bronze_dir.glob("*.parquet"))
     logger.info(f"Found {len(parquet_files)} parquet files to validate")
