@@ -3,6 +3,12 @@ from .config import config, Config
 from .fabric_config import FabricConfig
 from .watermark_manager import WatermarkManager
 from .ingestion import DataIngester, BaseDataIngester
+from .landing_zone_manager import (
+    LandingZoneManager,
+    NotificationManager,
+    RunSummary,
+    create_landing_zone_manager
+)
 from .schema_reconciliation import (
     parse_data_model,
     get_parquet_metadata,
@@ -25,7 +31,7 @@ from dq_framework import (
     FileSystemHandler,
 )
 
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 __all__ = [
     "config",
     "Config",
@@ -39,6 +45,10 @@ __all__ = [
     "DataLoader",
     "ConfigLoader",
     "FileSystemHandler",
+    "LandingZoneManager",
+    "NotificationManager",
+    "RunSummary",
+    "create_landing_zone_manager",
     "parse_data_model",
     "get_parquet_metadata",
     "format_size",

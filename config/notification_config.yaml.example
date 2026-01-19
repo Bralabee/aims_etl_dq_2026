@@ -1,0 +1,69 @@
+# AIMS Data Platform - Notification Configuration
+# Copy this file to notification_config.yaml and update with your values
+
+# Microsoft Teams Incoming Webhook
+# To get a webhook URL:
+# 1. Go to your Teams channel
+# 2. Click "..." > "Connectors" > "Incoming Webhook"
+# 3. Configure and copy the webhook URL
+teams:
+  enabled: true
+  webhook_url: "${TEAMS_WEBHOOK_URL}"  # Set via environment variable or replace with actual URL
+  
+  # Notification levels (which statuses trigger notifications)
+  notify_on:
+    - success
+    - partial
+    - failed
+
+# Email Notifications (via SMTP)
+email:
+  enabled: false
+  smtp_server: "smtp.office365.com"
+  smtp_port: 587
+  use_tls: true
+  username: "${SMTP_USERNAME}"
+  password: "${SMTP_PASSWORD}"
+  from_address: "aims-pipeline@yourcompany.com"
+  to_addresses:
+    - "data-team@yourcompany.com"
+    - "ops-team@yourcompany.com"
+
+# Archive Settings
+archive:
+  # Keep archives for this many days (0 = keep forever)
+  retention_days: 90
+  
+  # Archive directory structure
+  # Options: "date" (2026-01-19/), "date_run" (2026-01-19_run_001/), "run_only" (run_001/)
+  directory_format: "date_run"
+  
+  # Compress archived files (saves space but slower)
+  compress: false
+
+# Landing Zone Settings
+landing_zone:
+  # File patterns to process
+  file_patterns:
+    - "*.parquet"
+    - "*.csv"
+  
+  # Verify landing zone is empty after archival
+  verify_empty: true
+  
+  # Fail pipeline if landing zone not empty after processing
+  fail_on_not_empty: true
+
+# Notification Content Settings
+notifications:
+  # Include detailed file list in notifications
+  include_file_details: false
+  
+  # Maximum number of action items to include
+  max_action_items: 10
+  
+  # Include archive path in notifications
+  include_archive_path: true
+  
+  # Custom message prefix
+  message_prefix: "[AIMS Data Platform]"
