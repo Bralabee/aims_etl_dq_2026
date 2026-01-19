@@ -147,12 +147,14 @@ def run_validation_and_ingestion(
     config_dir: Path,
     silver_dir: Path,
     threshold: float = 85.0,
-    workers: int = 4
+    workers: int = 4,
+    is_fabric: bool = False
 ) -> dict:
     """Run validation and ingestion phase.
     
     Note: This function performs a COMPLETE OVERWRITE of the Silver layer.
     Raw data is archived in the landing zone, so no deltas are needed.
+    Works on both local filesystem and Microsoft Fabric.
     """
     logger.info("=" * 60)
     logger.info("PHASE 2: VALIDATION & INGESTION")
@@ -162,10 +164,11 @@ def run_validation_and_ingestion(
     
     # Clear Silver directory for complete overwrite (no append/delta needed)
     # Raw files are archived in landing zone with date stamps
-    if silver_dir.exists():
-        import shutil
-        for existing_file in silver_dir.glob("*.parquet"):
-            existing_file.unlink()
+    # Use platform-aware operations for Fabric compatibility
+    file_ops = PlatformFileOps(is_fabric=is_fabric)
+    if file_ops.exists(silver_dir):
+        for existing_file in file_ops.list_files(silver_dir, "*.parquet"):
+            file_ops.remove_file(existing_file)
             logger.debug(f"Cleared existing: {existing_file.name}")
         logger.info(f"Cleared Silver directory for fresh write")
     
@@ -316,7 +319,8 @@ def main():
         config_dir=paths['config_dir'],
         silver_dir=paths['silver_dir'],
         threshold=args.threshold,
-        workers=args.workers
+        workers=args.workers,
+        is_fabric=paths['is_fabric']
     )
     pipeline_results["phases"].append(("validation", validation_results))
     pipeline_results["summary"] = validation_results["summary"]

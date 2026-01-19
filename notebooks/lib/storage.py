@@ -534,6 +534,8 @@ class StorageManager:
         Use this before pipeline runs to ensure complete overwrite behavior.
         Raw data is preserved in the archived landing zone with date stamps.
         
+        Works on both local filesystem and Microsoft Fabric (mssparkutils).
+        
         Args:
             layer: The layer to clear ("bronze", "silver", or "gold")
             table_name: Optional specific table to clear. If None, clears all tables.
@@ -546,39 +548,48 @@ class StorageManager:
             >>> sm.clear_layer("silver")  # Clear entire Silver layer
             >>> sm.clear_layer("gold", "customers")  # Clear specific table
         """
-        import shutil
-        
         layer_path = self._get_layer_path(layer)
         cleared = {"layer": layer, "files_cleared": 0, "tables_cleared": [], "errors": []}
         
         if not layer_path.exists():
             return cleared
         
+        def remove_path(path: Path) -> bool:
+            """Platform-aware path removal."""
+            path_str = str(path)
+            try:
+                if IS_FABRIC and (path_str.startswith("/lakehouse") or path_str.startswith("abfss://")):
+                    # Use mssparkutils for Fabric paths
+                    try:
+                        from notebookutils import mssparkutils
+                    except ImportError:
+                        import mssparkutils
+                    mssparkutils.fs.rm(path_str, recurse=True)
+                else:
+                    # Local filesystem
+                    import shutil
+                    if path.is_dir():
+                        shutil.rmtree(path)
+                    else:
+                        path.unlink()
+                return True
+            except Exception as e:
+                cleared["errors"].append(f"{path.name}: {e}")
+                return False
+        
         if table_name:
             # Clear specific table
             table_path = layer_path / table_name
             if table_path.exists():
-                try:
-                    if table_path.is_dir():
-                        shutil.rmtree(table_path)
-                    else:
-                        table_path.unlink()
+                if remove_path(table_path):
                     cleared["tables_cleared"].append(table_name)
                     cleared["files_cleared"] += 1
-                except Exception as e:
-                    cleared["errors"].append(f"{table_name}: {e}")
         else:
             # Clear all tables/files in layer
             for item in layer_path.iterdir():
-                try:
-                    if item.is_dir():
-                        shutil.rmtree(item)
-                    else:
-                        item.unlink()
+                if remove_path(item):
                     cleared["tables_cleared"].append(item.name)
                     cleared["files_cleared"] += 1
-                except Exception as e:
-                    cleared["errors"].append(f"{item.name}: {e}")
         
         return cleared
     
@@ -991,6 +1002,7 @@ class StorageManager:
         
         Note: In overwrite mode, completely removes existing table data first.
         This ensures no residual data from previous runs (no append/delta behavior).
+        Works on both local filesystem and Microsoft Fabric.
         """
         if not PYARROW_AVAILABLE:
             raise ImportError("PyArrow is required for Parquet operations")
@@ -1000,8 +1012,17 @@ class StorageManager:
         # For overwrite mode: clear existing table directory first
         # This ensures complete overwrite with no residual data
         if mode == "overwrite" and table_path.exists():
-            import shutil
-            shutil.rmtree(table_path)
+            path_str = str(table_path)
+            if IS_FABRIC and (path_str.startswith("/lakehouse") or path_str.startswith("abfss://")):
+                # Use mssparkutils for Fabric paths
+                try:
+                    from notebookutils import mssparkutils
+                except ImportError:
+                    import mssparkutils
+                mssparkutils.fs.rm(path_str, recurse=True)
+            else:
+                import shutil
+                shutil.rmtree(table_path)
         
         ensure_directory(table_path)
         
