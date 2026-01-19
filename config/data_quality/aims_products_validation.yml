@@ -1,6 +1,6 @@
 validation_name: validation_aims_products
 description: Auto-generated validation for validation_aims_products
-generated_at: '2025-12-11T00:14:14.190109'
+generated_at: '2026-01-19T13:09:35.839947'
 data_source:
   type: runtime_dataframe
   profiled_rows: 0

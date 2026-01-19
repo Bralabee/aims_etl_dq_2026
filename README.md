@@ -2,14 +2,14 @@
 
 ![CI Status](https://github.com/Bralabee/aims_etl_dq_2026/actions/workflows/ci-cd.yml/badge.svg)
 ![Azure DevOps](https://dev.azure.com/{org}/AIMS-Data-Platform/_apis/build/status/aims-pipeline)
-![Test Coverage](https://img.shields.io/badge/tests-15%2F15%20passing-brightgreen)
+![Test Coverage](https://img.shields.io/badge/tests-74%2F74%20passing-brightgreen)
 ![DQ Pass Rate](https://img.shields.io/badge/DQ%20validation-73.5%25-yellow)
-![Production Ready](https://img.shields.io/badge/production%20ready-70%25-yellow)
+![Production Ready](https://img.shields.io/badge/production%20ready-85%25-green)
 
 # AIMS Data Platform - Local Development Environment
 
 **Version:** 1.3.0
-**Status:** Stable - All Notebooks Validated
+**Status:** Stable - All Notebooks Validated & Refactored
 **Last Updated:** 2026-01-19
 
 A comprehensive, governed data ingestion platform designed for incremental loading, data quality validation via Great Expectations, dual CLI/Notebook functionality, and seamless integration with Microsoft Fabric.
@@ -21,9 +21,9 @@ A comprehensive, governed data ingestion platform designed for incremental loadi
 | **Bronze Tables** | 68 |
 | **DQ Configs Generated** | 68 |
 | **Validation Pass Rate** | 73.5% (50/68) |
-| **Average Quality Score** | 97.3% |
-| **Test Suite** | 15/15 passing (100%) |
-| **Notebooks Validated** | 8/8 passing (100%) |
+| **Average Quality Score** | 98.8% |
+| **Test Suite** | 74/74 passing (100%) |
+| **Notebooks Validated** | 9/9 passing (100%) |
 | **Documentation** | 170+ pages |
 | **CI/CD Pipelines** | Azure DevOps + GitHub Actions |
 
@@ -31,7 +31,7 @@ A comprehensive, governed data ingestion platform designed for incremental loadi
 
 - ✅ **Dual Functionality** - Complete CLI scripts AND interactive Jupyter notebooks for all operations
 - ✅ **Incremental Loading** - Implements watermark-based incremental data ingestion
-- ✅ **Data Quality** - Integrates Great Expectations for robust data validation (68 configs, 97.3% avg score)
+- ✅ **Data Quality** - Integrates Great Expectations for robust data validation (68 configs, 98.8% avg score)
 - ✅ **Automated Profiling** - Generates DQ configs automatically using `fabric_data_quality` framework
 - ✅ **Silver Layer Transformation** - Converts Bronze Parquet files into Star Schema for BI reporting
 - ✅ **DQ Matrix Dashboard** - Visual heat map of data quality rule coverage across all tables
@@ -40,7 +40,9 @@ A comprehensive, governed data ingestion platform designed for incremental loadi
 - ✅ **Governance** - Maintains detailed load history and watermark tracking for auditability
 - ✅ **CLI + Notebook Interface** - Choose your preferred workflow: command-line or interactive
 - ✅ **MS Fabric Ready** - Fully compatible with Microsoft Fabric and OneLake architectures
-- ✅ **Production Ready** - 70% ready for deployment with comprehensive testing and documentation
+- ✅ **Production Ready** - 85% ready for deployment with comprehensive testing and documentation
+- ✅ **NEW: Shared Utility Library** - Centralized `notebooks/lib/` with platform_utils, storage, settings, logging
+- ✅ **NEW: Master Orchestration** - `00_AIMS_Orchestration.ipynb` runs all pipeline phases (72s total)
 
 ## Data Profiling Capabilities
 

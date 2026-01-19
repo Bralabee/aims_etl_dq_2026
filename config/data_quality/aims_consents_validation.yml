@@ -1,6 +1,6 @@
 validation_name: validation_aims_consents
 description: Auto-generated validation for validation_aims_consents
-generated_at: '2025-12-11T00:14:14.564122'
+generated_at: '2026-01-19T13:09:36.202479'
 data_source:
   type: runtime_dataframe
   profiled_rows: 5162

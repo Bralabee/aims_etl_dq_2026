@@ -1,6 +1,6 @@
 validation_name: validation_aims_secondaryassetclasscodes
 description: Auto-generated validation for validation_aims_secondaryassetclasscodes
-generated_at: '2025-12-11T00:14:14.632918'
+generated_at: '2026-01-19T13:09:36.256957'
 data_source:
   type: runtime_dataframe
   profiled_rows: 2329
