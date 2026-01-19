@@ -1,6 +1,6 @@
 validation_name: validation_aims_projectitems
 description: Auto-generated validation for validation_aims_projectitems
-generated_at: '2026-01-19T13:09:36.030926'
+generated_at: '2026-01-19T13:28:50.868008'
 data_source:
   type: runtime_dataframe
   profiled_rows: 1

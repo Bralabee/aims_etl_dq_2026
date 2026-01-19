@@ -1,6 +1,6 @@
 validation_name: validation_aims_assetclassattributes
 description: Auto-generated validation for validation_aims_assetclassattributes
-generated_at: '2026-01-19T13:09:39.731436'
+generated_at: '2026-01-19T13:28:54.728641'
 data_source:
   type: runtime_dataframe
   profiled_rows: 100000

@@ -1,6 +1,6 @@
 validation_name: validation_aims_links
 description: Auto-generated validation for validation_aims_links
-generated_at: '2026-01-19T13:09:36.397518'
+generated_at: '2026-01-19T13:28:51.276932'
 data_source:
   type: runtime_dataframe
   profiled_rows: 28631

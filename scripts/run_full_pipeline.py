@@ -2,13 +2,17 @@
 """
 AIMS Data Platform - Full Pipeline Orchestrator with Landing Zone Management
 
-This script orchestrates the complete data pipeline:
+This script orchestrates the complete data pipeline on both Local and MS Fabric:
 1. Move files from landing zone to Bronze
 2. Run data profiling and validation
 3. Ingest valid data to Silver layer
 4. Archive processed files with date stamps
 5. Clear landing zone for next SFTP fetch
 6. Send notification via Teams/Email
+
+Platform Support:
+- Local: Uses shutil/pathlib for filesystem operations
+- Fabric: Uses mssparkutils.fs for lakehouse/ABFSS operations
 
 Usage:
     # Full pipeline with notifications
@@ -22,10 +26,14 @@ Usage:
     
     # Skip notifications
     python scripts/run_full_pipeline.py --no-notify
+    
+    # Force Fabric mode (for testing)
+    python scripts/run_full_pipeline.py --fabric
 
 Author: AIMS Data Platform Team
-Version: 1.3.0
+Version: 1.4.0
 Created: 2026-01-19
+Updated: 2026-01-19 - Added dual-platform support
 """
 
 import sys
@@ -43,7 +51,9 @@ from aims_data_platform.landing_zone_manager import (
     LandingZoneManager,
     NotificationManager,
     RunSummary,
-    create_landing_zone_manager
+    PlatformFileOps,
+    create_landing_zone_manager,
+    IS_FABRIC,
 )
 
 # Configure logging
@@ -56,24 +66,46 @@ logger = logging.getLogger(__name__)
 
 
 def setup_paths(is_fabric: bool = False) -> dict:
-    """Setup paths based on environment."""
-    if is_fabric or Path("/lakehouse/default/Files").exists():
+    """
+    Setup paths based on environment.
+    
+    Platform-aware path configuration:
+    - Local: Uses project_root/data structure
+    - Fabric: Uses /lakehouse/default/Files structure
+    
+    Args:
+        is_fabric: Force Fabric mode (auto-detected if not specified)
+        
+    Returns:
+        Dictionary with all required paths
+    """
+    # Auto-detect if not specified
+    if is_fabric or IS_FABRIC:
         base_dir = Path("/lakehouse/default/Files")
         environment = "fabric"
+        # Fabric paths use lakehouse structure
+        bronze_path = "Bronze"  # Standard medallion architecture
+        silver_path = "Silver"
+        gold_path = "Gold"
     else:
         base_dir = project_root / "data"
         environment = "local"
+        # Local paths - can differ from Fabric naming
+        bronze_path = "Samples_LH_Bronze_Aims_26_parquet"  # Current local bronze location
+        silver_path = "Silver"
+        gold_path = "Gold"
     
     return {
         "base_dir": base_dir,
         "landing_dir": base_dir / "landing",
-        "bronze_dir": base_dir / "Samples_LH_Bronze_Aims_26_parquet",  # Current bronze location
-        "silver_dir": base_dir / "Silver",
-        "gold_dir": base_dir / "Gold",
+        "bronze_dir": base_dir / bronze_path,
+        "silver_dir": base_dir / silver_path,
+        "gold_dir": base_dir / gold_path,
         "archive_dir": base_dir / "archive",
         "config_dir": project_root / "config" / "data_quality",
         "results_dir": project_root / "config" / "validation_results",
-        "environment": environment
+        "environment": environment,
+        "is_fabric": is_fabric or IS_FABRIC
     }
 
 
@@ -193,6 +225,7 @@ def main():
     parser.add_argument("--teams-webhook", type=str, help="Teams webhook URL (or set TEAMS_WEBHOOK_URL env var)")
     parser.add_argument("--skip-profiling", action="store_true", help="Skip profiling phase")
     parser.add_argument("--cleanup-days", type=int, default=90, help="Remove archives older than N days")
+    parser.add_argument("--fabric", action="store_true", help="Force Fabric mode (for testing)")
     
     args = parser.parse_args()
     
@@ -200,14 +233,15 @@ def main():
     logger.info("AIMS DATA PLATFORM - FULL PIPELINE ORCHESTRATOR")
     logger.info("=" * 70)
     
-    # Setup paths
-    paths = setup_paths()
+    # Setup paths (with optional Fabric override)
+    paths = setup_paths(is_fabric=args.fabric)
     logger.info(f"Environment: {paths['environment']}")
+    logger.info(f"Platform Detection: {'Fabric' if IS_FABRIC else 'Local'} (override: {args.fabric})")
     logger.info(f"Bronze: {paths['bronze_dir']}")
     logger.info(f"Silver: {paths['silver_dir']}")
     logger.info(f"Archive: {paths['archive_dir']}")
     
-    # Initialize landing zone manager
+    # Initialize landing zone manager with platform awareness
     notification_manager = NotificationManager(
         teams_webhook_url=args.teams_webhook
     )
@@ -216,7 +250,8 @@ def main():
         landing_dir=paths['landing_dir'],
         bronze_dir=paths['bronze_dir'],
         archive_dir=paths['archive_dir'],
-        notification_manager=notification_manager
+        notification_manager=notification_manager,
+        is_fabric=paths['is_fabric']
     )
     
     run_id = landing_manager.generate_run_id()
@@ -231,6 +266,27 @@ def main():
         "environment": paths['environment'],
         "phases": []
     }
+    
+    # Phase 0: Move files from Landing to Bronze (if any)
+    landing_files = landing_manager.list_landing_files()
+    if landing_files:
+        logger.info("=" * 60)
+        logger.info("PHASE 0: LANDING ZONE → BRONZE")
+        logger.info("=" * 60)
+        logger.info(f"Found {len(landing_files)} files in landing zone")
+        
+        if not args.dry_run:
+            move_result = landing_manager.move_landing_to_bronze(run_id)
+            logger.info(f"Moved {len(move_result['files_moved'])} files to Bronze")
+            if move_result['errors']:
+                logger.warning(f"Move errors: {move_result['errors']}")
+            pipeline_results["phases"].append(("landing_to_bronze", move_result))
+        else:
+            logger.info("DRY RUN: Would move files from landing to Bronze")
+            for f in landing_files:
+                logger.info(f"  - {f.name}")
+    else:
+        logger.info("No files in landing zone - using existing Bronze data")
     
     # Phase 1: Profiling (optional)
     if not args.skip_profiling:

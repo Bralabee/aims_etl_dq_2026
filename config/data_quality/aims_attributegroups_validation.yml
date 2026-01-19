@@ -1,6 +1,6 @@
 validation_name: validation_aims_attributegroups
 description: Auto-generated validation for validation_aims_attributegroups
-generated_at: '2026-01-19T13:09:35.821881'
+generated_at: '2026-01-19T13:28:50.663077'
 data_source:
   type: runtime_dataframe
   profiled_rows: 80

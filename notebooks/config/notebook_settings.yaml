@@ -80,12 +80,20 @@ data_quality:
 # -----------------------------------------------------------------------------
 # Directory paths relative to base_dir.
 # Use forward slashes (/) - will be converted to Path objects automatically.
+# 
+# IMPORTANT: These paths are LOCAL defaults. Fabric uses standard medallion paths.
+# The Settings class automatically adapts paths for each platform:
+# - Local: Uses paths below (relative to project root)
+# - Fabric: Uses standard /lakehouse/default/Files/{landing,Bronze,Silver,Gold}
 paths:
   # Data layers (medallion architecture)
+  # Local paths can differ from Fabric's standard structure
+  landing: data/landing
   bronze: data/Samples_LH_Bronze_Aims_26_parquet
   silver: data/Silver
   silver_layer: data/silver_layer
   gold: data/Gold
+  archive: data/archive
   
   # Configuration and metadata
   config: config/data_quality
@@ -99,6 +107,21 @@ paths:
   # Output directories
   reports: data/reports
   validation_results: notebooks/config/validation_results
+  logs: logs
+
+# Fabric-specific path overrides
+# These are used when running in MS Fabric environment
+fabric_paths:
+  landing: landing
+  bronze: Bronze
+  silver: Silver
+  silver_layer: silver_layer
+  gold: Gold
+  archive: archive
+  config: config/data_quality
+  state: state
+  quarantine: quarantine
+  reports: reports
   logs: logs
 
 # -----------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 validation_name: validation_aims_consentmilestones
 description: Auto-generated validation for validation_aims_consentmilestones
-generated_at: '2026-01-19T13:09:37.165473'
+generated_at: '2026-01-19T13:28:51.954963'
 data_source:
   type: runtime_dataframe
   profiled_rows: 100000

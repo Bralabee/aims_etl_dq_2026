@@ -1,6 +1,6 @@
 validation_name: validation_aims_stages
 description: Auto-generated validation for validation_aims_stages
-generated_at: '2026-01-19T13:09:37.547279'
+generated_at: '2026-01-19T13:28:52.390563'
 data_source:
   type: runtime_dataframe
   profiled_rows: 8

@@ -7,9 +7,14 @@ Handles:
 3. Ensuring landing zone is empty for next SFTP fetch
 4. Sending notifications via Teams webhook or email
 
+Platform Support:
+- Local filesystem (shutil operations)
+- MS Fabric (mssparkutils.fs operations)
+
 Author: AIMS Data Platform Team
-Version: 1.3.0
+Version: 1.4.0
 Created: 2026-01-19
+Updated: 2026-01-19 - Added dual-platform support
 """
 
 import os
@@ -22,10 +27,281 @@ from pathlib import Path
 from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Union
 from dataclasses import dataclass, asdict
 
 logger = logging.getLogger(__name__)
+
+# =============================================================================
+# PLATFORM DETECTION AND FILE OPERATIONS
+# =============================================================================
+
+def _is_fabric_environment() -> bool:
+    """Detect if running in Microsoft Fabric environment."""
+    return Path("/lakehouse/default/Files").exists()
+
+
+IS_FABRIC = _is_fabric_environment()
+
+
+def _get_mssparkutils():
+    """Safely import mssparkutils for Fabric environments."""
+    if not IS_FABRIC:
+        return None
+    try:
+        from notebookutils import mssparkutils
+        return mssparkutils
+    except ImportError:
+        try:
+            import mssparkutils as msu
+            return msu
+        except ImportError:
+            return None
+
+
+class PlatformFileOps:
+    """
+    Cross-platform file operations that work on both local and MS Fabric.
+    
+    On Fabric: Uses mssparkutils.fs for ABFSS and lakehouse paths
+    On Local: Uses shutil/pathlib for standard filesystem operations
+    """
+    
+    def __init__(self, is_fabric: Optional[bool] = None):
+        """Initialize with optional platform override."""
+        self.is_fabric = is_fabric if is_fabric is not None else IS_FABRIC
+        self._mssparkutils = _get_mssparkutils() if self.is_fabric else None
+    
+    def _is_fabric_path(self, path: Union[str, Path]) -> bool:
+        """Check if path is a Fabric lakehouse or ABFSS path."""
+        path_str = str(path)
+        return (
+            path_str.startswith("abfss://") or
+            path_str.startswith("/lakehouse/") or
+            path_str.startswith("lakehouse/")
+        )
+    
+    def copy_file(self, src: Union[str, Path], dst: Union[str, Path]) -> bool:
+        """
+        Copy a file from source to destination.
+        
+        Args:
+            src: Source file path
+            dst: Destination file path
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        src_str, dst_str = str(src), str(dst)
+        
+        try:
+            if self.is_fabric and self._mssparkutils and self._is_fabric_path(src_str):
+                self._mssparkutils.fs.cp(src_str, dst_str, recurse=False)
+            else:
+                shutil.copy2(src_str, dst_str)
+            return True
+        except Exception as e:
+            logger.error(f"Failed to copy {src} to {dst}: {e}")
+            return False
+    
+    def move_file(self, src: Union[str, Path], dst: Union[str, Path]) -> bool:
+        """
+        Move a file from source to destination.
+        
+        Args:
+            src: Source file path
+            dst: Destination file path
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        src_str, dst_str = str(src), str(dst)
+        
+        try:
+            if self.is_fabric and self._mssparkutils and self._is_fabric_path(src_str):
+                self._mssparkutils.fs.mv(src_str, dst_str, recurse=False)
+            else:
+                shutil.move(src_str, dst_str)
+            return True
+        except Exception as e:
+            logger.error(f"Failed to move {src} to {dst}: {e}")
+            return False
+    
+    def list_files(self, directory: Union[str, Path], pattern: str = "*") -> List[Path]:
+        """
+        List files in a directory matching a pattern.
+        
+        Args:
+            directory: Directory path
+            pattern: Glob pattern (e.g., "*.parquet")
+            
+        Returns:
+            List of Path objects
+        """
+        dir_str = str(directory)
+        
+        try:
+            if self.is_fabric and self._mssparkutils and self._is_fabric_path(dir_str):
+                files = self._mssparkutils.fs.ls(dir_str)
+                # Filter files (not directories) matching pattern
+                result = []
+                for f in files:
+                    if not f.isDir:
+                        file_path = Path(f.path)
+                        if pattern == "*" or file_path.match(pattern):
+                            result.append(file_path)
+                return result
+            else:
+                return list(Path(directory).glob(pattern))
+        except Exception as e:
+            logger.error(f"Failed to list files in {directory}: {e}")
+            return []
+    
+    def makedirs(self, directory: Union[str, Path], exist_ok: bool = True) -> bool:
+        """
+        Create directory and all parent directories.
+        
+        Args:
+            directory: Directory path to create
+            exist_ok: Don't raise error if exists
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        dir_str = str(directory)
+        
+        try:
+            if self.is_fabric and self._mssparkutils and self._is_fabric_path(dir_str):
+                self._mssparkutils.fs.mkdirs(dir_str)
+            else:
+                Path(directory).mkdir(parents=True, exist_ok=exist_ok)
+            return True
+        except Exception as e:
+            if not exist_ok:
+                logger.error(f"Failed to create directory {directory}: {e}")
+            return False
+    
+    def exists(self, path: Union[str, Path]) -> bool:
+        """
+        Check if a file or directory exists.
+        
+        Args:
+            path: Path to check
+            
+        Returns:
+            True if exists, False otherwise
+        """
+        path_str = str(path)
+        
+        try:
+            if self.is_fabric and self._mssparkutils and self._is_fabric_path(path_str):
+                try:
+                    self._mssparkutils.fs.ls(path_str)
+                    return True
+                except Exception:
+                    return False
+            else:
+                return Path(path).exists()
+        except Exception:
+            return False
+    
+    def is_directory(self, path: Union[str, Path]) -> bool:
+        """
+        Check if path is a directory.
+        
+        Args:
+            path: Path to check
+            
+        Returns:
+            True if directory, False otherwise
+        """
+        path_str = str(path)
+        
+        try:
+            if self.is_fabric and self._mssparkutils and self._is_fabric_path(path_str):
+                return self._mssparkutils.fs.isDirectory(path_str)
+            else:
+                return Path(path).is_dir()
+        except Exception:
+            return False
+    
+    def remove_file(self, path: Union[str, Path]) -> bool:
+        """
+        Remove a file.
+        
+        Args:
+            path: File path to remove
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        path_str = str(path)
+        
+        try:
+            if self.is_fabric and self._mssparkutils and self._is_fabric_path(path_str):
+                self._mssparkutils.fs.rm(path_str, recurse=False)
+            else:
+                Path(path).unlink()
+            return True
+        except Exception as e:
+            logger.error(f"Failed to remove {path}: {e}")
+            return False
+    
+    def remove_directory(self, path: Union[str, Path], recursive: bool = True) -> bool:
+        """
+        Remove a directory.
+        
+        Args:
+            path: Directory path to remove
+            recursive: Remove contents recursively
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        path_str = str(path)
+        
+        try:
+            if self.is_fabric and self._mssparkutils and self._is_fabric_path(path_str):
+                self._mssparkutils.fs.rm(path_str, recurse=recursive)
+            else:
+                if recursive:
+                    shutil.rmtree(path_str)
+                else:
+                    Path(path).rmdir()
+            return True
+        except Exception as e:
+            logger.error(f"Failed to remove directory {path}: {e}")
+            return False
+    
+    def write_json(self, path: Union[str, Path], data: Dict[str, Any]) -> bool:
+        """
+        Write JSON data to a file.
+        
+        Args:
+            path: File path
+            data: Dictionary to write as JSON
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        path_str = str(path)
+        
+        try:
+            json_content = json.dumps(data, indent=2, default=str)
+            
+            if self.is_fabric and self._mssparkutils and self._is_fabric_path(path_str):
+                self._mssparkutils.fs.put(path_str, json_content, overwrite=True)
+            else:
+                with open(path_str, 'w') as f:
+                    f.write(json_content)
+            return True
+        except Exception as e:
+            logger.error(f"Failed to write JSON to {path}: {e}")
+            return False
+
+
+# Global instance for convenience
+file_ops = PlatformFileOps()
 
 
 @dataclass
@@ -242,10 +518,14 @@ Archive Location: {summary.archive_path}
 
 class LandingZoneManager:
     """
-    Manages the landing zone lifecycle:
+    Manages the landing zone lifecycle for both Local and MS Fabric environments:
     1. Move files from landing to Bronze
     2. Archive processed files with date stamps
     3. Clear landing zone for next SFTP fetch
+    
+    Platform Support:
+    - Local: Uses shutil/pathlib for filesystem operations
+    - Fabric: Uses mssparkutils.fs for lakehouse/ABFSS operations
     """
     
     def __init__(
@@ -253,16 +533,23 @@ class LandingZoneManager:
         landing_dir: Path,
         bronze_dir: Path,
         archive_dir: Path,
-        notification_manager: Optional[NotificationManager] = None
+        notification_manager: Optional[NotificationManager] = None,
+        is_fabric: Optional[bool] = None
     ):
         self.landing_dir = Path(landing_dir)
         self.bronze_dir = Path(bronze_dir)
         self.archive_dir = Path(archive_dir)
         self.notification_manager = notification_manager or NotificationManager()
         
+        # Initialize platform-aware file operations
+        self.file_ops = PlatformFileOps(is_fabric=is_fabric)
+        self.is_fabric = self.file_ops.is_fabric
+        
+        logger.info(f"LandingZoneManager initialized (platform: {'fabric' if self.is_fabric else 'local'})")
+        
         # Ensure directories exist
         for dir_path in [self.landing_dir, self.bronze_dir, self.archive_dir]:
-            dir_path.mkdir(parents=True, exist_ok=True)
+            self.file_ops.makedirs(dir_path)
     
     def generate_run_id(self) -> str:
         """Generate unique run ID with timestamp."""
@@ -276,14 +563,17 @@ class LandingZoneManager:
     
     def list_landing_files(self, pattern: str = "*.parquet") -> List[Path]:
         """List all files in landing zone matching pattern."""
-        return list(self.landing_dir.glob(pattern))
+        return self.file_ops.list_files(self.landing_dir, pattern)
     
     def move_landing_to_bronze(self, run_id: str) -> Dict[str, Any]:
         """
-        Move files from landing zone to Bronze layer.
+        Copy files from landing zone to Bronze layer.
+        
+        Note: Files are COPIED (not moved) to Bronze, keeping originals in 
+        landing for archival. The landing zone is cleared during archival.
         
         Returns dict with:
-        - files_moved: List of moved files
+        - files_moved: List of copied file names
         - errors: List of any errors
         """
         result = {
@@ -299,9 +589,11 @@ class LandingZoneManager:
             dst_file = self.bronze_dir / src_file.name
             try:
                 # Copy to Bronze (keep original in landing for archival)
-                shutil.copy2(src_file, dst_file)
-                result["files_moved"].append(str(src_file.name))
-                logger.info(f"Copied {src_file.name} to Bronze")
+                if self.file_ops.copy_file(src_file, dst_file):
+                    result["files_moved"].append(str(src_file.name))
+                    logger.info(f"Copied {src_file.name} to Bronze")
+                else:
+                    raise Exception("Copy operation returned False")
             except Exception as e:
                 error_msg = f"Failed to copy {src_file.name}: {e}"
                 result["errors"].append(error_msg)
@@ -314,9 +606,10 @@ class LandingZoneManager:
         Move files from landing zone to date-stamped archive.
         
         This clears the landing zone for the next SFTP fetch.
+        Works on both local filesystem and MS Fabric lakehouse.
         """
         archive_path = self.get_archive_path(run_id)
-        archive_path.mkdir(parents=True, exist_ok=True)
+        self.file_ops.makedirs(archive_path)
         
         result = {
             "archive_path": str(archive_path),
@@ -330,9 +623,11 @@ class LandingZoneManager:
             dst_file = archive_path / src_file.name
             try:
                 # Move (not copy) to archive - this clears the landing zone
-                shutil.move(str(src_file), str(dst_file))
-                result["files_archived"].append(str(src_file.name))
-                logger.info(f"Archived {src_file.name} to {archive_path}")
+                if self.file_ops.move_file(src_file, dst_file):
+                    result["files_archived"].append(str(src_file.name))
+                    logger.info(f"Archived {src_file.name} to {archive_path}")
+                else:
+                    raise Exception("Move operation returned False")
             except Exception as e:
                 error_msg = f"Failed to archive {src_file.name}: {e}"
                 result["errors"].append(error_msg)
@@ -343,11 +638,11 @@ class LandingZoneManager:
             "run_id": run_id,
             "archived_at": datetime.now().isoformat(),
             "files": result["files_archived"],
-            "errors": result["errors"]
+            "errors": result["errors"],
+            "platform": "fabric" if self.is_fabric else "local"
         }
         metadata_file = archive_path / "_run_metadata.json"
-        with open(metadata_file, 'w') as f:
-            json.dump(metadata, f, indent=2)
+        self.file_ops.write_json(metadata_file, metadata)
         
         return result
     
@@ -365,20 +660,29 @@ class LandingZoneManager:
         cutoff_date = datetime.now().timestamp() - (keep_days * 24 * 60 * 60)
         removed_count = 0
         
-        for archive_dir in self.archive_dir.iterdir():
-            if archive_dir.is_dir():
-                try:
-                    # Parse date from directory name (format: YYYY-MM-DD_run_...)
-                    dir_date_str = archive_dir.name.split("_")[0]
-                    dir_date = datetime.strptime(dir_date_str, "%Y-%m-%d")
-                    
-                    if dir_date.timestamp() < cutoff_date:
-                        shutil.rmtree(archive_dir)
+        # List all directories in archive
+        if self.is_fabric:
+            # For Fabric, use file_ops to list
+            archive_dirs = self.file_ops.list_files(self.archive_dir, "*")
+            # Filter to directories only
+            archive_dirs = [d for d in archive_dirs if self.file_ops.is_directory(d)]
+        else:
+            archive_dirs = [d for d in self.archive_dir.iterdir() if d.is_dir()]
+        
+        for archive_dir in archive_dirs:
+            try:
+                # Parse date from directory name (format: YYYY-MM-DD_run_...)
+                dir_name = archive_dir.name if hasattr(archive_dir, 'name') else Path(archive_dir).name
+                dir_date_str = dir_name.split("_")[0]
+                dir_date = datetime.strptime(dir_date_str, "%Y-%m-%d")
+                
+                if dir_date.timestamp() < cutoff_date:
+                    if self.file_ops.remove_directory(archive_dir, recursive=True):
                         removed_count += 1
                         logger.info(f"Removed old archive: {archive_dir}")
-                except (ValueError, IndexError):
-                    # Skip directories that don't match expected naming
-                    continue
+            except (ValueError, IndexError):
+                # Skip directories that don't match expected naming
+                continue
         
         return removed_count
     
@@ -459,10 +763,9 @@ class LandingZoneManager:
             self.notification_manager.send_teams_notification(run_summary)
             self.notification_manager.send_email_notification(run_summary)
         
-        # Save summary to archive
+        # Save summary to archive using platform-aware operations
         summary_file = Path(archive_result["archive_path"]) / "_run_summary.json"
-        with open(summary_file, 'w') as f:
-            json.dump(run_summary.to_dict(), f, indent=2)
+        self.file_ops.write_json(summary_file, run_summary.to_dict())
         
         return run_summary
 
@@ -471,27 +774,33 @@ class LandingZoneManager:
 def create_landing_zone_manager(
     base_dir: Optional[Path] = None,
     teams_webhook_url: Optional[str] = None,
-    email_config: Optional[Dict[str, Any]] = None
+    email_config: Optional[Dict[str, Any]] = None,
+    is_fabric: Optional[bool] = None
 ) -> LandingZoneManager:
     """
     Create a LandingZoneManager with standard configuration.
+    
+    Automatically detects platform (local vs Fabric) unless overridden.
     
     Args:
         base_dir: Base directory for data paths (defaults to Fabric lakehouse or local)
         teams_webhook_url: Microsoft Teams webhook URL for notifications
         email_config: Email configuration dict with smtp_server, email_from, email_to
+        is_fabric: Override platform detection (True for Fabric, False for local)
         
     Returns:
         Configured LandingZoneManager instance
     """
-    from pathlib import Path
+    # Determine platform
+    if is_fabric is None:
+        is_fabric = IS_FABRIC
     
     # Determine base directory
     if base_dir is None:
-        if Path("/lakehouse/default/Files").exists():
+        if is_fabric:
             base_dir = Path("/lakehouse/default/Files")
         else:
-            # Local development
+            # Local development - find project root
             base_dir = Path(__file__).parent.parent / "data"
     
     # Setup notification manager
@@ -504,5 +813,6 @@ def create_landing_zone_manager(
         landing_dir=base_dir / "landing",
         bronze_dir=base_dir / "Bronze",
         archive_dir=base_dir / "archive",
-        notification_manager=notification_manager
+        notification_manager=notification_manager,
+        is_fabric=is_fabric
     )

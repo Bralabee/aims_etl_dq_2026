@@ -1,6 +1,6 @@
 validation_name: validation_aims_ua_noncompimppartytypes
 description: Auto-generated validation for validation_aims_ua_noncompimppartytypes
-generated_at: '2026-01-19T13:09:35.902315'
+generated_at: '2026-01-19T13:28:50.726723'
 data_source:
   type: runtime_dataframe
   profiled_rows: 40

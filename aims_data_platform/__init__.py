@@ -7,7 +7,9 @@ from .landing_zone_manager import (
     LandingZoneManager,
     NotificationManager,
     RunSummary,
-    create_landing_zone_manager
+    PlatformFileOps,
+    create_landing_zone_manager,
+    IS_FABRIC,
 )
 from .schema_reconciliation import (
     parse_data_model,
@@ -31,7 +33,7 @@ from dq_framework import (
     FileSystemHandler,
 )
 
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __all__ = [
     "config",
     "Config",
@@ -48,7 +50,9 @@ __all__ = [
     "LandingZoneManager",
     "NotificationManager",
     "RunSummary",
+    "PlatformFileOps",
     "create_landing_zone_manager",
+    "IS_FABRIC",
     "parse_data_model",
     "get_parquet_metadata",
     "format_size",

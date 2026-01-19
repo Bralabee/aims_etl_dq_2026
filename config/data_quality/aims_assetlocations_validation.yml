@@ -1,6 +1,6 @@
 validation_name: validation_aims_assetlocations
 description: Auto-generated validation for validation_aims_assetlocations
-generated_at: '2026-01-19T13:09:39.916349'
+generated_at: '2026-01-19T13:28:54.918403'
 data_source:
   type: runtime_dataframe
   profiled_rows: 100000
