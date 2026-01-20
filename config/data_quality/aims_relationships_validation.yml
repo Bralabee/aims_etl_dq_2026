@@ -1,9 +1,9 @@
 validation_name: validation_aims_relationships
 description: Auto-generated validation for validation_aims_relationships
-generated_at: '2026-01-19T13:28:54.382529'
+generated_at: '2026-01-20T09:46:37.342527'
 data_source:
   type: runtime_dataframe
-  profiled_rows: 100000
+  profiled_rows: 50000
   profiled_columns: 13
 quality_thresholds:
   critical: 100.0
@@ -81,7 +81,7 @@ expectations:
   kwargs:
     column: SOURCEASSET
     min_value: 19
-    max_value: 260
+    max_value: 158
   meta:
     severity: low
     description: String length should be within observed range

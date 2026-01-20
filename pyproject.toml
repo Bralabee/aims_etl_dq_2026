@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aims-data-platform"
-version = "1.2.0"
+version = "1.3.1"
 description = "AIMS data ingestion platform for MS Fabric"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -44,8 +44,11 @@ aims-data = "aims_data_platform.cli:app"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["aims_data_platform*"]
+include = ["aims_data_platform*", "notebooks*"]
 exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.yml"]
 
 [tool.black]
 line-length = 100

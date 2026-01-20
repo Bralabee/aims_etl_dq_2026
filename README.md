@@ -8,9 +8,9 @@
 
 # AIMS Data Platform - Local Development Environment
 
-**Version:** 1.4.0  
+**Version:** 1.3.1  
 **Status:** Production Ready - Dual Platform Support (Local + MS Fabric)  
-**Last Updated:** 2026-01-19
+**Last Updated:** 2026-01-20
 
 A comprehensive, governed data ingestion platform designed for SFTP-based file ingestion, data quality validation via Great Expectations, dual CLI/Notebook functionality, and seamless integration with Microsoft Fabric.
 

@@ -477,7 +477,7 @@ class Settings:
                 "medium": 85.0,
                 "low": 70.0,
             }),
-            _paths=config_data.get("paths", {}),
+            _paths=_get_platform_paths(config_data, detected_env),
             pipeline=config_data.get("pipeline", {}),
             storage_config=config_data.get("storage", {}),
             incremental=config_data.get("incremental", {}),
@@ -542,7 +542,7 @@ def _detect_environment(requested: str) -> EnvironmentType:
     return "local"
 
 
-def _find_config_file(config_path: Optional[Union[str, Path]]) -> Path:
+def _find_config_file(config_path: Optional[Union[str, Path]]) -> Optional[Path]:
     """Find the YAML configuration file."""
     if config_path:
         path = Path(config_path)
@@ -552,8 +552,13 @@ def _find_config_file(config_path: Optional[Union[str, Path]]) -> Path:
     
     # Search for config file in standard locations
     search_paths = [
+        # Fabric: Check Files/notebooks/config first (user-uploaded config)
+        Path("/lakehouse/default/Files/notebooks/config/notebook_settings.yaml"),
+        # Package location (relative to this file)
         Path(__file__).parent.parent / "config" / "notebook_settings.yaml",
+        # Current working directory
         Path.cwd() / "notebooks" / "config" / "notebook_settings.yaml",
+        # Project root
         _get_project_root() / "notebooks" / "config" / "notebook_settings.yaml",
     ]
     
@@ -561,8 +566,8 @@ def _find_config_file(config_path: Optional[Union[str, Path]]) -> Path:
         if path.exists():
             return path
     
-    # Return default path even if not exists (will use defaults)
-    return search_paths[0]
+    # Return None if not found - will use defaults
+    return None
 
 
 def _find_env_file() -> Optional[Path]:
@@ -595,6 +600,23 @@ def _get_project_root() -> Path:
     return Path.cwd()
 
 
+def _get_platform_paths(config_data: Dict[str, Any], environment: str) -> Dict[str, str]:
+    """
+    Get the appropriate paths based on environment.
+    
+    For Fabric environments, uses fabric_paths section.
+    For local environments, uses paths section.
+    """
+    base_paths = config_data.get("paths", {})
+    
+    if environment.startswith("fabric"):
+        # Merge fabric_paths over base paths
+        fabric_paths = config_data.get("fabric_paths", {})
+        return {**base_paths, **fabric_paths}
+    
+    return base_paths
+
+
 def _determine_base_dir(env_config: Dict[str, Any], environment: str) -> Path:
     """Determine the base directory for paths."""
     # Check environment variable first
@@ -614,8 +636,8 @@ def _determine_base_dir(env_config: Dict[str, Any], environment: str) -> Path:
     return _get_project_root()
 
 
-def _load_yaml_config(config_path: Path) -> Dict[str, Any]:
-    """Load YAML configuration file."""
+def _load_yaml_config(config_path: Optional[Path]) -> Dict[str, Any]:
+    """Load YAML configuration file, with fallback to package resources."""
     if yaml is None:
         # YAML not available, return empty config (will use defaults)
         import warnings
@@ -625,16 +647,31 @@ def _load_yaml_config(config_path: Path) -> Dict[str, Any]:
         )
         return {}
     
-    if not config_path.exists():
-        return {}
+    # Try loading from file path first
+    if config_path and config_path.exists():
+        try:
+            with open(config_path, "r", encoding="utf-8") as f:
+                return yaml.safe_load(f) or {}
+        except Exception as e:
+            import warnings
+            warnings.warn(f"Failed to load config from {config_path}: {e}")
     
+    # Fallback: Try to load from package resources (for wheel installations)
     try:
-        with open(config_path, "r", encoding="utf-8") as f:
-            return yaml.safe_load(f) or {}
-    except Exception as e:
-        import warnings
-        warnings.warn(f"Failed to load config from {config_path}: {e}")
-        return {}
+        try:
+            # Python 3.9+
+            from importlib.resources import files
+            config_text = files("notebooks.config").joinpath("notebook_settings.yaml").read_text()
+        except (ImportError, TypeError):
+            # Python 3.7-3.8 fallback
+            import importlib.resources as pkg_resources
+            config_text = pkg_resources.read_text("notebooks.config", "notebook_settings.yaml")
+        return yaml.safe_load(config_text) or {}
+    except Exception:
+        pass
+    
+    # Final fallback: return hardcoded Fabric-compatible defaults
+    return _get_default_config()
 
 
 def _get_env_override(env_var: str, default: Any) -> Any:
@@ -662,6 +699,54 @@ def _get_optional_int(env_var: str, default: Optional[int]) -> Optional[int]:
         return int(value)
     except ValueError:
         return default
+
+
+def _get_default_config() -> Dict[str, Any]:
+    """Return hardcoded default configuration when YAML fails to load."""
+    return {
+        "environments": {
+            "local": {
+                "base_dir": None,
+                "storage_format": "parquet",
+                "max_workers": 4,
+            },
+            "fabric_dev": {
+                "base_dir": "/lakehouse/default/Files",
+                "storage_format": "delta",
+                "max_workers": 8,
+            },
+            "fabric_prod": {
+                "base_dir": "/lakehouse/default/Files",
+                "storage_format": "delta",
+                "max_workers": 16,
+            },
+        },
+        "data_quality": {
+            "threshold": 85.0,
+            "null_tolerance": 5.0,
+            "duplicate_tolerance": 1.0,
+        },
+        "paths": {
+            "bronze": "data/Samples_LH_Bronze_Aims_26_parquet",
+            "silver": "data/Silver",
+            "gold": "data/Gold",
+            "config": "config/data_quality",
+            "state": "data/state",
+        },
+        "fabric_paths": {
+            "bronze": "Bronze",
+            "silver": "Silver",
+            "gold": "Gold",
+            "config": "config/data_quality",
+            "state": "state",
+        },
+        "pipeline": {},
+        "storage": {},
+        "incremental": {},
+        "logging": {},
+        "alerting": {},
+        "table_overrides": {},
+    }
 
 
 # =============================================================================

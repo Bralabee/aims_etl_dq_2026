@@ -188,14 +188,14 @@ def get_data_paths() -> Dict[str, Path]:
     base_dir = get_base_dir()
     
     if IS_FABRIC:
-        # Fabric uses lakehouse structure
+        # Fabric uses lakehouse structure - Capitalized folder names
         data_dir = base_dir
         return {
             "BASE_DIR": base_dir,
             "DATA_DIR": data_dir,
-            "BRONZE_DIR": data_dir / "bronze",
-            "SILVER_DIR": data_dir / "silver",
-            "GOLD_DIR": data_dir / "gold",
+            "BRONZE_DIR": data_dir / "Bronze",
+            "SILVER_DIR": data_dir / "Silver",
+            "GOLD_DIR": data_dir / "Gold",
             "CONFIG_DIR": data_dir / "config",
             "STATE_DIR": data_dir / "state",
         }
@@ -205,9 +205,9 @@ def get_data_paths() -> Dict[str, Path]:
         return {
             "BASE_DIR": base_dir,
             "DATA_DIR": data_dir,
-            "BRONZE_DIR": data_dir / "bronze",
-            "SILVER_DIR": data_dir / "silver",
-            "GOLD_DIR": data_dir / "gold",
+            "BRONZE_DIR": data_dir / "Samples_LH_Bronze_Aims_26_parquet",
+            "SILVER_DIR": data_dir / "Silver",
+            "GOLD_DIR": data_dir / "Gold",
             "CONFIG_DIR": base_dir / "config",
             "STATE_DIR": data_dir / "state",
         }

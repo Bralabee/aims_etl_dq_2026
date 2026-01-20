@@ -1,11 +1,19 @@
 # AIMS Data Platform - Notebooks
 
-**Version:** 1.3.0  
-**Last Updated:** 2026-01-19
+**Version:** 1.3.1  
+**Last Updated:** 2026-01-20
 
 ## Overview
 
 This directory contains Jupyter notebooks for the AIMS Data Quality pipeline. All notebooks are designed to run both locally (development/testing) and in Microsoft Fabric (production).
+
+## ⚠️ Fabric Deployment
+
+**Wheel Package:** `aims_data_platform-1.3.1-py3-none-any.whl`
+
+Upload to Fabric Environment → Libraries → Custom libraries, then Publish.
+
+**Key Fix in 1.3.1:** Configuration loading now works correctly from wheel packages in Fabric. Settings properly resolves to capitalized Fabric paths (`/lakehouse/default/Files/Bronze`).
 
 ## Notebook Index
 

@@ -1,6 +1,6 @@
 validation_name: validation_aims_ua_meetings
 description: Auto-generated validation for validation_aims_ua_meetings
-generated_at: '2026-01-19T13:28:52.572462'
+generated_at: '2026-01-20T09:46:36.490344'
 data_source:
   type: runtime_dataframe
   profiled_rows: 81

@@ -1,6 +1,6 @@
 validation_name: validation_aims_consentlinks
 description: Auto-generated validation for validation_aims_consentlinks
-generated_at: '2026-01-19T13:28:54.462306'
+generated_at: '2026-01-20T09:46:37.321044'
 data_source:
   type: runtime_dataframe
   profiled_rows: 0

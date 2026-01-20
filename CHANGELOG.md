@@ -5,6 +5,45 @@ All notable changes to the AIMS Data Platform project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-01-20
+
+### Fixed - Fabric Configuration Loading
+
+#### Root Cause
+- Settings failed to load YAML config when running from wheel package in Fabric
+- `_paths` dict was empty, causing fallback to hardcoded `"data/bronze"` (lowercase)
+- Result: Wrong path `/lakehouse/default/Files/data/bronze` instead of `/lakehouse/default/Files/Bronze`
+
+#### Configuration Loading Improvements (`settings.py`)
+- **Enhanced `_find_config_file()`** - Now searches Fabric user-uploaded path FIRST: `/lakehouse/default/Files/notebooks/config/notebook_settings.yaml`
+- **Added `importlib.resources` fallback** - Loads YAML from wheel package resources when file paths don't work
+- **Added `_get_default_config()`** - Hardcoded fallback with correct Fabric paths (capitalized Bronze/Silver/Gold)
+- **Added `_load_yaml_config()` multi-tier loading** - File → Package Resources → Defaults
+
+#### Wheel Package Updates
+- **Version**: 1.3.1
+- **Includes**: `notebook_settings.yaml` in wheel
+- **Package data**: Added `[tool.setuptools.package-data]` for YAML files
+
+### Verified
+- ✅ All 9 notebooks have try/except fallback patterns
+- ✅ Settings returns correct Fabric paths: `/lakehouse/default/Files/Bronze` (capitalized)
+- ✅ Wheel contents in sync with source files
+- ✅ End-to-end import tests pass for both Local and Fabric environments
+- ✅ `fabric_paths` section in YAML correctly defines: Bronze, Silver, Gold
+
+### Technical Details
+- **Wheel**: `aims_data_platform-1.3.1-py3-none-any.whl` (68K)
+- **Config Search Order**:
+  1. `/lakehouse/default/Files/notebooks/config/notebook_settings.yaml`
+  2. Package location (relative to settings.py)
+  3. Current working directory
+  4. Project root
+  5. `importlib.resources` from wheel
+  6. Hardcoded `_get_default_config()` fallback
+
+---
+
 ## [1.4.0] - 2026-01-19
 
 ### Added - Landing Zone Management & Complete Overwrite Strategy

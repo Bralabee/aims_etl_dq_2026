@@ -1,6 +1,6 @@
 validation_name: validation_aims_tracks
 description: Auto-generated validation for validation_aims_tracks
-generated_at: '2026-01-19T13:28:50.886495'
+generated_at: '2026-01-20T09:46:35.191864'
 data_source:
   type: runtime_dataframe
   profiled_rows: 164
