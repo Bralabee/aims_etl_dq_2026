@@ -179,7 +179,7 @@ def get_data_paths() -> Dict[str, Path]:
     Example:
         >>> paths = get_data_paths()
         >>> print(paths['BRONZE_DIR'])
-        /home/user/projects/1_AIMS_LOCAL_2026/data/bronze
+        /home/user/projects/1_AIMS_LOCAL_2026/data/Bronze
         >>> 
         >>> # Access all paths
         >>> for name, path in paths.items():
@@ -329,7 +329,7 @@ def copy_directory(
         Path: The destination path.
     
     Example:
-        >>> copy_directory("data/bronze/raw", "data/backup/raw")
+        >>> copy_directory("data/Bronze/raw", "data/backup/raw")
         PosixPath('data/backup/raw')
     """
     src_path = Path(src)
@@ -368,7 +368,7 @@ def file_exists(path: Union[str, Path]) -> bool:
         bool: True if file exists, False otherwise.
     
     Example:
-        >>> if file_exists("data/bronze/data.parquet"):
+        >>> if file_exists("data/Bronze/data.parquet"):
         ...     print("File found!")
     """
     path = Path(path)
@@ -399,7 +399,7 @@ def list_files(
         list[Path]: List of file paths matching the pattern.
     
     Example:
-        >>> parquet_files = list_files("data/bronze", "*.parquet")
+        >>> parquet_files = list_files("data/Bronze", "*.parquet")
         >>> for f in parquet_files:
         ...     print(f.name)
     """
@@ -440,11 +440,11 @@ def read_parquet_safe(
     
     Example:
         >>> # Read full file
-        >>> df = read_parquet_safe("data/bronze/sales.parquet")
+        >>> df = read_parquet_safe("data/Bronze/sales.parquet")
         >>> 
         >>> # Read sample with specific columns
         >>> df_sample = read_parquet_safe(
-        ...     "data/bronze/sales.parquet",
+        ...     "data/Bronze/sales.parquet",
         ...     sample_size=1000,
         ...     columns=['date', 'amount']
         ... )
@@ -508,8 +508,8 @@ def write_parquet_safe(
         Path: The written file path.
     
     Example:
-        >>> write_parquet_safe(df, "data/silver/processed.parquet")
-        PosixPath('data/silver/processed.parquet')
+        >>> write_parquet_safe(df, "data/Silver/processed.parquet")
+        PosixPath('data/Silver/processed.parquet')
     """
     path = Path(path)
     

@@ -114,6 +114,8 @@ python scripts/run_full_pipeline.py --no-notify
 
 ## 📁 Project Structure
 
+> **✅ Auto-Created Folders:** The medallion layer folders (`landing/`, `Bronze/`, `Silver/`, `Gold/`, `archive/`, `state/`) are **automatically created** on first pipeline run. No manual folder creation needed!
+
 \`\`\`
 AIMS_LOCAL/
 ├── aims_data_platform/           # Core package
@@ -132,12 +134,12 @@ AIMS_LOCAL/
 ├── scripts/
 │   ├── run_full_pipeline.py      # 🆕 Full pipeline orchestrator
 │   └── run_validation_simple.py  # Simple validation
-├── data/
-│   ├── landing/                  # 🆕 SFTP drop zone
-│   ├── archive/                  # 🆕 Date-stamped archives
-│   ├── Samples_LH_Bronze_*/      # Bronze layer
-│   ├── Silver/                   # Silver layer (validated)
-│   └── Gold/                     # Gold layer (analytics-ready)
+├── data/                         # ✅ Auto-created on first run
+│   ├── landing/                  # SFTP drop zone (auto-created)
+│   ├── archive/                  # Date-stamped archives (auto-created)
+│   ├── Bronze/                   # Bronze layer (auto-created)
+│   ├── Silver/                   # Silver layer (auto-created)
+│   └── Gold/                     # Gold layer (auto-created)
 ├── config/
 │   └── data_quality/             # 68 DQ validation configs
 └── docs/                         # 180+ pages documentation

@@ -118,13 +118,14 @@ jupyter lab
    - Click "Import notebook"
    - Select notebooks from this directory
 
-2. **Upload shared utilities**:
-   - Create folder: `/lakehouse/default/Files/notebooks/lib/`
-   - Upload all files from `lib/` directory
-   - Create folder: `/lakehouse/default/Files/notebooks/config/`
-   - Upload `notebook_settings.yaml`
+2. **Upload configuration file** (required):
+   - Create folder: `Files/notebooks/config/`
+   - Upload `notebook_settings.yaml` to this folder
 
-3. **Verify environment**:
+3. **Medallion layer folders** (auto-created):
+   > **✅ No manual creation needed!** The pipeline automatically creates `Bronze/`, `Silver/`, `Gold/`, `landing/`, `archive/`, and `state/` folders on first run using `mssparkutils.fs.mkdirs()`.
+
+4. **Verify environment**:
    ```python
    from notebooks.lib.platform_utils import IS_FABRIC
    print(f"Running in Fabric: {IS_FABRIC}")  # Should print: True

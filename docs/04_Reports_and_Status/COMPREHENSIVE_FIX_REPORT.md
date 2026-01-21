@@ -177,19 +177,21 @@ data/state/watermarks.db (SQLite database)
     - sqlite_sequence (auto-increment tracking)
 ```
 
-### Fix #4: Create Configuration Directories
+### Fix #4: Configuration Directories
 
-**Executed:**
-```bash
-mkdir -p config/data_quality
-mkdir -p config/validation_results
+> **Note:** These directories are now **auto-created** by the pipeline on first run. Manual creation is no longer required.
+
+**Auto-Creation Code (in pipeline):**
+```python
+# Directories are created automatically with exist_ok=True
+output_dir.mkdir(parents=True, exist_ok=True)
 ```
 
 **Directory Structure:**
 ```
 config/
-├── data_quality/          (Ready for DQ YAML configs)
-└── validation_results/    (Ready for validation JSON)
+├── data_quality/          (Auto-created during profiling)
+└── validation_results/    (Auto-created during validation)
 ```
 
 ---

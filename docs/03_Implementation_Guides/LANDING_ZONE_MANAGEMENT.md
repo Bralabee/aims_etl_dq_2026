@@ -10,22 +10,29 @@ This document describes the landing zone management architecture for the AIMS Da
 
 ## Directory Structure
 
+> **✅ AUTO-CREATED:** All medallion layer folders are automatically created on first run by `LandingZoneManager`. No manual folder creation required on either Local or Fabric environments.
+
 ```
-/lakehouse/default/Files/           # In Microsoft Fabric
-├── landing/                        # SFTP drops files here (ALWAYS EMPTIED after processing)
+/lakehouse/default/Files/           # In Microsoft Fabric (auto-detected)
+├── landing/                        # ✅ Auto-created - SFTP drops files here
 │   └── *.parquet                   # Raw files from SFTP
-├── archive/                        # Date-stamped processed files
+├── archive/                        # ✅ Auto-created - Date-stamped processed files
 │   ├── 2026-01-19_run_20260119_132500/
 │   │   ├── aims_assets.parquet
 │   │   ├── aims_attributes.parquet
 │   │   ├── _run_metadata.json      # Run details
 │   │   └── _run_summary.json       # Processing summary
-│   ├── 2026-01-12_run_20260112_080000/
-│   │   └── ...
 │   └── ...
-├── Bronze/                         # Working bronze layer (copy from landing)
-├── Silver/                         # Validated/cleaned data
-└── Gold/                           # Star schema for BI
+├── Bronze/                         # ✅ Auto-created - Working bronze layer
+├── Silver/                         # ✅ Auto-created - Validated/cleaned data
+└── Gold/                           # ✅ Auto-created - Star schema for BI
+```
+
+**Folder Auto-Creation Code:**
+```python
+# From LandingZoneManager.__init__()
+for dir_path in [self.landing_dir, self.bronze_dir, self.archive_dir]:
+    self.file_ops.makedirs(dir_path)  # Uses mssparkutils.fs.mkdirs on Fabric
 ```
 
 ## Data Flow

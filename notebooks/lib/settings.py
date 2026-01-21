@@ -137,13 +137,13 @@ class Settings:
     
     @property
     def bronze_dir(self) -> Path:
-        """Get the bronze layer data directory."""
-        return self.base_dir / self._paths.get("bronze", "data/bronze")
+        """Get the Bronze layer data directory."""
+        return self.base_dir / self._paths.get("bronze", "data/Bronze")
     
     @property
     def silver_dir(self) -> Path:
-        """Get the silver layer data directory."""
-        return self.base_dir / self._paths.get("silver", "data/silver")
+        """Get the Silver layer data directory."""
+        return self.base_dir / self._paths.get("silver", "data/Silver")
     
     @property
     def silver_layer_dir(self) -> Path:
@@ -152,8 +152,8 @@ class Settings:
     
     @property
     def gold_dir(self) -> Path:
-        """Get the gold layer data directory."""
-        return self.base_dir / self._paths.get("gold", "data/gold")
+        """Get the Gold layer data directory."""
+        return self.base_dir / self._paths.get("gold", "data/Gold")
     
     @property
     def config_dir(self) -> Path:

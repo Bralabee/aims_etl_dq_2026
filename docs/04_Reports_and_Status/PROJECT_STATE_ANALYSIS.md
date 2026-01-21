@@ -388,9 +388,11 @@ ln -s ../2_DATA_QUALITY_LIBRARY/dq_framework dq_framework
    sqlite3 watermarks.db ".schema"
    ```
 
-3. **Create State Directories**
+3. **State Directories (Auto-Created)**
+   > ✅ Note: `data/state` and `config/data_quality` are automatically created by the pipeline on first run. Manual creation is optional.
    ```bash
-   mkdir -p data/state config/data_quality
+   # Optional - directories are auto-created
+   # mkdir -p data/state config/data_quality
    ```
 
 ### Phase 3: Generate DQ Configs (2-3 hours)
