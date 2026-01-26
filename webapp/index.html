@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIMS Data Platform - Documentation</title>
+    <meta name="description"
+        content="Documentation for the AIMS Data Platform - A comprehensive data ingestion and quality platform for HS2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Mermaid.js for interactive diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">📊</span>
+            <span class="brand-text">AIMS Platform</span>
+            <span class="version-badge">v1.4.0</span>
+        </div>
+        <div class="nav-links">
+            <a href="#overview" class="nav-link active">Overview</a>
+            <a href="#architecture" class="nav-link">Architecture</a>
+            <a href="#pipeline" class="nav-link">Pipeline</a>
+            <a href="#workflow" class="nav-link">Workflow</a>
+            <a href="#quickstart" class="nav-link">Quick Start</a>
+            <a href="#api" class="nav-link">API Reference</a>
+            <a href="#ecosystem" class="nav-link">Ecosystem</a>
+        </div>
+        <div class="nav-actions">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Data Ingestion Platform</div>
+            <h1 class="hero-title">AIMS Data<br><span class="gradient-text">Platform</span></h1>
+            <p class="hero-subtitle">A comprehensive, governed data ingestion platform with SFTP-based file ingestion,
+                Great Expectations validation, and dual-platform support for Local and Microsoft Fabric environments.
+            </p>
+            <div class="hero-actions">
+                <a href="#quickstart" class="btn btn-primary">Quick Start Guide</a>
+                <a href="#api" class="btn btn-secondary">API Reference</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">68</span>
+                    <span class="stat-label">Bronze Tables</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">98.8%</span>
+                    <span class="stat-label">Avg Quality Score</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">Dual</span>
+                    <span class="stat-label">Platform Support</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Overview Section -->
+        <section id="overview" class="section">
+            <div class="section-header">
+                <h2>Overview</h2>
+                <p>A governed data ingestion platform for SFTP-based file processing with medallion architecture</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📥</div>
+                    <h3>Landing Zone Management</h3>
+                    <p>Automated SFTP file ingestion with archival, notifications, and complete overwrite strategy for
+                        fresh data each run.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Medallion Architecture</h3>
+                    <p>Bronze, Silver, and Gold layer transformations with configurable validation at each stage.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>Data Quality Validation</h3>
+                    <p>68 Great Expectations configurations with 98.8% average quality score across all tables.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Dual Platform Support</h3>
+                    <p>Seamless operation on both Local development and Microsoft Fabric environments with
+                        auto-detection.</p>
+                </div>
+            </div>
+
+            <!-- Metrics Table -->
+            <div class="metrics-container">
+                <h3>Platform Metrics</h3>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Current</th>
+                            <th>Target</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Bronze Tables</td>
+                            <td>68</td>
+                            <td>68</td>
+                        </tr>
+                        <tr>
+                            <td>DQ Validation Pass Rate</td>
+                            <td>73.5% (50/68)</td>
+                            <td>≥85%</td>
+                        </tr>
+                        <tr>
+                            <td>Average Quality Score</td>
+                            <td>98.8%</td>
+                            <td>≥95%</td>
+                        </tr>
+                        <tr>
+                            <td>Test Suite</td>
+                            <td>74/74 (100%)</td>
+                            <td>≥95%</td>
+                        </tr>
+                        <tr>
+                            <td>Pipeline Duration</td>
+                            <td>~60s</td>
+                            <td>&lt;120s</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="architecture" class="section">
+            <div class="section-header">
+                <h2>Architecture</h2>
+                <p>Data flow through the medallion architecture with landing zone integration</p>
+            </div>
+
+            <div class="architecture-container">
+                <div class="arch-diagram">
+                    <svg viewBox="0 0 900 450" class="arch-svg">
+                        <!-- Definitions -->
+                        <defs>
+                            <linearGradient id="bronzeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#cd7f32;stop-opacity:0.2" />
+                                <stop offset="100%" style="stop-color:#cd7f32;stop-opacity:0.1" />
+                            </linearGradient>
+                            <linearGradient id="silverGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#c0c0c0;stop-opacity:0.2" />
+                                <stop offset="100%" style="stop-color:#c0c0c0;stop-opacity:0.1" />
+                            </linearGradient>
+                            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#ffd700;stop-opacity:0.2" />
+                                <stop offset="100%" style="stop-color:#ffd700;stop-opacity:0.1" />
+                            </linearGradient>
+                            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.2" />
+                            </filter>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#2f81f7" />
+                            </marker>
+                        </defs>
+
+                        <!-- SFTP Source -->
+                        <g class="arch-node" onclick="showArchDetail('sftp')">
+                            <rect x="30" y="180" width="90" height="70" rx="6" fill="#2f81f7" filter="url(#shadow)" />
+                            <text x="75" y="210" text-anchor="middle" fill="white" font-size="11"
+                                font-weight="600">SFTP</text>
+                            <text x="75" y="228" text-anchor="middle" fill="white" font-size="11"
+                                font-weight="600">Server</text>
+                            <text x="75" y="242" text-anchor="middle" fill="rgba(255,255,255,0.7)"
+                                font-size="9">Weekly</text>
+                        </g>
+
+                        <!-- Arrow to Landing -->
+                        <path d="M 125 215 L 160 215" stroke="#2f81f7" stroke-width="2" marker-end="url(#arrowhead)" />
+
+                        <!-- Landing Zone -->
+                        <g class="arch-node" onclick="showArchDetail('landing')">
+                            <rect x="170" y="160" width="110" height="110" rx="6" fill="var(--bg-tertiary)"
+                                stroke="#2f81f7" stroke-width="2" />
+                            <text x="225" y="185" text-anchor="middle" fill="var(--accent-primary)" font-size="12"
+                                font-weight="600">Landing</text>
+                            <text x="225" y="200" text-anchor="middle" fill="var(--text-muted)"
+                                font-size="9">Zone</text>
+                            <rect x="185" y="210" width="80" height="25" rx="4" fill="var(--bg-card)"
+                                stroke="var(--border-color)" />
+                            <text x="225" y="227" text-anchor="middle" fill="var(--text-secondary)"
+                                font-size="9">*.parquet</text>
+                            <text x="225" y="255" text-anchor="middle" fill="var(--text-muted)" font-size="9">68
+                                files</text>
+                        </g>
+
+                        <!-- Arrow to Bronze -->
+                        <path d="M 285 215 L 320 215" stroke="#cd7f32" stroke-width="2" marker-end="url(#arrowhead)" />
+
+                        <!-- Bronze Layer -->
+                        <g class="arch-node" onclick="showArchDetail('bronze')">
+                            <rect x="330" y="130" width="130" height="170" rx="6" fill="url(#bronzeGrad)"
+                                stroke="#cd7f32" stroke-width="2" />
+                            <text x="395" y="155" text-anchor="middle" fill="#cd7f32" font-size="12"
+                                font-weight="600">Bronze</text>
+                            <text x="395" y="170" text-anchor="middle" fill="var(--text-muted)" font-size="9">Raw
+                                Ingestion</text>
+                            <rect x="345" y="185" width="100" height="40" rx="4" fill="var(--bg-card)"
+                                stroke="var(--border-color)" />
+                            <text x="395" y="205" text-anchor="middle" fill="var(--text-primary)" font-size="10">Copy
+                                Files</text>
+                            <text x="395" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="9">Schema
+                                Check</text>
+                            <rect x="345" y="235" width="100" height="25" rx="4" fill="rgba(63, 185, 80, 0.2)"
+                                stroke="#3fb950" />
+                            <text x="395" y="252" text-anchor="middle" fill="#3fb950" font-size="9">68 tables</text>
+                        </g>
+
+                        <!-- Arrow to Silver -->
+                        <path d="M 465 215 L 500 215" stroke="#a0a0a0" stroke-width="2" marker-end="url(#arrowhead)" />
+
+                        <!-- Silver Layer -->
+                        <g class="arch-node" onclick="showArchDetail('silver')">
+                            <rect x="510" y="130" width="130" height="170" rx="6" fill="url(#silverGrad)"
+                                stroke="#a0a0a0" stroke-width="2" />
+                            <text x="575" y="155" text-anchor="middle" fill="#a0a0a0" font-size="12"
+                                font-weight="600">Silver</text>
+                            <text x="575" y="170" text-anchor="middle" fill="var(--text-muted)"
+                                font-size="9">Validated</text>
+                            <rect x="525" y="185" width="100" height="40" rx="4" fill="var(--bg-card)"
+                                stroke="var(--border-color)" />
+                            <text x="575" y="205" text-anchor="middle" fill="var(--text-primary)" font-size="10">DQ
+                                Validation</text>
+                            <text x="575" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="9">Great
+                                Expectations</text>
+                            <rect x="525" y="235" width="100" height="25" rx="4" fill="rgba(210, 153, 34, 0.2)"
+                                stroke="#d29922" />
+                            <text x="575" y="252" text-anchor="middle" fill="#d29922" font-size="9">50/68 passed</text>
+                        </g>
+
+                        <!-- Arrow to Gold -->
+                        <path d="M 645 215 L 680 215" stroke="#d4a600" stroke-width="2" marker-end="url(#arrowhead)" />
+
+                        <!-- Gold Layer -->
+                        <g class="arch-node" onclick="showArchDetail('gold')">
+                            <rect x="690" y="130" width="130" height="170" rx="6" fill="url(#goldGrad)" stroke="#d4a600"
+                                stroke-width="2" />
+                            <text x="755" y="155" text-anchor="middle" fill="#d4a600" font-size="12"
+                                font-weight="600">Gold</text>
+                            <text x="755" y="170" text-anchor="middle" fill="var(--text-muted)" font-size="9">Business
+                                Ready</text>
+                            <rect x="705" y="185" width="100" height="40" rx="4" fill="var(--bg-card)"
+                                stroke="var(--border-color)" />
+                            <text x="755" y="205" text-anchor="middle" fill="var(--text-primary)"
+                                font-size="10">Transform</text>
+                            <text x="755" y="218" text-anchor="middle" fill="var(--text-muted)"
+                                font-size="9">Aggregate</text>
+                            <rect x="705" y="235" width="100" height="25" rx="4" fill="rgba(63, 185, 80, 0.2)"
+                                stroke="#3fb950" />
+                            <text x="755" y="252" text-anchor="middle" fill="#3fb950" font-size="9">Ready</text>
+                        </g>
+
+                        <!-- Archive (below landing) -->
+                        <path d="M 225 275 L 225 330" stroke="var(--text-muted)" stroke-width="1"
+                            stroke-dasharray="4,4" />
+                        <g class="arch-node" onclick="showArchDetail('archive')">
+                            <rect x="170" y="340" width="110" height="60" rx="6" fill="var(--bg-tertiary)"
+                                stroke="var(--border-color)" />
+                            <text x="225" y="365" text-anchor="middle" fill="var(--text-secondary)"
+                                font-size="11">Archive</text>
+                            <text x="225" y="385" text-anchor="middle" fill="var(--text-muted)"
+                                font-size="9">YYYY-MM-DD</text>
+                        </g>
+
+                        <!-- Platform box -->
+                        <rect x="330" y="360" width="490" height="50" rx="6" fill="var(--bg-card)"
+                            stroke="var(--accent-primary)" stroke-width="1" stroke-dasharray="4,4" />
+                        <text x="575" y="382" text-anchor="middle" fill="var(--accent-primary)" font-size="11"
+                            font-weight="500">AIMS Data Platform</text>
+                        <text x="575" y="398" text-anchor="middle" fill="var(--text-muted)" font-size="9">Local
+                            Development • Microsoft Fabric • CLI • Notebooks</text>
+                    </svg>
+                </div>
+
+                <div id="arch-detail" class="arch-detail-panel">
+                    <div class="arch-detail-content">
+                        <h4>Select a Component</h4>
+                        <p>Select any component in the diagram to view details about that stage of the pipeline.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pipeline Section -->
+        <section id="pipeline" class="section">
+            <div class="section-header">
+                <h2>Pipeline Phases</h2>
+                <p>The data processing pipeline consists of four sequential phases</p>
+            </div>
+
+            <div class="workflow-container">
+                <div class="workflow-step" data-step="0">
+                    <div class="workflow-icon">📥</div>
+                    <div class="workflow-content">
+                        <h3>Phase 0: Landing to Bronze</h3>
+                        <p>Transfer files from landing zone to Bronze layer.</p>
+                        <ul class="workflow-details">
+                            <li>Check for new files in landing/</li>
+                            <li>Copy files to Bronze/</li>
+                            <li>Basic schema validation</li>
+                            <li>Skip if no files present</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="workflow-connector">→</div>
+
+                <div class="workflow-step" data-step="1">
+                    <div class="workflow-icon">🔍</div>
+                    <div class="workflow-content">
+                        <h3>Phase 1: Profiling</h3>
+                        <p>Generate DQ configurations from data patterns.</p>
+                        <ul class="workflow-details">
+                            <li>Profile 68 files (~7.5 seconds)</li>
+                            <li>Auto-generate YAML configs</li>
+                            <li>Detect column types and patterns</li>
+                            <li>Optional: can be skipped</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="workflow-connector">→</div>
+
+                <div class="workflow-step" data-step="2">
+                    <div class="workflow-icon">✅</div>
+                    <div class="workflow-content">
+                        <h3>Phase 2: Validation</h3>
+                        <p>Run Great Expectations validation and ingest to Silver.</p>
+                        <ul class="workflow-details">
+                            <li>Validate against 68 DQ configs</li>
+                            <li>Current: 50/68 passed (73.5%)</li>
+                            <li>Write valid data to Silver/</li>
+                            <li>Log failed validations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="workflow-connector">→</div>
+
+                <div class="workflow-step" data-step="3">
+                    <div class="workflow-icon">📦</div>
+                    <div class="workflow-content">
+                        <h3>Phase 3: Archive & Notify</h3>
+                        <p>Archive processed files and send notifications.</p>
+                        <ul class="workflow-details">
+                            <li>Archive to YYYY-MM-DD_run_xxx/</li>
+                            <li>Clear landing zone</li>
+                            <li>Send Teams webhook notification</li>
+                            <li>Generate run summary</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- End-to-End Workflow Section -->
+        <section id="workflow" class="section">
+            <div class="section-header">
+                <h2>End-to-End Workflow</h2>
+                <p>Interactive diagrams showing the complete data flow architecture</p>
+            </div>
+
+            <!-- Diagram Tabs -->
+            <div class="diagram-tabs">
+                <button class="diagram-tab active" onclick="showDiagram('pipeline-flow')">Pipeline Flow</button>
+                <button class="diagram-tab" onclick="showDiagram('platform-arch')">Platform Detection</button>
+                <button class="diagram-tab" onclick="showDiagram('dq-validation')">DQ Validation</button>
+                <button class="diagram-tab" onclick="showDiagram('system-arch')">System Architecture</button>
+            </div>
+
+            <!-- Pipeline Flow Diagram -->
+            <div id="diagram-pipeline-flow" class="diagram-panel active">
+                <div id="container-pipeline" class="mermaid-container">
+                    <button class="expand-btn" onclick="expandDiagram('container-pipeline')">⛶ Expand</button>
+                    <pre class="mermaid">
+flowchart LR
+    subgraph External["📡 EXTERNAL SOURCE"]
+        SFTP[("SFTP Server")]
+    end
+    
+    subgraph Landing["📥 LANDING ZONE"]
+        LZ["68 Parquet Files"]
+    end
+    
+    subgraph Medallion["💾 MEDALLION ARCHITECTURE"]
+        BRONZE[("Bronze<br/>Raw Data")]
+        SILVER[("Silver<br/>Validated")]
+        GOLD[("Gold<br/>Analytics")]
+    end
+    
+    subgraph Processing["⚙️ PROCESSING"]
+        DQ["DQ Validation<br/>Great Expectations"]
+        ARCHIVE[("Archive Store")]
+    end
+    
+    SFTP -->|"Weekly Fetch"| LZ
+    LZ -->|"Copy to Bronze"| BRONZE
+    BRONZE --> DQ
+    DQ -->|"Pass ≥85%"| SILVER
+    SILVER -->|"Transform"| GOLD
+    DQ -.->|"After Processing"| ARCHIVE
+    
+    style External fill:#e1f5fe,stroke:#01579b
+    style Landing fill:#fff3e0,stroke:#e65100
+    style Medallion fill:#e8f5e9,stroke:#2e7d32
+    style Processing fill:#f3e5f5,stroke:#7b1fa2
+                    </pre>
+                </div>
+            </div>
+
+            <!-- Platform Detection Diagram -->
+            <div id="diagram-platform-arch" class="diagram-panel">
+                <div id="container-platform" class="mermaid-container">
+                    <button class="expand-btn" onclick="expandDiagram('container-platform')">⛶ Expand</button>
+                    <pre class="mermaid">
+flowchart LR
+    subgraph Detection["🔍 PLATFORM DETECTION"]
+        CHECK{{"Path('/lakehouse/default/Files')<br/>exists?"}}
+    end
+    
+    subgraph Local["🐧 LOCAL LINUX"]
+        L_BASE["base_dir: Project Root"]
+        L_STORAGE["Storage: Parquet"]
+        L_WORKERS["Workers: 4"]
+        L_OPS["File Ops: shutil"]
+    end
+    
+    subgraph Fabric["☁️ MS FABRIC"]
+        F_BASE["base_dir: /lakehouse/default/Files"]
+        F_STORAGE["Storage: Delta Lake"]
+        F_WORKERS["Workers: 8-16"]
+        F_OPS["File Ops: mssparkutils"]
+    end
+    
+    CHECK -->|"No"| Local
+    CHECK -->|"Yes"| Fabric
+    
+    style Detection fill:#fff3e0,stroke:#e65100
+    style Local fill:#e8f5e9,stroke:#2e7d32
+    style Fabric fill:#e3f2fd,stroke:#1565c0
+                    </pre>
+                </div>
+            </div>
+
+            <!-- DQ Validation Diagram -->
+            <div id="diagram-dq-validation" class="diagram-panel">
+                <div id="container-dq" class="mermaid-container">
+                    <button class="expand-btn" onclick="expandDiagram('container-dq')">⛶ Expand</button>
+                    <pre class="mermaid">
+flowchart LR
+    subgraph Input["📥 INPUT"]
+        PARQUET[("Bronze/*.parquet")]
+        YAML["*_validation.yml"]
+    end
+    
+    subgraph Loading["📂 LOADING"]
+        LOAD_DF["DataLoader.load_data()"]
+        LOAD_CFG["ConfigLoader.load()"]
+    end
+    
+    subgraph Validation["✅ GREAT EXPECTATIONS"]
+        CTX["Create GE Context"]
+        SUITE["Build Expectation Suite"]
+        EXPECT["Add Expectations<br/>(23-70 per table)"]
+        RUN["Run Checkpoint"]
+    end
+    
+    subgraph Results["📊 RESULTS"]
+        CHECK{{"Pass Rate ≥ 85%?"}}
+        SUCCESS["✅ Write to Silver"]
+        FAIL["❌ Quarantine"]
+    end
+    
+    PARQUET --> LOAD_DF
+    YAML --> LOAD_CFG
+    LOAD_DF --> CTX
+    LOAD_CFG --> SUITE
+    CTX --> SUITE --> EXPECT --> RUN
+    RUN --> CHECK
+    CHECK -->|"Yes"| SUCCESS
+    CHECK -->|"No"| FAIL
+    
+    style Input fill:#fff8e1,stroke:#f57f17
+    style Loading fill:#e3f2fd,stroke:#1565c0
+    style Validation fill:#f3e5f5,stroke:#7b1fa2
+    style Results fill:#e8f5e9,stroke:#2e7d32
+                    </pre>
+                </div>
+            </div>
+
+            <!-- System Architecture Diagram -->
+            <div id="diagram-system-arch" class="diagram-panel">
+                <div id="container-sysarch" class="mermaid-container">
+                    <button class="expand-btn" onclick="expandDiagram('container-sysarch')">⛶ Expand</button>
+                    <pre class="mermaid">
+flowchart LR
+    subgraph Entry["🚀 ENTRY POINTS"]
+        ORCH["00_AIMS_Orchestration.ipynb"]
+        SCRIPT["run_pipeline.py"]
+    end
+    
+    subgraph Config["⚙️ CONFIGURATION"]
+        YAML["notebook_settings.yaml"]
+        SETTINGS["Settings Class"]
+        ENV["Environment Detection"]
+    end
+    
+    subgraph Libs["📚 LIBRARIES"]
+        AIMS["aims_data_platform v1.4"]
+        DQ["dq_framework v1.2"]
+        GE["Great Expectations"]
+    end
+    
+    subgraph Data["💾 MEDALLION LAYERS"]
+        BRONZE[("🥉 Bronze<br/>68 Files")]
+        SILVER[("🥈 Silver<br/>Validated")]
+        GOLD[("🥇 Gold<br/>Analytics")]
+    end
+    
+    Entry --> Config
+    Config --> Libs
+    AIMS --> DQ --> GE
+    Libs --> Data
+    BRONZE --> SILVER --> GOLD
+    
+    style Entry fill:#e1f5fe,stroke:#01579b
+    style Config fill:#fff3e0,stroke:#e65100
+    style Libs fill:#e8f5e9,stroke:#2e7d32
+    style Data fill:#fffde7,stroke:#f9a825
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Quick Start Section -->
+        <section id="quickstart" class="section">
+            <div class="section-header">
+                <h2>Quick Start</h2>
+                <p>Choose your environment and get the pipeline running</p>
+            </div>
+
+            <!-- Environment Setup Tabs -->
+            <div class="setup-tabs">
+                <button class="setup-tab active" onclick="showSetup('local')">🖥️ Local Development</button>
+                <button class="setup-tab" onclick="showSetup('fabric')">☁️ Microsoft Fabric</button>
+            </div>
+
+            <div class="setup-content">
+                <!-- Local Development Setup -->
+                <div id="setup-local" class="setup-panel active">
+                    <div class="callout info">
+                        <div class="callout-icon">📦</div>
+                        <div class="callout-content">
+                            <strong>Conda Environment:</strong> This project uses a dedicated Conda virtual environment
+                            with all dependencies pre-configured.
+                        </div>
+                    </div>
+
+                    <div class="steps-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Navigate to Project</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>Terminal</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                    </div>
+                                    <pre><code>cd /home/sanmi/Documents/HS2/HS2_PROJECTS_2025/1_AIMS_LOCAL_2026</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Activate Conda Environment</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>Terminal</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                    </div>
+                                    <pre><code>conda activate aims_data_platform</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Run Full Pipeline</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>Terminal</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                    </div>
+                                    <pre><code># Full pipeline with all phases
+python scripts/run_full_pipeline.py
+
+# Skip profiling for faster execution
+python scripts/run_full_pipeline.py --skip-profiling
+
+# Dry run (no archive/notifications)
+python scripts/run_full_pipeline.py --dry-run</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Expected Output</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>Output</span>
+                                    </div>
+                                    <pre><code>✅ 50/68 passing (73.5%)
+✅ Archive created: archive/2026-01-26_run_xxx/
+✅ Landing zone cleared
+✅ Notifications sent</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CLI Options -->
+                    <div class="callout info" style="margin-top: 2rem;">
+                        <div class="callout-icon">🔧</div>
+                        <div class="callout-content">
+                            <strong>Pipeline Options:</strong><br>
+                            <code>--skip-profiling</code> Skip Phase 1 profiling (faster)<br>
+                            <code>--dry-run</code> No archive or notifications<br>
+                            <code>--threshold 90.0</code> Custom pass threshold<br>
+                            <code>--fabric</code> Force Fabric mode<br>
+                            <code>--no-notify</code> Disable notifications
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Microsoft Fabric Setup -->
+                <div id="setup-fabric" class="setup-panel">
+                    <div class="callout info">
+                        <div class="callout-icon">☁️</div>
+                        <div class="callout-content">
+                            <strong>Platform Auto-Detection:</strong> The platform automatically detects whether it's
+                            running
+                            in Local or Microsoft Fabric environment based on the presence of
+                            <code>/lakehouse/default/Files</code>.
+                        </div>
+                    </div>
+
+                    <div class="steps-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Upload Notebooks to Fabric Workspace</h3>
+                                <div class="fabric-step-detail">
+                                    <ol class="fabric-steps">
+                                        <li>Open your Fabric Workspace</li>
+                                        <li>Navigate to <strong>notebooks/</strong> folder in this project</li>
+                                        <li>Upload notebooks 00-08 to your workspace</li>
+                                        <li>Upload the <code>lib/</code> folder contents</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Configure Lakehouse Paths</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>Lakehouse Structure</span>
+                                    </div>
+                                    <pre><code>/lakehouse/default/
+├── Files/
+│   ├── landing/        # SFTP drop zone
+│   ├── archive/        # Processed file archives
+│   ├── config/         # DQ validation configs
+│   └── logs/           # Pipeline logs
+└── Tables/
+    ├── Bronze/         # Raw tables
+    ├── Silver/         # Validated tables
+    └── Gold/           # Business-ready tables</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Run Pipeline Notebook</h3>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>Fabric Notebook</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                    </div>
+                                    <pre><code># Platform is auto-detected
+from aims_data_platform import PlatformFileOps, IS_FABRIC
+
+print(f"Running on: {'Fabric' if IS_FABRIC else 'Local'}")
+
+# Run pipeline phases
+from aims_data_platform import create_landing_zone_manager
+
+manager = create_landing_zone_manager()
+results = manager.run_full_pipeline(skip_profiling=True)</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Reference Section -->
+        <section id="api" class="section">
+            <div class="section-header">
+                <h2>API Reference</h2>
+                <p>Core classes and methods</p>
+            </div>
+
+            <div class="api-grid">
+                <!-- LandingZoneManager -->
+                <div class="api-card">
+                    <div class="api-header">
+                        <span class="api-type">class</span>
+                        <h3>LandingZoneManager</h3>
+                    </div>
+                    <p class="api-description">Manages SFTP landing zone, archival, and notifications.</p>
+
+                    <div class="api-signature">
+                        <code>LandingZoneManager(config, teams_webhook_url=None, email_config=None)</code>
+                    </div>
+
+                    <div class="api-methods">
+                        <h4>Key Methods</h4>
+                        <ul>
+                            <li><code>list_landing_files()</code> → List files in landing zone</li>
+                            <li><code>copy_to_bronze()</code> → Copy files to Bronze layer</li>
+                            <li><code>archive_files()</code> → Archive processed files</li>
+                            <li><code>clear_landing()</code> → Clear landing zone</li>
+                            <li><code>send_notification()</code> → Send Teams/email notification</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- PlatformFileOps -->
+                <div class="api-card">
+                    <div class="api-header">
+                        <span class="api-type">class</span>
+                        <h3>PlatformFileOps</h3>
+                    </div>
+                    <p class="api-description">Cross-platform file operations for Local and Fabric.</p>
+
+                    <div class="api-signature">
+                        <code>PlatformFileOps()</code>
+                    </div>
+
+                    <div class="api-methods">
+                        <h4>Key Methods</h4>
+                        <ul>
+                            <li><code>copy_file(src, dst)</code> → Platform-aware file copy</li>
+                            <li><code>move_file(src, dst)</code> → Platform-aware file move</li>
+                            <li><code>remove_directory(path)</code> → Remove directory</li>
+                            <li><code>list_files(path)</code> → List files in directory</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- WatermarkManager -->
+                <div class="api-card full-width">
+                    <div class="api-header">
+                        <span class="api-type">class</span>
+                        <h3>WatermarkManager</h3>
+                    </div>
+                    <p class="api-description">Manages incremental loading watermarks for data ingestion.</p>
+
+                    <div class="api-signature">
+                        <code>WatermarkManager(db_path="watermarks.db")</code>
+                    </div>
+
+                    <div class="api-methods-grid">
+                        <div class="method-card">
+                            <h4>get_watermark()</h4>
+                            <p>Retrieve the last watermark for a table</p>
+                            <table>
+                                <tr>
+                                    <td><code>table_name</code></td>
+                                    <td>Name of the table</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="method-card">
+                            <h4>set_watermark()</h4>
+                            <p>Update the watermark after successful ingestion</p>
+                            <table>
+                                <tr>
+                                    <td><code>table_name</code></td>
+                                    <td>Name of the table</td>
+                                </tr>
+                                <tr>
+                                    <td><code>watermark_value</code></td>
+                                    <td>New watermark value</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Projects Section -->
+        <section id="ecosystem" class="section">
+            <div class="section-header">
+                <h2>Ecosystem</h2>
+                <p>Part of the HS2 Microsoft Fabric Data Platform</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>DQ Framework Library</h3>
+                    <p>The validation library powering AIMS data quality. Configuration-driven validation using Great
+                        Expectations with Spark-native support for large datasets.</p>
+                    <div style="margin-top: 1rem;">
+                        <a href="../../../2_DATA_QUALITY_LIBRARY/webapp/index.html" class="btn btn-secondary"
+                            style="font-size: 0.85rem; padding: 0.5rem 1rem;">View DQ Framework Docs →</a>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Great Expectations</h3>
+                    <p>Open-source data validation framework. 68 validation configurations generated for AIMS Bronze
+                        tables.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">☁️</div>
+                    <h3>Microsoft Fabric</h3>
+                    <p>Cloud platform with native Lakehouse, Spark notebooks, and pipeline capabilities for production
+                        deployment.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h3>SFTP Integration</h3>
+                    <p>Weekly automated data delivery from external SFTP server with file archival and notifications.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="logo">📊</span>
+                <span>AIMS Data Platform v1.4.0</span>
+            </div>
+            <div class="footer-links">
+                <a href="../../../2_DATA_QUALITY_LIBRARY/webapp/index.html">DQ Framework</a>
+                <a href="#api">API Docs</a>
+                <a href="#ecosystem">Ecosystem</a>
+            </div>
+            <div class="footer-copyright">
+                © 2026 HS2 Data Engineering Team
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Override architecture details for AIMS
+        const archDetails = {
+            sftp: {
+                title: 'SFTP Server',
+                description: 'External SFTP server that delivers weekly data files:',
+                items: [
+                    'Weekly scheduled file drops',
+                    'Parquet file format',
+                    '68 data files per delivery',
+                    'Automated fetch to landing zone'
+                ]
+            },
+            landing: {
+                title: 'Landing Zone',
+                description: 'Temporary staging area for incoming files:',
+                items: [
+                    '<strong>Location:</strong> data/landing/',
+                    '<strong>Purpose:</strong> Receive SFTP file drops',
+                    '<strong>Retention:</strong> Cleared after each pipeline run',
+                    '<strong>Monitoring:</strong> File presence triggers pipeline'
+                ]
+            },
+            bronze: {
+                title: 'Bronze Layer',
+                description: 'Raw data ingestion layer with minimal processing:',
+                items: [
+                    '<strong>Process:</strong> Direct copy from landing zone',
+                    '<strong>Format:</strong> Parquet files preserved as-is',
+                    '<strong>Tables:</strong> 68 tables',
+                    '<strong>Validation:</strong> Schema existence check only'
+                ]
+            },
+            silver: {
+                title: 'Silver Layer',
+                description: 'Validated and quality-checked data layer:',
+                items: [
+                    '<strong>Validation:</strong> Great Expectations (68 configs)',
+                    '<strong>Pass Rate:</strong> 73.5% (50/68 tables)',
+                    '<strong>Quality Score:</strong> 98.8% average',
+                    '<strong>Strategy:</strong> Complete overwrite'
+                ]
+            },
+            gold: {
+                title: 'Gold Layer',
+                description: 'Business-ready data for analytics and reporting:',
+                items: [
+                    '<strong>Transformations:</strong> Aggregations and joins',
+                    '<strong>Quality:</strong> Only validated data',
+                    '<strong>Use Cases:</strong> BI dashboards, reports',
+                    '<strong>Status:</strong> Ready for consumption'
+                ]
+            },
+            archive: {
+                title: 'Archive',
+                description: 'Historical archive of processed files:',
+                items: [
+                    '<strong>Format:</strong> archive/YYYY-MM-DD_run_xxx/',
+                    '<strong>Contents:</strong> Original landing files',
+                    '<strong>Metadata:</strong> _run_metadata.json, _run_summary.json',
+                    '<strong>Purpose:</strong> Audit trail and recovery'
+                ]
+            }
+        };
+    </script>
+    <script>
+        // Initialize Mermaid - per official docs recommendations
+        // Using 'default' theme which matches Mermaid Playground
+        mermaid.initialize({
+            startOnLoad: false, // Manual rendering to handle tabs
+            theme: 'default',   // Use default theme (matches playground)
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'basis',
+                padding: 15,
+                nodeSpacing: 50,
+                rankSpacing: 70,
+                htmlLabels: true,
+                useMaxWidth: false  // CRITICAL: false allows natural sizing, prevents text cutoff
+            }
+        });
+
+        // Use window.onload (not DOMContentLoaded) to ensure fonts are loaded
+        // Per official docs: "mermaid should wait for the whole page to load (dom + assets, particularly the fonts file)"
+        window.addEventListener('load', async function () {
+            // 1. Un-hide all panels temporarily so Mermaid can calculate dimensions
+            const panels = document.querySelectorAll('.diagram-panel');
+
+            // Force them visible but hidden to avoid flash
+            panels.forEach(panel => {
+                panel.style.visibility = 'hidden';
+                panel.style.display = 'block';
+                panel.style.position = 'absolute';
+                panel.style.left = '-9999px';
+            });
+
+            // 2. Render all diagrams
+            try {
+                await mermaid.run();
+            } catch (e) {
+                console.warn('Mermaid rendering error:', e);
+            }
+
+            // 3. Revert to tabbed state
+            panels.forEach(panel => {
+                panel.style.visibility = '';
+                panel.style.position = '';
+                panel.style.left = '';
+
+                if (!panel.classList.contains('active')) {
+                    panel.style.display = 'none';
+                } else {
+                    panel.style.display = 'block';
+                }
+            });
+        });
+
+        // Diagram tab switching
+        function showDiagram(diagramId) {
+            // Hide all panels
+            document.querySelectorAll('.diagram-panel').forEach(panel => {
+                panel.style.display = 'none';
+                panel.classList.remove('active');
+            });
+            // Update tabs
+            document.querySelectorAll('.diagram-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show target
+            const target = document.getElementById('diagram-' + diagramId);
+            if (target) {
+                target.style.display = 'block';
+                target.classList.add('active');
+            }
+            // highlight clicked tab
+            // The onclick passes the ID, but we need to find the specific tab button
+            // We can search by the onclick attribute or just assume the user clicked it
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+        }
+
+        // Zoom/Expand diagram function
+        function expandDiagram(containerId) {
+            const container = document.getElementById(containerId);
+            if (container) {
+                const btn = container.querySelector('.expand-btn');
+                if (container.classList.contains('expanded')) {
+                    container.classList.remove('expanded');
+                    if (btn) btn.textContent = '⛶ Expand';
+                } else {
+                    container.classList.add('expanded');
+                    if (btn) btn.textContent = '⛶ Collapse';
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
