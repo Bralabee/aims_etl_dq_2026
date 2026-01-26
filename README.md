@@ -8,9 +8,9 @@
 
 # AIMS Data Platform - Local Development Environment
 
-**Version:** 1.3.1  
+**Version:** 1.4.1  
 **Status:** Production Ready - Dual Platform Support (Local + MS Fabric)  
-**Last Updated:** 2026-01-20
+**Last Updated:** 2026-01-26
 
 A comprehensive, governed data ingestion platform designed for SFTP-based file ingestion, data quality validation via Great Expectations, dual CLI/Notebook functionality, and seamless integration with Microsoft Fabric.
 
@@ -28,9 +28,17 @@ A comprehensive, governed data ingestion platform designed for SFTP-based file i
 | **CI/CD Pipelines** | Azure DevOps + GitHub Actions |
 | **Platform Support** | Local + Microsoft Fabric |
 
-## 🆕 What's New in v1.4.0
+## 🆕 What's New in v1.4.1
 
-### Landing Zone Architecture
+### Interactive Documentation Webapp
+- **Live Webapp** - Run `python -m http.server 8889` in `webapp/` folder
+- **Mermaid.js Diagrams** - 4 interactive tabbed diagrams
+- **Expand Mode** - Fullscreen diagram viewing
+- **Quick Start Guides** - Tabbed Local/Fabric setup instructions
+
+📖 **See:** [`webapp/README.md`](webapp/README.md) for details
+
+### Landing Zone Architecture (v1.4.0)
 - **SFTP Integration** - Weekly file drops to landing zone
 - **Auto-Archive** - Processed files archived with date stamps
 - **Complete Overwrite** - No delta/append, fresh data each run

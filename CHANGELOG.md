@@ -5,6 +5,36 @@ All notable changes to the AIMS Data Platform project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2026-01-26
+
+### Added - Interactive Documentation Webapp
+
+#### Webapp Features
+- **Interactive Mermaid.js Diagrams** - 4 tabbed diagrams (Pipeline Flow, Platform Detection, DQ Validation, System Architecture)
+- **Expand/Fullscreen Mode** - Each diagram has expand button for detailed viewing
+- **Quick Start Guides** - Tabbed setup instructions for Local and MS Fabric environments
+- **Medallion Architecture Visualization** - Interactive layer information panel
+- **Pipeline Metrics Dashboard** - Live metrics display
+
+#### Mermaid.js Configuration (Official Best Practices)
+- **`window.onload`** - Use instead of `DOMContentLoaded` to wait for fonts (prevents "labels out of bounds")
+- **`useMaxWidth: false`** - Allows natural sizing, prevents text cutoff
+- **`theme: 'default'`** - Matches Mermaid Playground appearance
+- **Hidden Tab Rendering** - Temporarily show all tabs during `mermaid.run()` for proper dimension calculation
+
+#### CSS Fixes for Diagrams
+- `overflow-y: visible` on containers to prevent text clipping
+- `overflow: visible` on SVG elements
+- Removed `min-width` constraints that caused sizing issues
+- Font specification for mermaid elements
+
+### Technical Details
+- **Files**: `webapp/index.html`, `webapp/styles.css`, `webapp/app.js`, `webapp/README.md`
+- **Documentation**: Comprehensive README with Mermaid.js best practices
+- **Port**: http://localhost:8889
+
+---
+
 ## [1.3.1] - 2026-01-20
 
 ### Fixed - Fabric Configuration Loading

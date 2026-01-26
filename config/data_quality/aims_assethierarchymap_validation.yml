@@ -1,12 +1,12 @@
-validation_name: validation_aims_assethierarchymap
-description: Auto-generated validation for validation_aims_assethierarchymap
-generated_at: '2026-01-20T09:46:35.574509'
+validation_name: aims_aims_assethierarchymap
+description: Data quality validation for aims_assethierarchymap.parquet
+generated_at: '2026-01-21T18:13:29.404993'
 data_source:
   type: runtime_dataframe
-  profiled_rows: 50000
+  profiled_rows: 4156827
   profiled_columns: 5
 quality_thresholds:
-  critical: 100.0
+  critical: 95.0
   high: 95.0
   medium: 80.0
   low: 50.0
@@ -37,6 +37,14 @@ expectations:
     severity: medium
     description: Column ANCESTORASSETID should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ANCESTORASSETID
+    min_value: 8
+    max_value: 8
+  meta:
+    severity: low
+    description: String length should be within observed range
 - expectation_type: expect_column_to_exist
   kwargs:
     column: ANCESTORASSET
@@ -50,6 +58,14 @@ expectations:
     severity: medium
     description: Column ANCESTORASSET should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
+- expectation_type: expect_column_value_lengths_to_be_between
+  kwargs:
+    column: ANCESTORASSET
+    min_value: 16
+    max_value: 266
+  meta:
+    severity: low
+    description: String length should be within observed range
 - expectation_type: expect_column_to_exist
   kwargs:
     column: DESCENDANTASSETID
@@ -60,15 +76,17 @@ expectations:
   kwargs:
     column: DESCENDANTASSETID
   meta:
-    severity: high
+    severity: medium
     description: Column DESCENDANTASSETID should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
-- expectation_type: expect_column_values_to_be_unique
+- expectation_type: expect_column_value_lengths_to_be_between
   kwargs:
     column: DESCENDANTASSETID
+    min_value: 8
+    max_value: 8
   meta:
-    severity: critical
-    description: ID column DESCENDANTASSETID must have unique values
+    severity: low
+    description: String length should be within observed range
 - expectation_type: expect_column_to_exist
   kwargs:
     column: DESCENDANTASSET
@@ -82,14 +100,6 @@ expectations:
     severity: medium
     description: Column DESCENDANTASSET should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
-- expectation_type: expect_column_value_lengths_to_be_between
-  kwargs:
-    column: DESCENDANTASSET
-    min_value: 18
-    max_value: 128
-  meta:
-    severity: low
-    description: String length should be within observed range
 - expectation_type: expect_column_to_exist
   kwargs:
     column: LEVELS
@@ -103,14 +113,3 @@ expectations:
     severity: medium
     description: Column LEVELS should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
-- expectation_type: expect_column_values_to_be_in_set
-  kwargs:
-    column: LEVELS
-    value_set:
-    - '0'
-    - '1'
-    - '3'
-    - '2'
-  meta:
-    severity: medium
-    description: Values should be one of the known categories

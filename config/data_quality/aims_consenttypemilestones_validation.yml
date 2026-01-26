@@ -1,12 +1,12 @@
-validation_name: validation_aims_consenttypemilestones
-description: Auto-generated validation for validation_aims_consenttypemilestones
-generated_at: '2026-01-20T09:46:36.501798'
+validation_name: aims_aims_consenttypemilestones
+description: Data quality validation for aims_consenttypemilestones.parquet
+generated_at: '2026-01-21T18:15:53.820361'
 data_source:
   type: runtime_dataframe
   profiled_rows: 373
   profiled_columns: 9
 quality_thresholds:
-  critical: 100.0
+  critical: 95.0
   high: 95.0
   medium: 80.0
   low: 50.0

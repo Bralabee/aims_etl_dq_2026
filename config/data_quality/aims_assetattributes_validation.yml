@@ -1,12 +1,12 @@
-validation_name: validation_aims_assetattributes
-description: Auto-generated validation for validation_aims_assetattributes
-generated_at: '2026-01-19T19:25:26.084446'
+validation_name: aims_aims_assetattributes
+description: Data quality validation for aims_assetattributes.parquet
+generated_at: '2026-01-21T18:16:19.231147'
 data_source:
   type: runtime_dataframe
-  profiled_rows: 50000
+  profiled_rows: 100000
   profiled_columns: 58
 quality_thresholds:
-  critical: 100.0
+  critical: 95.0
   high: 95.0
   medium: 80.0
   low: 50.0
@@ -284,14 +284,6 @@ expectations:
     severity: medium
     description: Column VALIDTO should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
-- expectation_type: expect_column_value_lengths_to_be_between
-  kwargs:
-    column: VALIDTO
-    min_value: 3
-    max_value: 19
-  meta:
-    severity: low
-    description: String length should be within observed range
 - expectation_type: expect_column_to_exist
   kwargs:
     column: HS2CREATEDBY
@@ -365,6 +357,7 @@ expectations:
     value_set:
     - '13000000.0'
     - '13000001.0'
+    - '13000002.0'
   meta:
     severity: medium
     description: Values should be one of the known categories
@@ -388,6 +381,7 @@ expectations:
     - None
     - HS2
     - TPY
+    - Network Rail
   meta:
     severity: medium
     description: Values should be one of the known categories

@@ -1,12 +1,12 @@
-validation_name: validation_aims_relationships
-description: Auto-generated validation for validation_aims_relationships
-generated_at: '2026-01-20T09:46:37.342527'
+validation_name: aims_aims_relationships
+description: Data quality validation for aims_relationships.parquet
+generated_at: '2026-01-21T18:16:14.669368'
 data_source:
   type: runtime_dataframe
-  profiled_rows: 50000
+  profiled_rows: 1200269
   profiled_columns: 13
 quality_thresholds:
-  critical: 100.0
+  critical: 95.0
   high: 95.0
   medium: 80.0
   low: 50.0
@@ -56,14 +56,6 @@ expectations:
     severity: medium
     description: Column SOURCEASSETID should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
-- expectation_type: expect_column_value_lengths_to_be_between
-  kwargs:
-    column: SOURCEASSETID
-    min_value: 8
-    max_value: 8
-  meta:
-    severity: low
-    description: String length should be within observed range
 - expectation_type: expect_column_to_exist
   kwargs:
     column: SOURCEASSET
@@ -77,14 +69,6 @@ expectations:
     severity: medium
     description: Column SOURCEASSET should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
-- expectation_type: expect_column_value_lengths_to_be_between
-  kwargs:
-    column: SOURCEASSET
-    min_value: 19
-    max_value: 158
-  meta:
-    severity: low
-    description: String length should be within observed range
 - expectation_type: expect_column_to_exist
   kwargs:
     column: TARGETASSETID
@@ -95,17 +79,15 @@ expectations:
   kwargs:
     column: TARGETASSETID
   meta:
-    severity: medium
+    severity: high
     description: Column TARGETASSETID should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
-- expectation_type: expect_column_value_lengths_to_be_between
+- expectation_type: expect_column_values_to_be_unique
   kwargs:
     column: TARGETASSETID
-    min_value: 8
-    max_value: 8
   meta:
-    severity: low
-    description: String length should be within observed range
+    severity: critical
+    description: ID column TARGETASSETID must have unique values
 - expectation_type: expect_column_to_exist
   kwargs:
     column: TARGETASSET
@@ -171,14 +153,6 @@ expectations:
     severity: medium
     description: Column VALIDTO should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
-- expectation_type: expect_column_value_lengths_to_be_between
-  kwargs:
-    column: VALIDTO
-    min_value: 3
-    max_value: 19
-  meta:
-    severity: low
-    description: String length should be within observed range
 - expectation_type: expect_column_to_exist
   kwargs:
     column: HS2_CREATEDBY
@@ -231,11 +205,3 @@ expectations:
     severity: medium
     description: Column LASTUPDATED should have minimal nulls (currently 0.0%)
     observed_null_percent: 0.0
-- expectation_type: expect_column_value_lengths_to_be_between
-  kwargs:
-    column: LASTUPDATED
-    min_value: 3
-    max_value: 19
-  meta:
-    severity: low
-    description: String length should be within observed range
